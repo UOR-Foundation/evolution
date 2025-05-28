@@ -2,7 +2,7 @@ import unittest
 from phase1_vm_enhancements import (
     chunk_push, chunk_print, chunk_halt,
     chunk_add, chunk_sub, chunk_mul,
-    chunk_input,
+    chunk_input, chunk_insert, chunk_delete,
     vm_execute
 )
 from enhanced_vm_interface import EnhancedVMInterface
@@ -43,6 +43,22 @@ class TestVMInstructions(unittest.TestCase):
         out, state = self.run_program(prog)
         self.assertEqual(out, str(4 * 3))
         self.assertTrue(state.get('halt_flag'))
+
+    def test_insert_delete(self):
+        # Insert a PUSH(0) at index 1 then delete the first instruction
+        prog = [
+            chunk_push(chunk_push(0)),  # chunk to insert
+            chunk_push(1),
+            chunk_insert(),
+            chunk_push(0),
+            chunk_delete(),
+            chunk_halt(),
+        ]
+        out, state = self.run_program(prog)
+        self.assertTrue(state.get('halt_flag'))
+        program = state.get('program')
+        self.assertEqual(len(program), 6)
+        self.assertEqual(program[0], chunk_push(0))
 
 class TestEnhancedInterface(unittest.TestCase):
     def test_bidirectional(self):

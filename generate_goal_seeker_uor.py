@@ -13,6 +13,7 @@ from phase1_vm_enhancements import (
     chunk_mod, chunk_input, chunk_compare_eq, chunk_jump_if_zero,
     chunk_random, OP_RANDOM,
     chunk_nop,
+    chunk_insert, chunk_delete,
     OP_PUSH, _PRIME_IDX, get_prime, _extend_primes_to,
     PRIME_IDX_TRUE, PRIME_IDX_FALSE,
     OP_ADD,
@@ -96,7 +97,21 @@ def determine_slots_to_update(slots: List[ModificationSlot], failure_streak: int
     return ranked[:num_slots]
 
 def generate_goal_seeker_program():
-    _extend_primes_to(max(35, STUCK_SIGNAL_PRINT_VALUE_IDX, MAX_FAILURES_BEFORE_STUCK_IDX, RANDOM_MAX_EXCLUSIVE_IDX_FOR_OFFSET, ATTEMPT_MODULUS_IDX, MODIFICATION_SLOT_0_ADDR_IDX, MODIFICATION_SLOT_1_ADDR_IDX, UOR_DECISION_BUILD_NOP_IDX) + 10) # Added new constants and a bit more buffer
+    _extend_primes_to(
+        max(
+            35,
+            STUCK_SIGNAL_PRINT_VALUE_IDX,
+            MAX_FAILURES_BEFORE_STUCK_IDX,
+            RANDOM_MAX_EXCLUSIVE_IDX_FOR_OFFSET,
+            ATTEMPT_MODULUS_IDX,
+            MODIFICATION_SLOT_0_ADDR_IDX,
+            MODIFICATION_SLOT_1_ADDR_IDX,
+            UOR_DECISION_BUILD_NOP_IDX,
+            _PRIME_IDX[OP_INSERT],
+            _PRIME_IDX[OP_DELETE],
+        )
+        + 10
+    )
 
     program_uor = []
     labels = {}
@@ -674,33 +689,10 @@ def generate_goal_seeker_program():
     for label, addr in sorted(labels.items(), key=lambda item: item[1]):
         print(f"  {label}: {addr}")
 
-    print(f"DEBUG: Value of chunk_dup() is {chunk_dup()}")
-    print(f"DEBUG: Value of chunk_push(2) is {chunk_push(2)}")
-    if len(program_uor) > 83:
-        print(f"DEBUG: program_uor[83] is {program_uor[83]}")
-    else:
-        print(f"DEBUG: program_uor length is only {len(program_uor)}")
 
-    idx_for_push_target_in_success_path = 19
-    idx_for_jump_in_success_path = 20
-
-    print(f"--- Debugging Success Path Jump Target (addr_idx_push_build_addr0_from_success was {idx_for_push_target_in_success_path}) ---")
-    if len(program_uor) > idx_for_push_target_in_success_path:
-        print(f"DEBUG UOR GEN: program_uor[{idx_for_push_target_in_success_path}] (should be PUSH target_addr) = {program_uor[idx_for_push_target_in_success_path]}")
-    else:
-        print(f"DEBUG UOR GEN: program_uor index {idx_for_push_target_in_success_path} is out of bounds (len {len(program_uor)})")
-    
-    if len(program_uor) > idx_for_jump_in_success_path:
-        print(f"DEBUG UOR GEN: program_uor[{idx_for_jump_in_success_path}] (should be JUMP) = {program_uor[idx_for_jump_in_success_path]}")
-    else:
-        print(f"DEBUG UOR GEN: program_uor index {idx_for_jump_in_success_path} is out of bounds (len {len(program_uor)})")
-    
-    print(f"DEBUG UOR GEN: chunk_jump() value should be = {chunk_jump()}")
-    
-    print(f"DEBUG UOR GEN: labels['BUILD_AND_POKE_ADDR_0_FROM_SUCCESS'] = {labels['BUILD_AND_POKE_ADDR_0_FROM_SUCCESS']}")
-    target_addr_for_success_path = labels['BUILD_AND_POKE_ADDR_0_FROM_SUCCESS'] # Should be 77
-    print(f"DEBUG UOR GEN: chunk_push({target_addr_for_success_path}) should be = {chunk_push(target_addr_for_success_path)}")
-    print("--- End Debugging Success Path ---")
+    # Append simple insert/delete ops for demonstration
+    program_uor.append(chunk_insert())
+    program_uor.append(chunk_delete())
 
     return program_uor
 

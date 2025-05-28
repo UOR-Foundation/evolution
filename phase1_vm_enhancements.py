@@ -101,6 +101,11 @@ _extend_primes_to(26)  # New instructions for Phase 3
 OP_SUB                    = get_prime(25)
 OP_MUL                    = get_prime(26)
 
+# --- New opcodes for dynamic program editing ---
+_extend_primes_to(28)
+OP_INSERT                 = get_prime(27)
+OP_DELETE                 = get_prime(28)
+
 # --- END NEW HALT Opcode ---
 
 PRIME_IDX_TRUE = _PRIME_IDX[get_prime(1)] 
@@ -236,6 +241,84 @@ def chunk_sub() -> int:
 
 def chunk_mul() -> int:
     return _attach_checksum(OP_MUL**4, [(OP_MUL, 4)])
+
+def chunk_insert() -> int:
+    return _attach_checksum(OP_INSERT**4, [(OP_INSERT, 4)])
+
+def chunk_delete() -> int:
+    return _attach_checksum(OP_DELETE**4, [(OP_DELETE, 4)])
+
+# ──────────────────────────────────────────────────────────────────────
+# Program manipulation helpers
+# ──────────────────────────────────────────────────────────────────────
+
+def decode_push_operand_idx(chunk: int) -> int | None:
+    """Return the prime index encoded as the operand of a PUSH chunk."""
+    try:
+        fac = _factor(chunk)
+    except ValueError:
+        return None
+
+    pot_chk_p, pot_chk_e = None, 0
+    tmp = []
+    for p, e in fac:
+        if e >= 6 and pot_chk_p is None:
+            pot_chk_p, pot_chk_e = p, e
+        else:
+            tmp.append((p, e))
+
+    logical: List[Tuple[int, int]]
+    if pot_chk_p is not None:
+        xor_v = 0
+        for p_t, e_t in tmp:
+            if p_t not in _PRIME_IDX:
+                _extend_primes_to(len(_PRIMES) + 5)
+            xor_v ^= _PRIME_IDX[p_t] * e_t
+        if pot_chk_p == get_prime(xor_v):
+            logical = []
+            if pot_chk_e > 6:
+                logical.append((pot_chk_p, pot_chk_e - 6))
+            logical.extend(tmp)
+        else:
+            logical = [(pot_chk_p, pot_chk_e)] + tmp
+    else:
+        logical = fac
+
+    op_prime = None
+    operand_prime = None
+    for p, e in logical:
+        if e == 4 and p == OP_PUSH:
+            op_prime = p
+        elif e == 5:
+            operand_prime = p
+
+    if op_prime == OP_PUSH and operand_prime is not None and operand_prime in _PRIME_IDX:
+        return _PRIME_IDX[operand_prime]
+    return None
+
+
+def update_jump_targets(program: List[int], start_idx: int, delta: int) -> None:
+    """Shift PUSH operands that look like addresses starting from ``start_idx``."""
+    lookup_limit = len(program) + abs(delta) + 5
+    lookup = {chunk_push(i): i for i in range(lookup_limit)}
+    for idx, chunk in enumerate(program):
+        operand_idx = lookup.get(chunk)
+        if operand_idx is not None and operand_idx >= start_idx:
+            program[idx] = chunk_push(operand_idx + delta)
+
+
+def insert_instruction_at(program: List[int], index: int, chunk: int) -> None:
+    if not 0 <= index <= len(program):
+        raise ValueError("insert index out of bounds")
+    program.insert(index, chunk)
+    update_jump_targets(program, index, 1)
+
+
+def delete_instruction_at(program: List[int], index: int) -> None:
+    if not 0 <= index < len(program):
+        raise ValueError("delete index out of bounds")
+    del program[index]
+    update_jump_targets(program, index, -1)
 
 # ──────────────────────────────────────────────────────────────────────
 # Prime factorisation
@@ -807,7 +890,7 @@ def vm_execute(chunks_arg: List[int], initial_stack: List[int] = None) -> Iterat
                     # This seems correct. No 'continue' needed here. The main yield will handle it.
                     pass # The value is now on the stack. The main loop yield will report the new state.
                 elif op == OP_RANDOM:
-                    if not stack: 
+                    if not stack:
                         raise ValueError(f"OP_RANDOM needs 1 value (max_exclusive_idx) on stack at UOR_addr {current_instruction_pointer_for_processing}")
                     max_exclusive_idx = stack.pop()
                     if not isinstance(max_exclusive_idx, int) or max_exclusive_idx < 0:
@@ -824,7 +907,28 @@ def vm_execute(chunks_arg: List[int], initial_stack: List[int] = None) -> Iterat
                     print(f"DEBUG VM: OP_RANDOM at UOR_addr {current_instruction_pointer_for_processing}. "
                           f"Popped max_exclusive_idx: {max_exclusive_idx}. Pushed random_value_idx: {random_value_idx}. "
                           f"Stack AFTER: {list(stack)}", file=sys.stderr)
-                else: 
+                elif op == OP_INSERT:
+                    if len(stack) < 2:
+                        raise ValueError(f"OP_INSERT needs chunk and index on stack at UOR_addr {current_instruction_pointer_for_processing}")
+                    index = stack.pop()
+                    new_chunk = stack.pop()
+                    if not isinstance(index, int) or not 0 <= index <= len(chunks):
+                        raise ValueError(f"OP_INSERT: invalid index {index} at UOR_addr {current_instruction_pointer_for_processing}")
+                    chunks.insert(index, new_chunk)
+                    update_jump_targets(chunks, index, 1)
+                    if index <= i:
+                        i += 1
+                elif op == OP_DELETE:
+                    if not stack:
+                        raise ValueError(f"OP_DELETE needs index on stack at UOR_addr {current_instruction_pointer_for_processing}")
+                    index = stack.pop()
+                    if not isinstance(index, int) or not 0 <= index < len(chunks):
+                        raise ValueError(f"OP_DELETE: invalid index {index} at UOR_addr {current_instruction_pointer_for_processing}")
+                    del chunks[index]
+                    update_jump_targets(chunks, index, -1)
+                    if index < i:
+                        i -= 1
+                else:
                     raise ValueError(f'Unknown opcode prime: {op} at UOR_addr {current_instruction_pointer_for_processing}')
             
             else: # Data chunk (this `else` aligns with `if operation_prime is not None:`)

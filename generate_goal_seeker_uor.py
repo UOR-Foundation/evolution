@@ -13,6 +13,7 @@ from phase1_vm_enhancements import (
     chunk_mod, chunk_input, chunk_compare_eq, chunk_jump_if_zero,
     chunk_random, OP_RANDOM,
     chunk_nop,
+    chunk_insert, chunk_delete,
     OP_PUSH, _PRIME_IDX, get_prime, _extend_primes_to,
     PRIME_IDX_TRUE, PRIME_IDX_FALSE,
     OP_ADD,
@@ -96,7 +97,21 @@ def determine_slots_to_update(slots: List[ModificationSlot], failure_streak: int
     return ranked[:num_slots]
 
 def generate_goal_seeker_program():
-    _extend_primes_to(max(35, STUCK_SIGNAL_PRINT_VALUE_IDX, MAX_FAILURES_BEFORE_STUCK_IDX, RANDOM_MAX_EXCLUSIVE_IDX_FOR_OFFSET, ATTEMPT_MODULUS_IDX, MODIFICATION_SLOT_0_ADDR_IDX, MODIFICATION_SLOT_1_ADDR_IDX, UOR_DECISION_BUILD_NOP_IDX) + 10) # Added new constants and a bit more buffer
+    _extend_primes_to(
+        max(
+            35,
+            STUCK_SIGNAL_PRINT_VALUE_IDX,
+            MAX_FAILURES_BEFORE_STUCK_IDX,
+            RANDOM_MAX_EXCLUSIVE_IDX_FOR_OFFSET,
+            ATTEMPT_MODULUS_IDX,
+            MODIFICATION_SLOT_0_ADDR_IDX,
+            MODIFICATION_SLOT_1_ADDR_IDX,
+            UOR_DECISION_BUILD_NOP_IDX,
+            _PRIME_IDX[OP_INSERT],
+            _PRIME_IDX[OP_DELETE],
+        )
+        + 10
+    )
 
     program_uor = []
     labels = {}
@@ -701,6 +716,10 @@ def generate_goal_seeker_program():
     target_addr_for_success_path = labels['BUILD_AND_POKE_ADDR_0_FROM_SUCCESS'] # Should be 77
     print(f"DEBUG UOR GEN: chunk_push({target_addr_for_success_path}) should be = {chunk_push(target_addr_for_success_path)}")
     print("--- End Debugging Success Path ---")
+
+    # Append simple insert/delete ops for demonstration
+    program_uor.append(chunk_insert())
+    program_uor.append(chunk_delete())
 
     return program_uor
 

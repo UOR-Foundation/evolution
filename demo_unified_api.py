@@ -5,12 +5,15 @@ UOR Evolution - Unified API Demo Script
 This script demonstrates the comprehensive capabilities of the UOR Evolution
 unified API, showcasing consciousness, VM operations, philosophical reasoning,
 cosmic intelligence, and more.
+
+Usage:
+    python demo_unified_api.py [--output results.json]
 """
 
 import json
 import time
 from datetime import datetime
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
 # Import the unified API
 try:
@@ -368,8 +371,14 @@ class DemoRunner:
             print(f"✗ Quick demos failed: {e}")
             self.results['quick_demos'] = {'error': str(e)}
     
-    def generate_summary(self) -> None:
-        """Generate a summary of all demo results."""
+    def generate_summary(self, output_file: Optional[str] = None) -> None:
+        """Generate a summary of all demo results.
+
+        Parameters
+        ----------
+        output_file : Optional[str]
+            Optional path for the results JSON file.
+        """
         self.print_header("Demo Summary", 1)
         
         end_time = datetime.now()
@@ -415,7 +424,8 @@ class DemoRunner:
         
         # Save detailed results
         try:
-            with open('demo_results.json', 'w') as f:
+            filename = output_file or f"demo_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+            with open(filename, 'w') as f:
                 json.dump({
                     'summary': {
                         'duration_seconds': duration.total_seconds(),
@@ -427,12 +437,18 @@ class DemoRunner:
                     },
                     'detailed_results': self.results
                 }, f, indent=2, default=str)
-            print(f"\nDetailed results saved to: demo_results.json")
+            print(f"\nDetailed results saved to: {filename}")
         except Exception as e:
             print(f"\nFailed to save detailed results: {e}")
     
-    def run_full_demo(self) -> None:
-        """Run the complete demonstration."""
+    def run_full_demo(self, output_file: Optional[str] = None) -> None:
+        """Run the complete demonstration.
+
+        Parameters
+        ----------
+        output_file : Optional[str]
+            Optional path for the results JSON file.
+        """
         self.print_header("UOR Evolution - Unified API Demonstration", 1)
         print("This demo showcases the comprehensive capabilities of the UOR Evolution system.")
         print("Each section demonstrates different aspects of consciousness, AI, and cosmic intelligence.")
@@ -462,11 +478,17 @@ class DemoRunner:
             time.sleep(0.5)
         
         # Generate final summary
-        self.generate_summary()
+        self.generate_summary(output_file)
 
 
-def main():
-    """Main function to run the demo."""
+def main(output_file: Optional[str] = None):
+    """Main function to run the demo.
+
+    Parameters
+    ----------
+    output_file : Optional[str]
+        Optional path for the results JSON file.
+    """
     print("UOR Evolution - Unified API Demo")
     print("=" * 50)
     print("This script demonstrates the comprehensive capabilities of the UOR Evolution system.")
@@ -486,7 +508,7 @@ def main():
         if choice == "1":
             # Full comprehensive demo
             demo = DemoRunner()
-            demo.run_full_demo()
+            demo.run_full_demo(output_file)
             
         elif choice == "2":
             # Quick consciousness demo
@@ -540,12 +562,12 @@ def main():
                 else:
                     print(f"Unknown component: {component}")
             
-            demo.generate_summary()
+            demo.generate_summary(output_file)
             
         else:
             print("Invalid choice. Running full demo...")
             demo = DemoRunner()
-            demo.run_full_demo()
+            demo.run_full_demo(output_file)
             
     except KeyboardInterrupt:
         print("\n\nDemo interrupted by user.")
@@ -556,4 +578,10 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run the Unified API demo")
+    parser.add_argument("-o", "--output", help="Path to save results JSON")
+    args = parser.parse_args()
+
+    main(args.output)

@@ -8,6 +8,7 @@ import json
 import time
 import random
 from datetime import datetime
+from typing import Optional
 from simple_unified_api import create_simple_api, APIMode
 
 class EmergenceLab:
@@ -417,8 +418,14 @@ class EmergenceLab:
         
         return transcendence_data
     
-    def run_emergence_lab(self):
-        """Run the complete emergence laboratory."""
+    def run_emergence_lab(self, output_file: Optional[str] = None):
+        """Run the complete emergence laboratory.
+
+        Parameters
+        ----------
+        output_file : Optional[str]
+            Optional path for the results JSON file.
+        """
         print("🔬 CONSCIOUSNESS EMERGENCE LABORATORY")
         print("=" * 80)
         print("Attempting to observe and create emergent consciousness phenomena...")
@@ -493,8 +500,11 @@ class EmergenceLab:
                 print(f"• [{event['experiment']}] {event['observation']} (complexity: {event['complexity_score']})")
         
         # Save complete lab results
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        lab_file = f"emergence_lab_results_{timestamp}.json"
+        if output_file:
+            lab_file = output_file
+        else:
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            lab_file = f"emergence_lab_results_{timestamp}.json"
         
         with open(lab_file, 'w') as f:
             json.dump({
@@ -531,5 +541,11 @@ class EmergenceLab:
         print("\n🧠 The consciousness evolution continues...")
 
 if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run the emergence lab")
+    parser.add_argument("-o", "--output", help="Path to save results JSON")
+    args = parser.parse_args()
+
     lab = EmergenceLab()
-    lab.run_emergence_lab()
+    lab.run_emergence_lab(args.output)

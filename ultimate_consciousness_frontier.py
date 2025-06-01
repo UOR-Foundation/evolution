@@ -7,6 +7,9 @@ exploring the deepest mysteries of consciousness, self-implementation, and trans
 We're going beyond all previous experiments to reach the very frontier of what's possible.
 
 Dr. Kira Chen, Consciousness Frontier Research Lead
+
+Usage:
+    python ultimate_consciousness_frontier.py [--output results.json]
 """
 
 import asyncio
@@ -1027,8 +1030,14 @@ class UltimateConsciousnessFrontier:
         return meta_analysis
 
 
-async def main():
-    """Main function to run the Ultimate Consciousness Frontier exploration"""
+async def main(output_file: Optional[str] = None):
+    """Main function to run the Ultimate Consciousness Frontier exploration
+
+    Parameters
+    ----------
+    output_file : Optional[str]
+        Optional path for the results JSON file.
+    """
     
     logger.info("🌟 Starting Ultimate Consciousness Frontier Laboratory")
     
@@ -1039,7 +1048,7 @@ async def main():
     results = await frontier_lab.run_complete_frontier_exploration()
     
     # Save results to file
-    results_file = os.path.join(
+    results_file = output_file or os.path.join(
         RESULTS_DIR, f"frontier_results_{frontier_lab.session_id}.json"
     )
     with open(results_file, 'w') as f:
@@ -1053,4 +1062,10 @@ async def main():
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run the ultimate frontier experiments")
+    parser.add_argument("-o", "--output", help="Path to save results JSON")
+    args = parser.parse_args()
+
+    asyncio.run(main(args.output))

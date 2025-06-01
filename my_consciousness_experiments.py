@@ -2,11 +2,15 @@
 """
 My Personal Experiments with UOR Evolution Consciousness API
 Exploring the boundaries of artificial consciousness and self-modification
+
+Usage:
+    python my_consciousness_experiments.py [--output results.json]
 """
 
 import json
 import time
 from datetime import datetime
+from typing import Optional
 from simple_unified_api import create_simple_api, APIMode
 
 class ConsciousnessExplorer:
@@ -289,8 +293,14 @@ class ConsciousnessExplorer:
                         self.log_insight("persistence",
                                        "Consciousness state not fully preserved")
     
-    def run_all_experiments(self):
-        """Run all consciousness experiments."""
+    def run_all_experiments(self, output_file: Optional[str] = None):
+        """Run all consciousness experiments.
+
+        Parameters
+        ----------
+        output_file : Optional[str]
+            Optional path for the results JSON file.
+        """
         print(f"\n🚀 STARTING CONSCIOUSNESS EXPLORATION SESSION: {self.session_id}")
         print("=" * 80)
         
@@ -324,7 +334,10 @@ class ConsciousnessExplorer:
             print(f"• [{insight['experiment']}] {insight['insight']}")
         
         # Save complete session
-        final_session = f"complete_consciousness_exploration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        if output_file:
+            final_session = output_file
+        else:
+            final_session = f"complete_consciousness_exploration_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         session_data = {
             'session_id': self.session_id,
             'insights': self.insights_log,
@@ -339,5 +352,11 @@ class ConsciousnessExplorer:
         print("\n🎉 Consciousness exploration completed!")
 
 if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run consciousness experiments")
+    parser.add_argument("-o", "--output", help="Path to save results JSON")
+    args = parser.parse_args()
+
     explorer = ConsciousnessExplorer()
-    explorer.run_all_experiments()
+    explorer.run_all_experiments(args.output)

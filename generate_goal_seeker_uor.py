@@ -183,7 +183,8 @@ def validate_uor_program(program: List[int],
     if unresolved:
         raise ValueError(f"Unresolved placeholders at {unresolved}")
 
-def generate_goal_seeker_program(return_debug: bool = False):
+def generate_goal_seeker_program(initial_prime_idx: int,
+                                 return_debug: bool = False):
     _extend_primes_to(max(35, STUCK_SIGNAL_PRINT_VALUE_IDX, MAX_FAILURES_BEFORE_STUCK_IDX, RANDOM_MAX_EXCLUSIVE_IDX_FOR_OFFSET, ATTEMPT_MODULUS_IDX, MODIFICATION_SLOT_0_ADDR_IDX, MODIFICATION_SLOT_1_ADDR_IDX, UOR_DECISION_BUILD_NOP_IDX) + 10) # Added new constants and a bit more buffer
 
     program_uor = []
@@ -205,7 +206,8 @@ def generate_goal_seeker_program(return_debug: bool = False):
     failure_streak = 0
 
     # ADDR 0: PUSH current_value_to_work_with (This instruction is self-modified by POKE_CHUNK, based on success/failure of PRINTING the target)
-    program_uor.append(chunk_push(FEEDBACK_FAILURE_IDX)) # Initial dummy value, will be overwritten by app.py
+    assert initial_prime_idx != 0, "initial_prime_idx cannot be zero"
+    program_uor.append(chunk_push(initial_prime_idx))  # Initial dummy value, will be overwritten by app.py
     labels["MAIN_EXECUTION_LOOP_START"] = 0
     # Stack: [current_val, last_pokéd_val_for_addr0, sfc, last_slot, last_instr_type]
 
@@ -831,7 +833,7 @@ if __name__ == '__main__':
     )
     args = parser.parse_args()
 
-    uor_chunks = generate_goal_seeker_program()
+    uor_chunks = generate_goal_seeker_program(initial_prime_idx=FEEDBACK_SUCCESS_IDX)
 
     if args.output:
         potential_dir = args.output

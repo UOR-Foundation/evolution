@@ -5,6 +5,12 @@ vm:
 teacher:
   difficulty: MEDIUM
   alert_email: operator@example.com
+prime_idx_success: 1
+prime_idx_failure: 0
+stuck_signal_print_value: "99"
+streak_thresholds:
+  quick_success_to_upgrade: 3
+  struggle_to_downgrade: 2
 difficulty_levels:
   EASY:
     range_max: 4

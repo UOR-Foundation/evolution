@@ -1,5 +1,6 @@
 import os
 import importlib.util
+from enum import Enum
 import pytest
 
 MODULE_PATH = os.path.join(os.path.dirname(__file__), "..", "utils", "philosophical_debugger.py")
@@ -25,7 +26,7 @@ def test_abductive_analysis_returns_result():
     assert "explanation_score" in result
 
 
-def test_transcendental_analysis_not_implemented():
+def test_transcendental_analysis_returns_result():
     debugger = PhilosophicalDebugger()
     argument = PhilosophicalArgument(
         argument_id="T1",
@@ -33,5 +34,24 @@ def test_transcendental_analysis_not_implemented():
         premises=["Experience is only possible with categories"],
         conclusion="Therefore categories exist a priori",
     )
-    with pytest.raises(NotImplementedError):
-        debugger._analyze_validity(argument)
+    result = debugger._analyze_validity(argument)
+    assert result["is_valid"] in {True, False}
+    assert "explanation" in result
+
+
+def test_unknown_argument_type_fallback():
+    class UnknownType(Enum):
+        MYSTERY = "mystery"
+
+    debugger = PhilosophicalDebugger()
+    argument = PhilosophicalArgument(
+        argument_id="U1",
+        argument_type=UnknownType.MYSTERY,  # type: ignore[arg-type]
+        premises=["Some premise"],
+        conclusion="Some conclusion",
+    )
+    result = debugger._analyze_validity(argument)
+    assert result == {
+        "is_valid": False,
+        "explanation": "Unsupported argument type: mystery",
+    }

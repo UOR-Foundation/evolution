@@ -3,6 +3,17 @@ vm:
   log_file: vm_events.log
   max_instructions: 1000
   max_instructions_per_cycle: 1
+  indices:
+    attempt_modulus_idx: 10
+    attempt_increment_idx: 1
+    random_max_exclusive_idx_for_offset: 3
+    max_failures_before_stuck_idx: 3
+    stuck_signal_print_value_idx: 99
+    modification_slot_0_addr_idx: 1
+    modification_slot_1_addr_idx: 2
+    uor_decision_build_push_idx: 0
+    uor_decision_build_add_idx: 1
+    uor_decision_build_nop_idx: 2
 teacher:
   difficulty: MEDIUM
   alert_email: operator@example.com

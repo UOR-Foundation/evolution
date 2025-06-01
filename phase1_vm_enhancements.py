@@ -492,7 +492,7 @@ def vm_execute(chunks_arg: List[int], initial_stack: List[int] = None) -> Iterat
                 if operation_prime == OP_PUSH: # Ensure we only do this if it's identified as PUSH
                     for p_iter_debug, e_iter_debug in data:
                         if p_iter_debug == OP_PUSH and e_iter_debug == 4:
-                            pass
+                            continue  # skip opcode factor itself
                         elif e_iter_debug == 5:
                             temp_val_p_for_push = p_iter_debug
                     logger.debug(f"DEBUG VM: MODIFIED instr 17 - Potential val_p_for_push based on data: {temp_val_p_for_push}")
@@ -587,8 +587,8 @@ def vm_execute(chunks_arg: List[int], initial_stack: List[int] = None) -> Iterat
                     # op_p_found = False # This variable is not strictly necessary as 'op' is already OP_PUSH
                     for p_val_iter, e_val_iter in data:
                         if p_val_iter == OP_PUSH and e_val_iter == 4:
-                            pass # This is the opcode factor itself
-                        elif e_val_iter == 5: # Standard exponent for operand in chunk_push
+                            continue  # opcode factor itself
+                        elif e_val_iter == 5:  # Standard exponent for operand in chunk_push
                             val_p_for_push = p_val_iter
                     
                     # Diagnostic output showing operand identification for OP_PUSH
@@ -787,6 +787,7 @@ def vm_execute(chunks_arg: List[int], initial_stack: List[int] = None) -> Iterat
                             raise ValueError(f"GET_PRIME_IDX: Value {prime_val_from_stack} is not a known/indexed prime at UOR_addr {current_instruction_pointer_for_processing}.")
                     stack.append(_PRIME_IDX[prime_val_from_stack])
                 elif op == OP_NOP:
+                    # OP_NOP intentionally performs no action
                     pass
                 elif op == OP_COMPARE_EQ:
                     if len(stack) < 2: raise ValueError(f"COMPARE_EQ needs 2 values on stack at UOR_addr {current_instruction_pointer_for_processing}")
@@ -922,7 +923,8 @@ def vm_execute(chunks_arg: List[int], initial_stack: List[int] = None) -> Iterat
                     except (OverflowError, ValueError) as e_char:
                         raise ValueError(f"Data char conversion error for prime index {_PRIME_IDX.get(char_prime_val, 'UNKNOWN_PRIME')} at UOR_addr {current_instruction_pointer_for_processing}: {e_char}")
                 else:
-                    pass 
+                    # No output when char_prime_val is None
+                    pass
 
         except ValueError as e_val:
             error_for_this_iteration = f"ValueError at UOR_addr {current_instruction_pointer_for_processing}: {str(e_val)}"

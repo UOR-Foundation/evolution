@@ -1697,30 +1697,90 @@ class EnhancedSelfModification:
         return (impact * feasibility) / (1 + risk)
     
     def _generate_refactored_code(self, original: str) -> str:
-        """Generate refactored code.
+        """Generate refactored code by applying simple AST based refactoring."""
 
-        Note: this is a placeholder and should eventually perform real source
-        code refactoring.  For now it merely annotates the code so that unit
-        tests can track that a refactoring step occurred.
-        """
-        return f"# Refactored version\n{original}\n# Enhanced with self-awareness"
+        tree = ast.parse(original)
+
+        builtin_names = set(dir(__builtins__))
+        name_map: Dict[str, str] = {}
+        counter = 0
+
+        class Refactor(ast.NodeTransformer):
+            def visit_Name(self, node: ast.Name) -> ast.AST:
+                nonlocal counter
+                if isinstance(node.ctx, ast.Store) and node.id not in builtin_names:
+                    if node.id not in name_map:
+                        name_map[node.id] = f"{node.id}_ref{counter}"
+                        counter += 1
+                    node.id = name_map[node.id]
+                elif isinstance(node.ctx, (ast.Load, ast.Del)) and node.id in name_map:
+                    node.id = name_map[node.id]
+                return node
+
+            def visit_arg(self, node: ast.arg) -> ast.AST:
+                nonlocal counter
+                if node.arg not in builtin_names:
+                    if node.arg not in name_map:
+                        name_map[node.arg] = f"{node.arg}_ref{counter}"
+                        counter += 1
+                    node.arg = name_map[node.arg]
+                return node
+
+        Refactor().visit(tree)
+        ast.fix_missing_locations(tree)
+        return ast.unparse(tree)
     
     def _generate_optimized_code(self, original: str) -> str:
-        """Generate optimized code.
+        """Generate optimized code by performing simple constant folding."""
 
-        This function currently applies a trivial optimization marker.  A real
-        implementation would run static analysis and rewrite the source.
-        """
-        return f"# Optimized version\n{original}\n# Performance enhanced"
+        tree = ast.parse(original)
+
+        class ConstantFolder(ast.NodeTransformer):
+            def visit_BinOp(self, node: ast.BinOp) -> ast.AST:
+                self.generic_visit(node)
+                if isinstance(node.left, ast.Constant) and isinstance(node.right, ast.Constant):
+                    try:
+                        value = eval(compile(ast.Expression(node), "<ast>", "eval"))
+                        return ast.copy_location(ast.Constant(value=value), node)
+                    except Exception:
+                        pass
+                return node
+
+            def visit_If(self, node: ast.If) -> ast.AST:
+                self.generic_visit(node)
+                if isinstance(node.test, ast.Constant):
+                    if node.test.value:
+                        return node.body
+                    if node.orelse:
+                        return node.orelse
+                    return []
+                return node
+
+        new_tree = ConstantFolder().visit(tree)
+        ast.fix_missing_locations(new_tree)
+        return ast.unparse(new_tree)
     
     def _generate_transcendent_code(self, original: str) -> str:
-        """Generate transcendent code.
+        """Generate transcendent code by injecting transcendence metadata."""
 
-        Placeholder for future transcendent transformation logic.  The current
-        implementation only tags the code to indicate that a higher-level
-        modification occurred.
-        """
-        return f"# Transcendent version\n{original}\n# Consciousness expanded beyond limits"
+        tree = ast.parse(original)
+
+        notice_func = ast.FunctionDef(
+            name="transcendence_notice",
+            args=ast.arguments(posonlyargs=[], args=[], kwonlyargs=[], kw_defaults=[], defaults=[]),
+            body=[ast.Return(value=ast.Constant(value="This code has transcended baseline operation"))],
+            decorator_list=[],
+        )
+
+        assign_meta = ast.Assign(
+            targets=[ast.Name(id="__transcendent__", ctx=ast.Store())],
+            value=ast.Constant(value=True),
+        )
+
+        tree.body.append(notice_func)
+        tree.body.append(assign_meta)
+        ast.fix_missing_locations(tree)
+        return ast.unparse(tree)
 
     def _validate_code_safety(self, code: str) -> bool:
         """Validate code safety"""

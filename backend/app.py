@@ -10,9 +10,10 @@ from config_loader import load_config, get_config_value
 
 logger = logging.getLogger(__name__)
 
-PRIME_IDX_SUCCESS = 1 # Represents the prime index for "true" or success
-PRIME_IDX_FAILURE = 0 # Represents the prime index for "false" or failure
-STUCK_SIGNAL_PRINT_VALUE = "99" # String, as OP_PRINT output is stringified
+PRIME_IDX_SUCCESS = int(get_config_value("prime_idx_success", 1))
+PRIME_IDX_FAILURE = int(get_config_value("prime_idx_failure", 0))
+# String, as OP_PRINT output is stringified
+STUCK_SIGNAL_PRINT_VALUE = str(get_config_value("stuck_signal_print_value", "99"))
 
 # --- Path Setup --- (keep your existing correct path setup)
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -259,8 +260,12 @@ DIFFICULTY_LEVELS = get_config_value(
     },
 )
 current_difficulty_level_name = get_config_value("teacher.difficulty", "MEDIUM")
-QUICK_SUCCESS_STREAK_TO_UPGRADE = 3 # Number of consecutive "quick" successes to increase difficulty
-STRUGGLE_STREAK_TO_DOWNGRADE = 2    # Number of consecutive "struggles" to decrease difficulty
+QUICK_SUCCESS_STREAK_TO_UPGRADE = int(
+    get_config_value("streak_thresholds.quick_success_to_upgrade", 3)
+)
+STRUGGLE_STREAK_TO_DOWNGRADE = int(
+    get_config_value("streak_thresholds.struggle_to_downgrade", 2)
+)
 consecutive_quick_successes = 0
 consecutive_struggles = 0
 

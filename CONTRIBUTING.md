@@ -24,7 +24,7 @@ Thank you for taking the time to contribute! This project welcomes bug reports, 
    ```
 4. Generate the UOR program:
    ```bash
-   python generate_goal_seeker_uor.py
+   python generate_goal_seeker_uor.py [--output <path>]
    ```
 5. Run the backend server:
    ```bash

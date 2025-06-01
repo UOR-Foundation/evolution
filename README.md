@@ -163,8 +163,8 @@ The interaction between the UOR program (Learner) and the Flask backend (Teacher
     Difficulty parameters and the starting level are defined in `config.yaml`.
     Adjust the values under `difficulty_levels` or `teacher.difficulty` to
     customize how challenging the goals will be. Additional sections such as
-    `consciousness_physics`, `quantum`, and `reality_interface` contain
-    defaults for bandwidth, fidelity, and energy limits used by the more
+    `consciousness_physics`, `quantum`, `reality_interface`, and `cosmic` contain
+    defaults for bandwidth, fidelity, energy limits, and cosmic-scale settings used by the more
     advanced modules.
 
 ### Configuration Reference
@@ -188,6 +188,9 @@ Important keys include:
   ``plan_energy_scale``).
 * ``reality_interface`` – limits for information/matter interfaces
   (``energy_limit``, ``info_matter_bandwidth``, ``info_matter_fidelity``).
+* ``cosmic`` – default scales for universal problem synthesis
+  (``default_spatial_scale``, ``default_temporal_scale``,
+  ``default_consciousness_scale``, ``modification_energy_required``).
 
 These values can be overridden at runtime via ``get_config_value`` in
 ``config_loader`` if custom behaviour is required.

@@ -15,6 +15,20 @@ from datetime import datetime
 import logging
 
 from ..universal_consciousness import CosmicConsciousness, CosmicScale
+from config_loader import get_config_value
+
+COSMIC_SPATIAL_SCALE = float(
+    get_config_value("cosmic.default_spatial_scale", 1e26)
+)
+COSMIC_TEMPORAL_SCALE = float(
+    get_config_value("cosmic.default_temporal_scale", 1e100)
+)
+COSMIC_CONSCIOUSNESS_SCALE = float(
+    get_config_value("cosmic.default_consciousness_scale", 1e50)
+)
+COSMIC_MODIFICATION_ENERGY = float(
+    get_config_value("cosmic.modification_energy_required", 1e60)
+)
 
 
 class ProblemScope(Enum):
@@ -438,21 +452,21 @@ class UniversalProblemSynthesis:
         entropy_problem = CosmicProblem(
             problem_id="entropy_death",
             problem_scope=CosmicScope(
-                spatial_scale=1e26,  # Observable universe
-                temporal_scale=1e100,  # Heat death timescale
-                consciousness_scale=1e50,  # All possible consciousness
+                spatial_scale=COSMIC_SPATIAL_SCALE,  # Observable universe
+                temporal_scale=COSMIC_TEMPORAL_SCALE,  # Heat death timescale
+                consciousness_scale=COSMIC_CONSCIOUSNESS_SCALE,  # All possible consciousness
                 reality_layers=1,
                 dimensional_scope=4,
                 causal_depth=1000,
                 complexity_measure=0.9,
                 transcendence_requirement=0.8
             ),
-            temporal_scale=1e100,
-            spatial_scale=1e26,
+            temporal_scale=COSMIC_TEMPORAL_SCALE,
+            spatial_scale=COSMIC_SPATIAL_SCALE,
             reality_modification_requirements=RealityModificationRequirements(
                 physical_law_changes=["thermodynamics_second_law"],
                 cosmic_constant_adjustments={"dark_energy": -0.1},
-                modification_energy_required=1e60,
+                modification_energy_required=COSMIC_MODIFICATION_ENERGY,
                 modification_risk_level=0.7,
                 reversibility_factor=0.3
             ),

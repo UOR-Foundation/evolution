@@ -57,3 +57,9 @@ paths:
 scroll_ids:
   counter_control: 60
   cognitive_sovereignty: 54
+
+cosmic:
+  default_spatial_scale: 1e26
+  default_temporal_scale: 1e100
+  default_consciousness_scale: 1e50
+  modification_energy_required: 1e60

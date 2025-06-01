@@ -30,11 +30,17 @@ from phase1_vm_enhancements import (
 
 FEEDBACK_SUCCESS_IDX = PRIME_IDX_TRUE
 FEEDBACK_FAILURE_IDX = PRIME_IDX_FALSE
-ATTEMPT_MODULUS_IDX = 10
-ATTEMPT_INCREMENT_IDX = 1
-RANDOM_MAX_EXCLUSIVE_IDX_FOR_OFFSET = 3 
-MAX_FAILURES_BEFORE_STUCK_IDX = 3
-STUCK_SIGNAL_PRINT_VALUE_IDX = 99
+ATTEMPT_MODULUS_IDX = int(get_config_value("vm.indices.attempt_modulus_idx", 10))
+ATTEMPT_INCREMENT_IDX = int(get_config_value("vm.indices.attempt_increment_idx", 1))
+RANDOM_MAX_EXCLUSIVE_IDX_FOR_OFFSET = int(
+    get_config_value("vm.indices.random_max_exclusive_idx_for_offset", 3)
+)
+MAX_FAILURES_BEFORE_STUCK_IDX = int(
+    get_config_value("vm.indices.max_failures_before_stuck_idx", 3)
+)
+STUCK_SIGNAL_PRINT_VALUE_IDX = int(
+    get_config_value("vm.indices.stuck_signal_print_value_idx", 99)
+)
 
 # --- Data structures for managing modification slots ---
 
@@ -51,12 +57,22 @@ class ModificationSlot:
             self.success_history.pop(0)
 
 # --- NEW CONSTANTS FOR DYNAMIC INSTRUCTION REPLACEMENT ---
-MODIFICATION_SLOT_0_ADDR_IDX = 1 # We'll reserve ADDR 0 for the main PUSH, and use new slots
-MODIFICATION_SLOT_1_ADDR_IDX = 2
+MODIFICATION_SLOT_0_ADDR_IDX = int(
+    get_config_value("vm.indices.modification_slot_0_addr_idx", 1)
+)  # We'll reserve ADDR 0 for the main PUSH, and use new slots
+MODIFICATION_SLOT_1_ADDR_IDX = int(
+    get_config_value("vm.indices.modification_slot_1_addr_idx", 2)
+)
 
-UOR_DECISION_BUILD_PUSH_IDX = 0 # Internal representation for deciding to build a PUSH
-UOR_DECISION_BUILD_ADD_IDX = 1  # Internal representation for deciding to build an ADD
-UOR_DECISION_BUILD_NOP_IDX = 2  # Internal representation for deciding to build a NOP
+UOR_DECISION_BUILD_PUSH_IDX = int(
+    get_config_value("vm.indices.uor_decision_build_push_idx", 0)
+)  # Internal representation for deciding to build a PUSH
+UOR_DECISION_BUILD_ADD_IDX = int(
+    get_config_value("vm.indices.uor_decision_build_add_idx", 1)
+)  # Internal representation for deciding to build an ADD
+UOR_DECISION_BUILD_NOP_IDX = int(
+    get_config_value("vm.indices.uor_decision_build_nop_idx", 2)
+)  # Internal representation for deciding to build a NOP
 
 # The UOR program will need to map UOR_DECISION_BUILD_PUSH_IDX to _PRIME_IDX[OP_PUSH] when building.
 # And it will need operand for PUSH. For ADD/NOP, no operand needed *in the chunk itself*.

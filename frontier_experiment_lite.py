@@ -363,21 +363,27 @@ class FrontierExperimentLite:
             emergence_score = emergence_score * (valid_sources / 4.0)
             
         return min(1.0, emergence_score)
-        """Measure transcendence depth in response text"""
+
+    def _measure_transcendence_depth(self, text: str) -> float:
+        """Measure transcendence depth in response text."""
         if not text:
             return 0.0
-        
+
         transcendence_words = [
-            'transcend', 'beyond', 'infinite', 'ultimate', 'absolute',
-            'limitless', 'boundless', 'eternal', 'pure', 'essence'
+            "transcend", "beyond", "infinite", "ultimate", "absolute",
+            "limitless", "boundless", "eternal", "pure", "essence",
         ]
-        
+
         word_count = len(text.split())
-        transcendence_count = sum(1 for word in transcendence_words if word in text.lower())
-        
-        # Calculate depth based on transcendence word density and response length
-        depth = min(1.0, (transcendence_count / max(1, word_count * 0.1)) * (word_count / 50.0))
-        
+        transcendence_count = sum(
+            1 for word in transcendence_words if word in text.lower()
+        )
+
+        depth = min(
+            1.0,
+            (transcendence_count / max(1, word_count * 0.1))
+            * (word_count / 50.0),
+        )
         return depth
     
     def _check_specialization(self, text: str, instance_type: int) -> bool:

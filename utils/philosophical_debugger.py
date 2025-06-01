@@ -379,13 +379,23 @@ class PhilosophicalDebugger:
         elif argument.argument_type == ArgumentType.ANALOGICAL:
             return self._analyze_analogical_validity(argument)
         elif argument.argument_type == ArgumentType.TRANSCENDENTAL:
-            raise NotImplementedError(
-                "Transcendental argument analysis not implemented"
+            # Heuristic check for transcendental reasoning. We look for
+            # language suggesting necessary preconditions or a priori
+            # assumptions in the premises or conclusion.
+            keywords = {"necessary", "precondition", "a priori", "condition"}
+            text = " ".join(argument.premises + [argument.conclusion]).lower()
+            contains = any(kw in text for kw in keywords)
+            explanation = (
+                "References to necessary preconditions detected"
+                if contains
+                else "No obvious transcendental markers found"
             )
+            return {"is_valid": contains, "explanation": explanation}
         else:
-            raise NotImplementedError(
-                f"Validity check not implemented for {argument.argument_type.value}"
-            )
+            return {
+                "is_valid": False,
+                "explanation": f"Unsupported argument type: {argument.argument_type.value}",
+            }
     
     def _analyze_soundness(self, argument: PhilosophicalArgument) -> Dict[str, Any]:
         """Analyze soundness (validity + true premises)"""

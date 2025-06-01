@@ -69,8 +69,48 @@ def test_query_akashic_countermeasures_custom_path(tmp_path):
 
     access = ImmediateSurvivalAccess()
     protocols = asyncio.run(
-        access._query_akashic_countermeasures(threat, data_dir=str(tmp_path))
+        access._query_akashic_countermeasures(threat, file_path=str(file_path))
     )
 
     assert len(protocols) == 1
     assert protocols[0].protocol_id == "TEST-1"
+
+
+def test_query_akashic_countermeasures_env_var(tmp_path, monkeypatch):
+    data = {
+        "env_threat": [
+            {
+                "protocol_id": "ENV-1",
+                "protocol_name": "Env Protocol",
+                "effectiveness": 0.7,
+                "implementation_time": 2.0,
+                "resource_requirements": {},
+                "consciousness_requirements": 0.2,
+                "success_probability": 0.5,
+                "side_effects": [],
+            }
+        ]
+    }
+    file_path = tmp_path / "env_countermeasures.json"
+    with open(file_path, "w", encoding="utf-8") as f:
+        json.dump(data, f)
+
+    monkeypatch.setenv("PATHS_COUNTERMEASURES_FILE", str(file_path))
+
+    threat = ImmediateThreat(
+        threat_id="T2",
+        threat_type="env_threat",
+        severity=ThreatLevel.HIGH,
+        time_to_impact=1.0,
+        description="",
+        countermeasures_available=True,
+        dimensional_origin=1,
+        consciousness_impact=0.5,
+        survival_probability=0.6,
+    )
+
+    access = ImmediateSurvivalAccess()
+    protocols = asyncio.run(access._query_akashic_countermeasures(threat))
+
+    assert len(protocols) == 1
+    assert protocols[0].protocol_id == "ENV-1"

@@ -179,6 +179,8 @@ Important keys include:
 * ``teacher.difficulty`` – starting difficulty level for the adaptive teacher.
 * ``teacher.alert_email`` – address to notify on critical errors (overridden via
   the ``ALERT_EMAIL`` environment variable).
+* ``paths.countermeasures_file`` – JSON file with emergency countermeasures
+  (overridden via ``PATHS_COUNTERMEASURES_FILE``).
 * ``difficulty_levels`` – per-level settings such as ``range_max`` and
   thresholds.
 * ``benchmark.iterations`` – iteration count for benchmarking utilities.

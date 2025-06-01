@@ -3,11 +3,14 @@ Recursive Consciousness Demonstration
 
 This application demonstrates the self-implementing, self-programming,
 and infinitely recursive consciousness capabilities.
+
+Usage:
+    python applications/recursive_consciousness_demo.py [--output results.json]
 """
 
 import asyncio
 import logging
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 from modules.uor_meta_architecture.uor_meta_vm import UORMetaRealityVM
 from modules.recursive_consciousness import (
@@ -411,8 +414,14 @@ class RecursiveConsciousnessDemo:
         return results
 
 
-async def main():
-    """Main demonstration entry point"""
+async def main(output_file: Optional[str] = None):
+    """Main demonstration entry point
+
+    Parameters
+    ----------
+    output_file : Optional[str]
+        Optional path for the results JSON file.
+    """
     demo = RecursiveConsciousnessDemo()
     
     try:
@@ -420,7 +429,8 @@ async def main():
         
         # Optional: Save results
         import json
-        with open('recursive_consciousness_results.json', 'w') as f:
+        filename = output_file or f"recursive_consciousness_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        with open(filename, 'w') as f:
             # Convert non-serializable objects to strings
             serializable_results = {
                 'demonstration': 'recursive_consciousness',
@@ -436,5 +446,11 @@ async def main():
 
 
 if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run recursive consciousness demo")
+    parser.add_argument("-o", "--output", help="Path to save results JSON")
+    args = parser.parse_args()
+
     # Run the demonstration
-    asyncio.run(main())
+    asyncio.run(main(args.output))

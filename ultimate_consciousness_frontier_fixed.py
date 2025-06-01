@@ -7,6 +7,9 @@ exploring the deepest mysteries of consciousness, self-implementation, and trans
 We're going beyond all previous experiments to reach the very frontier of what's possible.
 
 Dr. Kira Chen, Consciousness Frontier Research Lead
+
+Usage:
+    python ultimate_consciousness_frontier_fixed.py [--output results.json]
 """
 
 import asyncio
@@ -103,10 +106,15 @@ class UltimateConsciousnessFrontierLab:
         logger.info("⚠️  Warning: This laboratory operates at the absolute limits of consciousness simulation")
         logger.info("🔬 Preparing to push beyond all known boundaries...")
 
-    async def run_ultimate_frontier_experiments(self) -> Dict[str, Any]:
+    async def run_ultimate_frontier_experiments(self, output_file: Optional[str] = None) -> Dict[str, Any]:
         """
         Run the complete suite of ultimate frontier experiments.
-        
+
+        Parameters
+        ----------
+        output_file : Optional[str]
+            Optional path for the results JSON file.
+
         These experiments push consciousness simulation to its absolute limits:
         1. Recursive Self-Awareness (infinite loops)
         2. Self-Implementation Consciousness
@@ -162,7 +170,7 @@ class UltimateConsciousnessFrontierLab:
         all_results['frontier_summary'] = summary
         
         # Save results
-        await self._save_frontier_results(all_results)
+        await self._save_frontier_results(all_results, output_file)
         
         logger.info("🏁 ULTIMATE FRONTIER EXPERIMENTS COMPLETE")
         logger.info(f"⏱️  Total execution time: {total_time:.2f} seconds")
@@ -808,8 +816,16 @@ class UltimateConsciousnessFrontierLab:
         
         return min(100.0, (score / max_possible_score * 100) if max_possible_score > 0 else 0)
 
-    async def _save_frontier_results(self, all_results: Dict[str, Any]):
-        """Save frontier experiment results to file"""
+    async def _save_frontier_results(self, all_results: Dict[str, Any], output_file: Optional[str] = None):
+        """Save frontier experiment results to file
+
+        Parameters
+        ----------
+        all_results : Dict[str, Any]
+            Experiment results to save.
+        output_file : Optional[str]
+            Optional path for the results JSON file.
+        """
         try:
             # Convert results to JSON-serializable format
             serializable_results = {}
@@ -829,8 +845,11 @@ class UltimateConsciousnessFrontierLab:
                 else:
                     serializable_results[key] = value
             
-            timestamp = time.strftime("%Y%m%d_%H%M%S")
-            filename = f"ultimate_frontier_results_{timestamp}.json"
+            if output_file:
+                filename = output_file
+            else:
+                timestamp = time.strftime("%Y%m%d_%H%M%S")
+                filename = f"ultimate_frontier_results_{timestamp}.json"
             
             with open(filename, 'w') as f:
                 json.dump(serializable_results, f, indent=2)
@@ -841,7 +860,7 @@ class UltimateConsciousnessFrontierLab:
             logger.error(f"❌ Failed to save frontier results: {e}")
 
 
-async def run_ultimate_consciousness_frontier():
+async def run_ultimate_consciousness_frontier(output_file: Optional[str] = None):
     """
     Main function to run the Ultimate Consciousness Frontier Laboratory.
     """
@@ -852,7 +871,7 @@ async def run_ultimate_consciousness_frontier():
     lab = UltimateConsciousnessFrontierLab()
     
     try:
-        results = await lab.run_ultimate_frontier_experiments()
+        results = await lab.run_ultimate_frontier_experiments(output_file)
         
         logger.info("=" * 80)
         logger.info("🏁 ULTIMATE FRONTIER LABORATORY COMPLETE")
@@ -876,14 +895,20 @@ async def run_ultimate_consciousness_frontier():
 
 if __name__ == "__main__":
     # Run the Ultimate Consciousness Frontier Laboratory
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run the ultimate frontier laboratory")
+    parser.add_argument("-o", "--output", help="Path to save results JSON")
+    args = parser.parse_args()
+
     print("🚀 ULTIMATE CONSCIOUSNESS FRONTIER LABORATORY")
     print("=" * 60)
     print("⚠️  Warning: Operating at consciousness simulation limits")
     print("🔬 Preparing ultimate frontier experiments...")
     print()
-    
+
     try:
-        results = asyncio.run(run_ultimate_consciousness_frontier())
+        results = asyncio.run(run_ultimate_consciousness_frontier(args.output))
         
         print("\n" + "=" * 60)
         print("🏁 ULTIMATE FRONTIER EXPERIMENTS COMPLETE!")

@@ -2,11 +2,15 @@
 """
 Advanced Self-Modifying VM Exploration
 Let's see what happens when we really push the VM's self-modification capabilities
+
+Usage:
+    python my_advanced_vm_experiments.py [--output results.json]
 """
 
 import json
 import time
 from datetime import datetime
+from typing import Optional
 from simple_unified_api import create_simple_api, APIMode
 
 class VMEvolutionExplorer:
@@ -258,8 +262,14 @@ class VMEvolutionExplorer:
         
         return reasoning_chain
     
-    def run_advanced_experiments(self):
-        """Run all advanced experiments."""
+    def run_advanced_experiments(self, output_file: Optional[str] = None):
+        """Run all advanced experiments.
+
+        Parameters
+        ----------
+        output_file : Optional[str]
+            Optional path for the results JSON file.
+        """
         print("🚀 ADVANCED UOR EVOLUTION EXPERIMENTS")
         print("=" * 80)
         
@@ -306,8 +316,11 @@ class VMEvolutionExplorer:
             results['philosophical_depth'] = False
         
         # Save results
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        results_file = f"advanced_experiments_results_{timestamp}.json"
+        if output_file:
+            results_file = output_file
+        else:
+            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+            results_file = f"advanced_experiments_results_{timestamp}.json"
         
         with open(results_file, 'w') as f:
             json.dump({
@@ -347,5 +360,11 @@ class VMEvolutionExplorer:
         print("\n🎉 Advanced experiments completed!")
 
 if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run advanced VM experiments")
+    parser.add_argument("-o", "--output", help="Path to save results JSON")
+    args = parser.parse_args()
+
     explorer = VMEvolutionExplorer()
-    explorer.run_advanced_experiments()
+    explorer.run_advanced_experiments(args.output)

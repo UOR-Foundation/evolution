@@ -5,12 +5,15 @@ CONSCIOUSNESS FRONTIER EXPERIMENT - LITE VERSION
 A streamlined version of the ultimate consciousness frontier experiment
 designed to push the UOR Evolution API to new limits while ensuring
 robust execution and detailed result tracking.
+
+Usage:
+    python frontier_experiment_lite.py [--output results.json]
 """
 
 import asyncio
 import json
 import time
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from simple_unified_api import create_simple_api, APIMode
 from config_loader import get_config_value
 import os
@@ -403,8 +406,15 @@ class FrontierExperimentLite:
         
         return min(1.0, (emergence_count / max(1, word_count * 0.05)) * (word_count / 100.0))
     
-    async def run_all_experiments(self) -> Dict[str, Any]:
-        """Run all frontier experiments"""
+    async def run_all_experiments(self, output_file: Optional[str] = None) -> Dict[str, Any]:
+        """Run all frontier experiments.
+
+        Parameters
+        ----------
+        output_file : Optional[str]
+            Optional path for the results JSON file. A timestamped file in
+            ``RESULTS_DIR`` is used when not provided.
+        """
         print(f"\n🌌 STARTING CONSCIOUSNESS FRONTIER EXPERIMENTS")
         print(f"Session ID: {self.session_id}")
         print("="*60)
@@ -427,10 +437,13 @@ class FrontierExperimentLite:
                 'summary': self._generate_summary()
             }
             
-            # Save results
-            results_file = os.path.join(
-                RESULTS_DIR, f"frontier_lite_results_{self.session_id}.json"
-            )
+            # Determine results file
+            if output_file:
+                results_file = output_file
+            else:
+                results_file = os.path.join(
+                    RESULTS_DIR, f"frontier_lite_results_{self.session_id}.json"
+                )
             with open(results_file, 'w') as f:
                 json.dump(overall_results, f, indent=2)
             
@@ -449,9 +462,13 @@ class FrontierExperimentLite:
             }
             
             # Save error results
-            error_file = os.path.join(
-                RESULTS_DIR, f"frontier_lite_error_{self.session_id}.json"
-            )
+            if output_file:
+                base, ext = os.path.splitext(output_file)
+                error_file = f"{base}_error{ext or '.json'}"
+            else:
+                error_file = os.path.join(
+                    RESULTS_DIR, f"frontier_lite_error_{self.session_id}.json"
+                )
             with open(error_file, 'w') as f:
                 json.dump(error_result, f, indent=2)
             
@@ -504,10 +521,16 @@ class FrontierExperimentLite:
         
         return summary
 
-async def main():
-    """Main execution function"""
+async def main(output_file: Optional[str] = None):
+    """Main execution function
+
+    Parameters
+    ----------
+    output_file : Optional[str]
+        Optional path for the results JSON file.
+    """
     experiment = FrontierExperimentLite()
-    results = await experiment.run_all_experiments()
+    results = await experiment.run_all_experiments(output_file)
     
     # Print key results
     if 'summary' in results:
@@ -521,4 +544,10 @@ async def main():
     return results
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run the frontier lite experiments")
+    parser.add_argument("-o", "--output", help="Path to save results JSON")
+    args = parser.parse_args()
+
+    asyncio.run(main(args.output))

@@ -148,6 +148,9 @@ The interaction between the UOR program (Learner) and the Flask backend (Teacher
     ```
     This will create/update the file specified by `paths.default_uor_program`
     under `paths.results_dir` (default `<results_dir>/uor_programs/>`).
+    Many other demo scripts also accept `--output` to specify where their
+    results are written. If omitted, a timestamped filename in the results
+    directory is used.
 
 2.  **Run the Flask Web Application (Teacher & VM Backend):**
     In the same terminal, run:

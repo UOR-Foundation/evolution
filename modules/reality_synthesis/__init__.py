@@ -1,15 +1,16 @@
 """Basic tools for modelling and simulating a simple reality.
 
-This module currently provides lightweight dataclass containers that
-represent a minimal "reality" along with a basic engine for advancing a
-simulation.  These structures act as stubs so that other parts of the
-project can begin experimenting with reality synthesis without relying on
-heavy dependencies.  Future components are expected to build on top of
-these primitives.
+This module defines lightweight dataclass containers along with a small
+physics-inspired engine for advancing a simulation.  Objects may contain
+``position`` and ``velocity`` fields and will be updated each tick using a
+simple Euler integration step with optional noise.  The engine remains
+dependency free while providing behaviour that is more realistic than the
+previous stub implementation.
 """
 
 from dataclasses import dataclass, field
 from typing import Any, Dict
+import random
 
 
 @dataclass
@@ -40,14 +41,23 @@ class RealitySynthesisEngine:
     def simulate_step(self, model: RealityModel, params: SimulationParameters) -> RealityModel:
         """Advance ``model`` using ``params`` and return it.
 
-        The default behaviour simply increments the model's tick and merges
-        any ``user_input`` into ``model.objects``.  More sophisticated
-        reality modelling logic can replace this in the future.
+        Objects containing ``position`` and ``velocity`` fields will have their
+        position updated according to ``velocity * time_delta``.  Random noise
+        can be injected via ``params.randomness`` to introduce stochasticity.
+        Any ``user_input`` is merged into ``model.objects``.
         """
 
         model.tick += 1
+        dt = params.time_delta
+        for name, state in model.objects.items():
+            if isinstance(state, dict) and "position" in state and "velocity" in state:
+                noise = random.gauss(0.0, params.randomness) if params.randomness else 0.0
+                state["position"] = state.get("position", 0.0) + state.get("velocity", 0.0) * dt + noise
+
         if params.user_input:
-            model.objects.update(params.user_input)
+            for key, value in params.user_input.items():
+                model.objects[key] = value
+
         return model
 
 

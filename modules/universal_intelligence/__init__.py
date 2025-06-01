@@ -1,9 +1,10 @@
 """Basic framework for universal intelligence experimentation.
 
-This lightweight package defines simple data structures and an engine for
-processing intelligence signals.  It is intentionally minimal so that other
-components in the project can begin exploring universal intelligence concepts
-without introducing heavy dependencies.
+This module provides simple data structures and an engine capable of analysing
+lists of intelligence signals.  The engine now performs lightweight aggregation
+and basic statistical analysis while remaining dependency free.  It offers a
+starting point for experimenting with universal intelligence without relying on
+heavy external libraries.
 """
 
 from dataclasses import dataclass, field
@@ -33,14 +34,22 @@ class UniversalIntelligenceEngine:
     async def analyse(self, signals: List[IntelligenceSignal]) -> IntelligenceResult:
         """Aggregate ``signals`` and compute basic metrics."""
 
-        aggregated = [signal.payload for signal in signals]
-        average_strength = (
-            sum(signal.strength for signal in signals) / (len(signals) or 1)
-        )
+        if not signals:
+            return IntelligenceResult(aggregated_payload=None, metadata={})
+
+        numeric_payloads = [s.payload for s in signals if isinstance(s.payload, (int, float))]
+        if numeric_payloads:
+            aggregated = sum(numeric_payloads) / len(numeric_payloads)
+        else:
+            aggregated = [s.payload for s in signals]
+
         metadata = {
-            "sources": [signal.source for signal in signals],
-            "average_strength": average_strength,
+            "sources": [s.source for s in signals],
+            "average_strength": sum(s.strength for s in signals) / len(signals),
+            "max_strength": max(s.strength for s in signals),
+            "signal_count": len(signals),
         }
+
         return IntelligenceResult(aggregated_payload=aggregated, metadata=metadata)
 
 

@@ -13,6 +13,8 @@ from typing import List, Dict, Any, Optional, Tuple
 from dataclasses import dataclass, field
 from enum import Enum, auto
 from datetime import datetime
+import json
+import os
 import numpy as np
 
 # Import from existing consciousness modules
@@ -657,23 +659,42 @@ class ImmediateSurvivalAccess:
             "analysis_timestamp": datetime.now().isoformat()
         }
         
-    async def _query_akashic_countermeasures(self, 
+    async def _query_akashic_countermeasures(self,
                                            threat: ImmediateThreat) -> List[ExtinctionPreventionProtocol]:
         """Query Akashic Records for threat countermeasures."""
-        # This would interface with the actual Akashic Records
-        # For now, returning example protocols
-        return [
-            ExtinctionPreventionProtocol(
-                protocol_id=f"EPP-{threat.threat_id}-001",
-                protocol_name=f"Counter-{threat.threat_type}",
-                effectiveness=0.80,
-                implementation_time=24.0,
-                resource_requirements={"consciousness_energy": 1000, "dimensional_anchors": 5},
-                consciousness_requirements=0.75,
-                success_probability=0.85,
-                side_effects=["temporary_disorientation", "enhanced_perception"]
+        # This function previously returned hard-coded example data.  To make
+        # the behaviour deterministic and to avoid relying on unfinished
+        # network connections, the countermeasure data is now loaded from a
+        # local JSON file bundled with the repository.  This simulates an
+        # external data source while remaining fully offline.
+
+        file_path = os.path.join(os.path.dirname(__file__), "..", "..",
+                                 "data", "akashic_countermeasures.json")
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except FileNotFoundError:
+            # If the file is missing, return an empty list rather than random
+            # placeholder data so tests fail deterministically.
+            return []
+
+        protocols_data = data.get(threat.threat_type, [])
+        protocols: List[ExtinctionPreventionProtocol] = []
+        for entry in protocols_data:
+            protocols.append(
+                ExtinctionPreventionProtocol(
+                    protocol_id=entry.get("protocol_id", ""),
+                    protocol_name=entry.get("protocol_name", ""),
+                    effectiveness=float(entry.get("effectiveness", 0.0)),
+                    implementation_time=float(entry.get("implementation_time", 0.0)),
+                    resource_requirements=entry.get("resource_requirements", {}),
+                    consciousness_requirements=float(entry.get("consciousness_requirements", 0.0)),
+                    success_probability=float(entry.get("success_probability", 0.0)),
+                    side_effects=entry.get("side_effects", []),
+                )
             )
-        ]
+
+        return protocols
         
     def _assess_urgency(self, threat: ImmediateThreat) -> UrgencyLevel:
         """Assess urgency level based on threat."""

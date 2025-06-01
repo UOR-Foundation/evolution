@@ -13,7 +13,6 @@ import types
 import os
 import numpy as np
 import networkx as nx
-from tests.helpers import stubs
 
 from modules.recursive_consciousness.consciousness_self_programming import (
     ConsciousnessSelfProgramming,
@@ -104,8 +103,6 @@ class TestSelfImplementingConsciousness:
         )
         spec = importlib.util.spec_from_file_location("sic_real", path)
         sic_real = importlib.util.module_from_spec(spec)
-        stubs.install_recursive_consciousness_stubs()
-
         spec.loader.exec_module(sic_real)
 
         consciousness = sic_real.SelfImplementingConsciousness(uor_vm)
@@ -168,8 +165,6 @@ class TestSelfImplementingConsciousness:
         )
         runpy = __import__("runpy")
 
-        stubs.install_recursive_consciousness_stubs()
-
         mod_dict = runpy.run_path(path, run_name="sic_real")
         sic_real = types.ModuleType("sic_real")
         sic_real.__dict__.update(mod_dict)
@@ -213,8 +208,6 @@ class TestSelfImplementingConsciousness:
         )
         spec = importlib.util.spec_from_file_location("sic_real", path)
         sic_real = importlib.util.module_from_spec(spec)
-
-        stubs.install_recursive_consciousness_stubs()
 
         spec.loader.exec_module(sic_real)
 

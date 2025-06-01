@@ -125,6 +125,7 @@ The interaction between the UOR program (Learner) and the Flask backend (Teacher
 │ └── adaptive_teacher.py # Adaptive teaching classes
 ├── <results_dir>/uor_programs/
 │ └── goal_seeker_demo.uor.txt # Generated UOR program
+#                       (name set by `paths.default_uor_program`)
 ├── frontend/
 │ ├── css/
 │ │ └── style.css # Styles for the UI
@@ -145,8 +146,8 @@ The interaction between the UOR program (Learner) and the Flask backend (Teacher
     ```bash
     python generate_goal_seeker_uor.py [--output <path>]
     ```
-    This will create/update `goal_seeker_demo.uor.txt` under the configured
-    `paths.results_dir` (default `<results_dir>/uor_programs/`).
+    This will create/update the file specified by `paths.default_uor_program`
+    under `paths.results_dir` (default `<results_dir>/uor_programs/>`).
 
 2.  **Run the Flask Web Application (Teacher & VM Backend):**
     In the same terminal, run:

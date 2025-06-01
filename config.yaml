@@ -47,3 +47,4 @@ reality_interface:
 paths:
   log_dir: /workspaces/uor-evolution
   results_dir: /workspaces/uor-evolution
+  default_uor_program: goal_seeker_demo.uor.txt

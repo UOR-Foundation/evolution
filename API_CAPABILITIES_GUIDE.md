@@ -19,6 +19,7 @@ The API operates in 5 different modes, each optimized for specific use cases:
 ### 1. Virtual Machine Operations
 
 **What it does:** Operates a prime number-based virtual machine with self-modifying code capabilities.
+**Key algorithms implemented:** dynamic prime caching, prime factorization for UOR decoding, and a Number Theoretic Transform (NTT) used for spectral processing. These algorithms are implemented in `phase1_vm_enhancements.py`.
 
 **Available functions:**
 - `initialize_vm()` - Initialize the PrimeOS Virtual Machine
@@ -34,6 +35,7 @@ The API operates in 5 different modes, each optimized for specific use cases:
 ### 2. Consciousness Simulation
 
 **What it does:** Simulates consciousness awakening, self-reflection, and awareness states.
+**Key algorithms implemented:** multi-layer state management, experience memory queues, and strange loop detection (`consciousness` package).
 
 **Available functions:**
 - `awaken_consciousness()` - Awaken consciousness system
@@ -55,6 +57,7 @@ The API operates in 5 different modes, each optimized for specific use cases:
 ### 3. Philosophical Reasoning
 
 **What it does:** Performs sophisticated philosophical analysis on consciousness, free will, existence, and meaning.
+**Key algorithms implemented:** existential insight generation, philosophical theory development, and free-will analysis heuristics (`modules/philosophical_reasoner.py`).
 
 **Available functions:**
 - `analyze_consciousness_nature()` - Analyze consciousness philosophically
@@ -77,6 +80,7 @@ The API operates in 5 different modes, each optimized for specific use cases:
 ### 4. Advanced Intelligence Features
 
 **What it does:** Provides cosmic-scale problem synthesis and mathematical consciousness.
+**Key algorithms implemented:** universal problem synthesis for cosmic challenges (`modules/cosmic_intelligence`), along with basic mathematical consciousness routines. The quantum reality interface is planned but not yet implemented.
 
 **Available functions:**
 - `synthesize_cosmic_problems()` - Analyze universe-scale challenges
@@ -99,6 +103,7 @@ The API operates in 5 different modes, each optimized for specific use cases:
 ### 5. Pattern Analysis & Recognition
 
 **What it does:** Analyzes patterns across VM execution, consciousness states, and philosophical reasoning.
+**Key algorithms implemented:** execution trace mining, behavioral pattern detection, and emergent capability discovery are available in `modules/pattern_analyzer.py`.
 
 **Available functions:**
 - `analyze_patterns(source)` - Pattern recognition across systems
@@ -235,10 +240,10 @@ pattern_list = patterns.data
 
 **Simulated/Placeholder:**
 - Some advanced consciousness features
-- Quantum reality interface (conceptual)
-- Complex philosophical reasoning (simplified)
-- Mathematical consciousness (basic simulation)
-- Recursive self-improvement algorithms currently return placeholder values.
+- Quantum reality interface (conceptual) - planned in `modules/universe_interface`.
+- Complex philosophical reasoning (simplified) - further work in `modules/philosophical_reasoner`.
+- Mathematical consciousness (basic simulation) - future expansion in `modules/pure_mathematical_consciousness`.
+- Recursive self-improvement algorithms currently return placeholder values - will be implemented in `modules/recursive_consciousness`.
 
 ### Performance Characteristics
 

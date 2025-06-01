@@ -31,3 +31,10 @@ def test_placeholder_resolution():
         assert opcode == OP_PUSH
         assert operand == mapping[key]
 
+
+def test_no_zero_operand_pushes():
+    program = generate_goal_seeker_program(initial_prime_idx=FEEDBACK_SUCCESS_IDX)
+    for idx, chunk in enumerate(program):
+        opcode, operand = parse_opcode_and_operand(chunk)
+        if opcode == OP_PUSH:
+            assert operand != 0, f"Zero-operand PUSH at address {idx}"

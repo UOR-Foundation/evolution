@@ -2,6 +2,7 @@ debug: false
 vm:
   log_file: vm_events.log
   max_instructions: 1000
+  max_instructions_per_cycle: 1
 teacher:
   difficulty: MEDIUM
   alert_email: operator@example.com

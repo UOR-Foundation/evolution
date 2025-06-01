@@ -246,7 +246,7 @@ current_vm_output_log = []
 vm_halted = False
 vm_error = None
 vm_generator = None
-MAX_INSTRUCTIONS_PER_STEP_CYCLE = 1
+MAX_INSTRUCTIONS_PER_STEP_CYCLE = int(get_config_value("vm.max_instructions_per_cycle", 1))
 vm_is_waiting_for_input = False
 
 # --- NEW GLOBALS FOR GOAL-SEEKING DEMO ---

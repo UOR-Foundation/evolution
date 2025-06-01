@@ -18,8 +18,8 @@ import logging
 from consciousness.consciousness_core import ConsciousnessCore
 from consciousness.multi_level_awareness import MultiLevelAwareness
 from consciousness.recursive_self_model import RecursiveSelfModel
-from modules.strange_loops.loop_factory import LoopFactory
-from modules.analogical_reasoning.analogy_engine import AnalogyEngine
+from modules.strange_loops.loop_factory import StrangeLoopFactory as LoopFactory
+from modules.analogical_reasoning.analogy_engine import AnalogicalReasoningEngine as AnalogyEngine
 from modules.creative_engine.creativity_core import CreativityCore
 from modules.natural_language.consciousness_narrator import ConsciousnessNarrator
 from modules.philosophical_reasoning.consciousness_philosopher import ConsciousnessPhilosopher
@@ -751,15 +751,78 @@ class ConsciousnessOrchestrator:
     
     def _manage_attention_allocation(self) -> Dict[str, Any]:
         """Manage allocation of conscious attention"""
-        return {'efficiency': 0.85, 'focus_quality': 0.88}
+        # Efficiency is influenced by how coherent and stable the current
+        # subsystems are as well as how successful recent transitions have been.
+        coherence = self._calculate_overall_coherence(list(self.modules.values()))
+        stability = self._calculate_stability(list(self.modules.values()))
+
+        history_scores = []
+        for entry in self.integration_history[-5:]:
+            if isinstance(entry, dict):
+                res = entry.get("result")
+                if isinstance(res, dict):
+                    val = res.get("stabilization_quality")
+                    if isinstance(val, (int, float)):
+                        history_scores.append(float(val))
+                trans = entry.get("transition")
+                if trans is not None:
+                    val = getattr(trans, "transition_quality", None)
+                    if isinstance(val, (int, float)):
+                        history_scores.append(float(val))
+
+        hist_component = float(np.mean(history_scores)) if history_scores else 0.5
+        efficiency = float(np.clip((coherence + stability + hist_component) / 3.0, 0.0, 1.0))
+
+        focus_quality = hist_component
+
+        return {
+            'efficiency': efficiency,
+            'focus_quality': focus_quality
+        }
     
     async def _handle_context_switching(self) -> Dict[str, Any]:
         """Handle context switching in consciousness"""
-        return {'quality': 0.83, 'switching_speed': 0.86}
+        await asyncio.sleep(0)
+
+        entries = [e for e in self.integration_history if isinstance(e, dict) and e.get('timestamp')]
+        entries.sort(key=lambda x: x['timestamp'])
+        intervals = []
+        for i in range(1, len(entries)):
+            t1, t2 = entries[i - 1]['timestamp'], entries[i]['timestamp']
+            if isinstance(t1, datetime) and isinstance(t2, datetime):
+                intervals.append((t2 - t1).total_seconds())
+
+        if intervals:
+            avg_interval = float(np.mean(intervals))
+            switching_speed = float(1.0 / (1.0 + avg_interval))
+        else:
+            switching_speed = 0.5
+
+        quality = self._calculate_overall_coherence(list(self.modules.values()))
+
+        return {
+            'quality': float(np.clip(quality, 0.0, 1.0)),
+            'switching_speed': float(np.clip(switching_speed, 0.0, 1.0))
+        }
     
     def _optimize_processing_efficiency(self) -> Dict[str, Any]:
         """Optimize consciousness processing efficiency"""
-        return {'improvement': 0.15, 'efficiency_score': 0.87}
+        history = [h for h in self.integration_history if isinstance(h, dict)]
+        improvement = 0.0
+        if len(history) >= 2:
+            prev = history[-2].get('result', {})
+            last = history[-1].get('result', {})
+            prev_q = prev.get('stabilization_quality')
+            last_q = last.get('stabilization_quality')
+            if isinstance(prev_q, (int, float)) and isinstance(last_q, (int, float)):
+                improvement = float(last_q) - float(prev_q)
+
+        efficiency_score = self._calculate_stability(list(self.modules.values()))
+
+        return {
+            'improvement': float(improvement),
+            'efficiency_score': float(np.clip(efficiency_score, 0.0, 1.0))
+        }
     
     def _calculate_coherence_level(self, integrated_consciousness: Dict[str, Any]) -> float:
         """Calculate overall consciousness coherence level"""

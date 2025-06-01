@@ -1,4 +1,11 @@
-"""Simple benchmarking utility for PrimeVM."""
+"""Benchmark PrimeVM execution speed.
+
+The script measures how long it takes to run a small UOR program
+both directly via ``vm_execute`` and through ``EnhancedVMInterface``.
+For each iteration we capture the final VM state and count how many
+executions end with the expected stack contents.  Reported metrics
+include the total time taken and the number of correct runs.
+"""
 
 from __future__ import annotations
 
@@ -56,23 +63,52 @@ def main() -> None:
     program = _load_program(args.program)
     iterations = args.iterations
 
-    # Baseline direct execution
+    # Execute once to determine the expected final VM stack for correctness
+    expected_stack = []
+    for state in vm_execute(program):
+        expected_stack = state.get("stack", [])
+        if state.get("halt_flag") or state.get("error_msg"):
+            break
+
+    # Baseline direct execution. We also track how many iterations
+    # finish with the expected stack to provide a basic correctness
+    # measurement alongside the timing metric.
     start = time.time()
+    baseline_correct = 0
     for _ in range(iterations):
-        for _ in vm_execute(program):
-            pass
+        final_state = {}
+        for step in vm_execute(program):
+            final_state = step
+            if step.get("halt_flag") or step.get("error_msg"):
+                break
+        if (
+            final_state.get("stack") == expected_stack
+            and final_state.get("halt_flag")
+            and not final_state.get("error_msg")
+        ):
+            baseline_correct += 1
     baseline = time.time() - start
 
     # Via interface
     iface = EnhancedVMInterface(program)
     start = time.time()
+    interface_correct = 0
     for _ in range(iterations):
         iface.start()
-        iface.run_until_halt()
+        events = iface.run_until_halt()
+        final_state = events[-1] if events else {}
+        if (
+            final_state.get("stack") == expected_stack
+            and final_state.get("halt_flag")
+            and not final_state.get("error_msg")
+        ):
+            interface_correct += 1
     interface_time = time.time() - start
 
-    print(f"Baseline time: {baseline:.4f}s")
-    print(f"Interface time: {interface_time:.4f}s")
+    print(f"Baseline time: {baseline:.4f}s ({baseline_correct}/{iterations} correct)")
+    print(
+        f"Interface time: {interface_time:.4f}s ({interface_correct}/{iterations} correct)"
+    )
 
 
 if __name__ == "__main__":

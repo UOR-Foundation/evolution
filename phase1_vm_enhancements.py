@@ -370,8 +370,7 @@ def vm_execute(chunks_arg: List[int], initial_stack: List[int] = None) -> Iterat
     stack: List[int] = [] if initial_stack is None else list(initial_stack)
     i = 0
     instruction_count = 0
-    MAX_INSTRUCTIONS = 1000
-    target_uor_addr_of_dup = -1 # Set to a non-existent address or remove
+    MAX_INSTRUCTIONS = int(get_config_value("vm.max_instructions", 1000))
 
     while i < len(chunks):
         output_for_this_iteration = None
@@ -592,17 +591,21 @@ def vm_execute(chunks_arg: List[int], initial_stack: List[int] = None) -> Iterat
                         elif e_val_iter == 5: # Standard exponent for operand in chunk_push
                             val_p_for_push = p_val_iter
                     
-                    # Debugging print to show what was identified from logical factors (data)
-                    print(f"DEBUG VM: OP_PUSH at UOR_addr {current_instruction_pointer_for_processing}. "
-                          f"Logical factors (data) used for operand search: {data}. "
-                          f"Identified val_p_for_push (operand prime value): {val_p_for_push}.")
+                    # Diagnostic output showing operand identification for OP_PUSH
+                    logger.debug(
+                        f"DEBUG VM: OP_PUSH at UOR_addr {current_instruction_pointer_for_processing}. "
+                        f"Logical factors (data) used for operand search: {data}. "
+                        f"Identified val_p_for_push (operand prime value): {val_p_for_push}."
+                    )
 
                     if val_p_for_push is None:
                         # Fallback or error for malformed PUSH
                         if len(data) == 1 and data[0][0] == OP_PUSH and data[0][1] > 5 : # e.g. OP_PUSH^9 case
                              val_p_for_push = OP_PUSH # Value pushed would be _PRIME_IDX[OP_PUSH] = 0
-                             print(f"DEBUG VM: OP_PUSH UOR_addr {current_instruction_pointer_for_processing} "
-                                   f"- Fallback used: val_p_for_push set to OP_PUSH ({OP_PUSH}).")
+                             logger.debug(
+                                 f"DEBUG VM: OP_PUSH UOR_addr {current_instruction_pointer_for_processing} "
+                                 f"- Fallback used: val_p_for_push set to OP_PUSH ({OP_PUSH})."
+                             )
                         else: 
                              raise ValueError(f"Malformed OP_PUSH chunk at UOR_addr {current_instruction_pointer_for_processing}. "
                                               f"Could not find operand prime with exp 5. Data: {data}")
@@ -623,14 +626,18 @@ def vm_execute(chunks_arg: List[int], initial_stack: List[int] = None) -> Iterat
 
                     value_to_push_idx = _PRIME_IDX[val_p_for_push]
                     
-                    print(f"DEBUG VM: OP_PUSH at UOR_addr {current_instruction_pointer_for_processing}. "
-                          f"Value to push to stack (prime index): {value_to_push_idx}. "
-                          f"Stack BEFORE push: {list(stack)}")
+                    logger.debug(
+                        f"DEBUG VM: OP_PUSH at UOR_addr {current_instruction_pointer_for_processing}. "
+                        f"Value to push to stack (prime index): {value_to_push_idx}. "
+                        f"Stack BEFORE push: {list(stack)}"
+                    )
                           
                     stack.append(value_to_push_idx)
 
-                    print(f"DEBUG VM: OP_PUSH at UOR_addr {current_instruction_pointer_for_processing}. "
-                          f"Stack AFTER push: {list(stack)}")
+                    logger.debug(
+                        f"DEBUG VM: OP_PUSH at UOR_addr {current_instruction_pointer_for_processing}. "
+                        f"Stack AFTER push: {list(stack)}"
+                    )
                 elif op == OP_ADD:
                     if len(stack) < 2: raise ValueError(f"ADD needs 2 values on stack at UOR_addr {current_instruction_pointer_for_processing}")
                     b, a = stack.pop(), stack.pop(); stack.append(a + b)
@@ -889,9 +896,11 @@ def vm_execute(chunks_arg: List[int], initial_stack: List[int] = None) -> Iterat
                     # If max_exclusive_idx is 0, random_value_idx remains 0, effectively PUSH 0.
                     
                     stack.append(random_value_idx)
-                    print(f"DEBUG VM: OP_RANDOM at UOR_addr {current_instruction_pointer_for_processing}. "
-                          f"Popped max_exclusive_idx: {max_exclusive_idx}. Pushed random_value_idx: {random_value_idx}. "
-                          f"Stack AFTER: {list(stack)}")
+                    logger.debug(
+                        f"DEBUG VM: OP_RANDOM at UOR_addr {current_instruction_pointer_for_processing}. "
+                        f"Popped max_exclusive_idx: {max_exclusive_idx}. Pushed random_value_idx: {random_value_idx}. "
+                        f"Stack AFTER: {list(stack)}"
+                    )
                 else: 
                     raise ValueError(f'Unknown opcode prime: {op} at UOR_addr {current_instruction_pointer_for_processing}')
             
@@ -927,8 +936,10 @@ def vm_execute(chunks_arg: List[int], initial_stack: List[int] = None) -> Iterat
         if current_instruction_pointer_for_processing == (len(chunks_arg) - 3) and op == OP_POKE_CHUNK and not error_for_this_iteration and not halt_for_this_iteration:
 
             if current_instruction_pointer_for_processing == 62 and not error_for_this_iteration and not halt_for_this_iteration:
-                 print(f"DEBUG VM YIELD (after UOR_instr 62 'POKE_CHUNK to addr 0' was processed): "
-                       f"VM's internal chunks[0] = {chunks[0]} (type: {type(chunks[0])}) before yielding program state.")
+                 logger.debug(
+                     f"DEBUG VM YIELD (after UOR_instr 62 'POKE_CHUNK to addr 0' was processed): "
+                     f"VM's internal chunks[0] = {chunks[0]} (type: {type(chunks[0])}) before yielding program state."
+                 )
        
         yield {
             'ip': i, 'stack': list(stack), 'program': list(chunks), 

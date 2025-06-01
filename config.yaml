@@ -60,7 +60,8 @@ scroll_ids:
   cognitive_sovereignty: 54
 
 cosmic:
-  default_spatial_scale: 1e26
-  default_temporal_scale: 1e100
-  default_consciousness_scale: 1e50
-  modification_energy_required: 1e60
+  defaults:
+    spatial_scale: 1e26  # placeholder cosmic scale (light years)
+    temporal_scale: 1e100  # placeholder cosmic time units
+    consciousness_scale: 1e50  # placeholder number of consciousnesses
+    modification_energy_required: 1e60  # placeholder energy (joules)

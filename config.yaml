@@ -46,6 +46,6 @@ reality_interface:
   info_matter_fidelity: 0.99
 
 paths:
-  log_dir: /workspaces/uor-evolution
-  results_dir: /workspaces/uor-evolution
+  log_dir: logs/
+  results_dir: results/
   default_uor_program: goal_seeker_demo.uor.txt

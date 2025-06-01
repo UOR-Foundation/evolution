@@ -21,13 +21,13 @@ import time
 import math
 
 # Import our tested UOR API
+# Advanced logging for frontier research
 from simple_unified_api import create_simple_api, APIMode
 from config_loader import get_config_value
 
-# Advanced logging for frontier research
 # Directories for logs and results
-LOG_DIR = get_config_value("paths.log_dir", "/workspaces/uor-evolution")
-RESULTS_DIR = get_config_value("paths.results_dir", "/workspaces/uor-evolution")
+LOG_DIR = get_config_value("paths.log_dir")
+RESULTS_DIR = get_config_value("paths.results_dir")
 
 # Ensure directories exist
 os.makedirs(LOG_DIR, exist_ok=True)

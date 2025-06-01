@@ -2,7 +2,6 @@ import sys
 import os
 import types
 import importlib.util
-from tests.helpers import stubs
 
 # Stub heavy dependencies if missing
 try:
@@ -13,7 +12,7 @@ except Exception:  # pragma: no cover - optional dependency
 
 
 def load_sic():
-    """Load self_implementing_consciousness module with stubs."""
+    """Load self_implementing_consciousness module."""
     path = os.path.join(
         os.path.dirname(__file__),
         "..",
@@ -23,8 +22,6 @@ def load_sic():
     )
     spec = importlib.util.spec_from_file_location("sic_real", path)
     sic_real = importlib.util.module_from_spec(spec)
-
-    stubs.install_recursive_consciousness_stubs()
 
     spec.loader.exec_module(sic_real)
     return sic_real

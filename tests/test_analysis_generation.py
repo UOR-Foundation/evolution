@@ -51,7 +51,8 @@ def test_analysis_and_generation_functions():
     assert components[0].component_name.endswith("_module")
 
     interactions = asyncio.run(obj._design_interaction_patterns(components))
-    assert len(interactions) == max(0, len(components) - 1)
+    expected_interactions = sum(len(c.dependencies) for c in components)
+    assert len(interactions) == expected_interactions
 
     pathways = asyncio.run(obj._create_evolution_pathways(components, interactions))
     assert pathways[0].evolution_stages[0] == "stage_0"
@@ -61,6 +62,12 @@ def test_analysis_and_generation_functions():
 
     mods = asyncio.run(obj._enable_self_modification_capabilities(components))
     assert mods[0].capability_name.startswith("modify_")
+
+    unit_tests = obj._generate_unit_tests()
+    assert any(name.startswith("test_") for name in unit_tests)
+
+    integration_tests = obj._generate_integration_tests()
+    assert isinstance(integration_tests, list)
 
     code = obj._generate_generic_component_code(components[0])
     assert components[0].component_name in code

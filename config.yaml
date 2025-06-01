@@ -39,6 +39,9 @@ quantum:
   communication_bandwidth: 1e6
   teleportation_fidelity: 0.9
   fidelity_threshold: 0.99
+  plan_step_duration_base: 0.1
+  plan_energy_base: 1e9
+  plan_energy_scale: 1e10
 
 reality_interface:
   energy_limit: 1e50

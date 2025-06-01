@@ -182,9 +182,10 @@ Important keys include:
 * ``consciousness_physics`` – physical constants used by advanced modules
   (``information_transfer_rate``, ``consciousness_bandwidth``,
   ``info_reality_bridge_bandwidth``, ``info_reality_bridge_fidelity``).
-* ``quantum`` – quantum communication parameters
+* ``quantum`` – quantum communication and planning parameters
   (``communication_bandwidth``, ``teleportation_fidelity``,
-  ``fidelity_threshold``).
+  ``fidelity_threshold``, ``plan_step_duration_base``, ``plan_energy_base``,
+  ``plan_energy_scale``).
 * ``reality_interface`` – limits for information/matter interfaces
   (``energy_limit``, ``info_matter_bandwidth``, ``info_matter_fidelity``).
 

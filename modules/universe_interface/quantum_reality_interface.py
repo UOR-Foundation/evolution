@@ -24,6 +24,9 @@ FIDELITY_THRESHOLD = float(get_config_value("quantum.fidelity_threshold", 0.99))
 INFO_MATTER_BANDWIDTH = float(get_config_value("reality_interface.info_matter_bandwidth", 1e20))
 INFO_MATTER_FIDELITY = float(get_config_value("reality_interface.info_matter_fidelity", 0.99))
 ENERGY_LIMIT = float(get_config_value("reality_interface.energy_limit", 1e50))
+PLAN_STEP_DURATION_BASE = float(get_config_value("quantum.plan_step_duration_base", 0.1))
+PLAN_ENERGY_BASE = float(get_config_value("quantum.plan_energy_base", 1e9))
+PLAN_ENERGY_SCALE = float(get_config_value("quantum.plan_energy_scale", 1e10))
 
 
 class QuantumOperation(Enum):
@@ -834,8 +837,8 @@ class QuantumRealityInterface:
             plan.append({
                 "step": step,
                 "modifications": step_mods,
-                "duration": 0.1 * (len(step_mods) or 1),
-                "energy_required": 1e9 + strength_sum * 1e10,
+                "duration": PLAN_STEP_DURATION_BASE * (len(step_mods) or 1),
+                "energy_required": PLAN_ENERGY_BASE + strength_sum * PLAN_ENERGY_SCALE,
                 "rollback_point": program.rollback_capability,
             })
             

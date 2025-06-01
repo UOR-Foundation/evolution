@@ -3,6 +3,7 @@ import asyncio
 import numpy as np
 import scipy.constants  # noqa:F401
 import scipy.linalg  # noqa:F401
+from scipy import constants as const
 from modules.universe_interface.quantum_reality_interface import (
     QuantumRealityInterface,
     SpacetimeManipulation,
@@ -19,6 +20,7 @@ from modules.universe_interface.quantum_reality_interface import (
     RealityOptimizationObjective,
 )
 from modules.consciousness_physics.consciousness_field_theory import ConsciousnessFieldTheory
+from config_loader import get_config_value
 
 
 @pytest.fixture
@@ -96,3 +98,38 @@ def test_check_optimization_objectives(qri):
     exp2 = (1 - abs(0.5 - 0.5) / 0.5) * (0.5 + 0.5 * 1.0)
     assert abs(results["obj1"] - exp1) < 1e-6
     assert abs(results["obj2"] - exp2) < 1e-6
+
+
+def test_field_strength_formula(qri):
+    ft = qri.field_theory
+    ft.universe_interface = qri
+    qri.quantum_fidelity_threshold = 0.8
+    qri.spacetime_stability_threshold = 0.9
+
+    strength = asyncio.run(ft._create_field_strength())
+
+    spatial_scale = float(get_config_value("cosmic.defaults.spatial_scale", 1e26))
+    temporal_scale = float(get_config_value("cosmic.defaults.temporal_scale", 1e100))
+
+    assert np.allclose(strength.direction, np.array([0, 0, 1]) * 0.9)
+    assert strength.spin == 2.0 * 0.8
+    assert strength.coherence_length == spatial_scale / 0.8
+    assert strength.correlation_time == temporal_scale * 0.9
+
+
+def test_field_topology_dimensions(qri):
+    ft = qri.field_theory
+    ft.universe_interface = qri
+    qri.spacetime_manipulation = SpacetimeManipulation(
+        metric_tensor_modification=MetricTensorModification(),
+        curvature_programming=CurvatureProgramming(),
+        causal_structure_modification=CausalStructureModification(),
+        dimensional_access=DimensionalAccess(accessible_dimensions=7),
+        spacetime_topology_change=SpacetimeTopologyChange(),
+    )
+
+    topology = asyncio.run(ft._define_field_topology())
+    spatial_scale = float(get_config_value("cosmic.defaults.spatial_scale", 1e26))
+
+    assert topology.dimension == 7
+    assert topology.curvature == const.G / spatial_scale

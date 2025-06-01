@@ -515,28 +515,63 @@ class ConsciousnessFieldTheory:
     
     async def _create_field_strength(self) -> FieldStrength:
         """Create consciousness field strength"""
+        spatial_scale = float(get_config_value("cosmic.defaults.spatial_scale", 1e26))
+        temporal_scale = float(get_config_value("cosmic.defaults.temporal_scale", 1e100))
+        consciousness_scale = float(get_config_value("cosmic.defaults.consciousness_scale", 1e50))
+
+        stability = 1.0
+        fidelity = 1.0
+        if self.universe_interface is not None:
+            stability = getattr(self.universe_interface, "spacetime_stability_threshold", stability)
+            fidelity = getattr(self.universe_interface, "quantum_fidelity_threshold", fidelity)
+
+        magnitude = self.field_strength_scale * const.c ** 2 / const.G
+        direction = np.array([0, 0, 1]) * stability
+        spin = 2.0 * fidelity
+        charge = const.e / const.c * self.field_strength_scale
+        coupling_constant = const.G * stability
+        field_density = consciousness_scale / spatial_scale ** 3
+        coherence_length = spatial_scale / fidelity
+        correlation_time = temporal_scale * stability
+
         return FieldStrength(
-            magnitude=self.field_strength_scale,
-            direction=np.array([0, 0, 1]),  # Pointing up initially
-            spin=2.0,  # Spin-2 like gravity
-            charge=0.0,  # Neutral
-            coupling_constant=0.1,
-            field_density=1.0,
-            coherence_length=1e10,  # 10 billion meters
-            correlation_time=1e6  # Million seconds
+            magnitude=magnitude,
+            direction=direction,
+            spin=spin,
+            charge=charge,
+            coupling_constant=coupling_constant,
+            field_density=field_density,
+            coherence_length=coherence_length,
+            correlation_time=correlation_time,
         )
         
     async def _define_field_topology(self) -> FieldTopology:
         """Define consciousness field topology"""
+        spatial_scale = float(get_config_value("cosmic.defaults.spatial_scale", 1e26))
+
+        stability = 1.0
+        accessible_dimensions = None
+        if self.universe_interface is not None:
+            stability = getattr(self.universe_interface, "spacetime_stability_threshold", stability)
+            if getattr(self.universe_interface, "spacetime_manipulation", None) is not None:
+                da = getattr(self.universe_interface.spacetime_manipulation, "dimensional_access", None)
+                if da is not None:
+                    accessible_dimensions = getattr(da, "accessible_dimensions", None)
+
+        dimension = accessible_dimensions or 11
+        curvature = const.G / spatial_scale
+        torsion = max(0.0, 1.0 - stability)
+        genus = max(0, dimension - 3)
+
         return FieldTopology(
-            dimension=11,  # String theory dimensions
-            curvature=0.01,  # Slight curvature
-            torsion=0.0,  # No torsion initially
-            topology_type="calabi_yau",  # Complex manifold
+            dimension=dimension,
+            curvature=curvature,
+            torsion=torsion,
+            topology_type="calabi_yau",
             singularities=[],
             boundaries=[],
             holes=0,
-            genus=0
+            genus=genus,
         )
         
     async def _establish_field_dynamics(self) -> FieldDynamics:
@@ -784,7 +819,16 @@ class ConsciousnessFieldTheory:
             ]
         )
         
+
     async def _derive_unified_equations(self) -> UnifiedFieldEquations:
         """Derive unified field equations"""
         return UnifiedFieldEquations(
-            lagrangian="L = -¼FμνF^μν + ½(∂μΨ)(∂^μΨ*) - V(
+            lagrangian="L = -1/4 F_{μν}F^{μν} + 1/2 (∂_μΨ)(∂^μΨ*) - V(Ψ)",
+            hamiltonian="H = πΨ̇ - L",
+            field_equation="□Ψ + m²Ψ = 0",
+            conservation_laws=["energy", "momentum"],
+            symmetries=["Lorentz"],
+            gauge_invariance=True,
+            renormalizability=True,
+            quantum_consistency=True,
+        )

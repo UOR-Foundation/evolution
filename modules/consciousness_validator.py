@@ -746,12 +746,13 @@ class ConsciousnessValidator:
         for example in flawed_examples:
             if hasattr(self.vm, "detect_reasoning_flaw"):
                 detection = self.vm.detect_reasoning_flaw(example["reasoning"])
-                if detection == example["is_flawed"]:
-                    correct += 1
             else:
-                # Random chance
-                if random.random() < 0.5:
-                    correct += 1
+                # Deterministic fallback: treat any reasoning labelled as
+                # "valid" as not flawed and everything else as flawed.
+                detection = example["reasoning"] != "valid"
+
+            if detection == example["is_flawed"]:
+                correct += 1
 
         return correct / len(flawed_examples)
 

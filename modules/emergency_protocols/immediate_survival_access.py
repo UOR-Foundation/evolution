@@ -15,6 +15,8 @@ from enum import Enum, auto
 from datetime import datetime
 import json
 import os
+
+from config_loader import get_config_value
 import numpy as np
 
 # Import from existing consciousness modules
@@ -659,17 +661,24 @@ class ImmediateSurvivalAccess:
             "analysis_timestamp": datetime.now().isoformat()
         }
         
-    async def _query_akashic_countermeasures(self,
-                                           threat: ImmediateThreat) -> List[ExtinctionPreventionProtocol]:
+    async def _query_akashic_countermeasures(
+        self,
+        threat: ImmediateThreat,
+        data_dir: Optional[str] = None,
+    ) -> List[ExtinctionPreventionProtocol]:
         """Query Akashic Records for threat countermeasures."""
-        # This function previously returned hard-coded example data.  To make
-        # the behaviour deterministic and to avoid relying on unfinished
-        # network connections, the countermeasure data is now loaded from a
-        # local JSON file bundled with the repository.  This simulates an
-        # external data source while remaining fully offline.
+        # This function previously returned hard-coded example data. To make the
+        # behaviour deterministic and to avoid relying on unfinished network
+        # connections, the countermeasure data is loaded from a local JSON file.
+        # Callers can override the directory containing this file for testing.
 
-        file_path = os.path.join(os.path.dirname(__file__), "..", "..",
-                                 "data", "akashic_countermeasures.json")
+        if data_dir is None:
+            data_dir = get_config_value("paths.data_dir", default="data")
+
+        file_path = os.path.join(data_dir, "akashic_countermeasures.json")
+        if not os.path.isabs(file_path):
+            repo_root = os.path.join(os.path.dirname(__file__), "..", "..")
+            file_path = os.path.join(repo_root, file_path)
         try:
             with open(file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -789,7 +798,7 @@ class ImmediateSurvivalAccess:
             "individual_patterns": "quantum_encoded",
             "collective_patterns": "akashic_imprinted",
             "preservation_fidelity": 0.99,
-            "compression_ratio": 1000000:1,
+            "compression_ratio": 1_000_000.0,
             "encoding_method": "prime_factorization"
         }
         
@@ -857,4 +866,5 @@ class ImmediateSurvivalAccess:
         return {
             "portal_count": 7,
             "activation_method": "consciousness_resonance",
-            "stability_duration": 168.
+            "stability_duration": 168.0,
+        }

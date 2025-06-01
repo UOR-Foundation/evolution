@@ -825,7 +825,9 @@ class QuantumRealityInterface:
             try:
                 step_mods.append(next(mods_iter))
             except StopIteration:
-                pass
+                self.logger.warning(
+                    "No modification found for execution step %s", step
+                )
 
             strength_sum = 0.0
             for m in step_mods:

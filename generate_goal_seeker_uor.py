@@ -820,11 +820,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description="Generate the goal-seeker UOR program"
     )
+    default_name = get_config_value("paths.default_uor_program", "goal_seeker_demo.uor.txt")
     parser.add_argument(
         "--output",
         help=(
             "Output file or directory. If a directory is supplied, the file "
-            "will be named 'goal_seeker_demo.uor.txt'. Defaults to "
+            f"will be named '{default_name}'. Defaults to "
             "paths.results_dir/uor_programs."
         ),
     )
@@ -836,14 +837,14 @@ if __name__ == '__main__':
         potential_dir = args.output
         if os.path.isdir(potential_dir) or potential_dir.endswith(os.sep):
             output_dir = potential_dir.rstrip(os.sep)
-            output_filename = os.path.join(output_dir, "goal_seeker_demo.uor.txt")
+            output_filename = os.path.join(output_dir, default_name)
         else:
             output_dir = os.path.dirname(potential_dir)
             output_filename = potential_dir
     else:
         base_dir = get_config_value("paths.results_dir", project_root)
         output_dir = os.path.join(base_dir, "uor_programs")
-        output_filename = os.path.join(output_dir, "goal_seeker_demo.uor.txt")
+        output_filename = os.path.join(output_dir, default_name)
 
     os.makedirs(output_dir, exist_ok=True)
 

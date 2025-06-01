@@ -317,7 +317,7 @@ def create_consciousness_network():
 2. **VM Initialization Fails**
    - Check that UOR program files exist under the configured
      `paths.results_dir` (default `<results_dir>/uor_programs/`)
-   - Ensure `goal_seeker_demo.uor.txt` is present
+   - Ensure the file specified by `paths.default_uor_program` is present
 
 3. **Consciousness Not Awakening**
    - Verify consciousness core initialization

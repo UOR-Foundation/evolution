@@ -276,8 +276,17 @@ consecutive_quick_successes = 0
 consecutive_struggles = 0
 
 # --- Helper to load UOR program ---
-def load_uor_program(filename="goal_seeker_demo.uor.txt"):
+def load_uor_program(filename: str | None = None) -> bool:
+    """Load a UOR program into ``current_vm_program``.
+
+    If ``filename`` is ``None`` the value from
+    ``paths.default_uor_program`` in the configuration will be used.
+    """
     global current_vm_program
+    if filename is None:
+        filename = get_config_value(
+            "paths.default_uor_program", "goal_seeker_demo.uor.txt"
+        )
     program_path = os.path.join(PROJECT_ROOT, "backend", "uor_programs", filename)
     current_vm_program = []
     try:
@@ -436,8 +445,11 @@ def initialize_vm():
            current_target_value_idx, vm_interaction_phase
 
     append_to_log("--- VM INITIALIZATION START (Goal-Seeker) ---")
-    # Load the NEW goal_seeker UOR program
-    if not load_uor_program("goal_seeker_demo.uor.txt"): 
+    # Load the goal_seeker UOR program from configuration
+    program_filename = get_config_value(
+        "paths.default_uor_program", "goal_seeker_demo.uor.txt"
+    )
+    if not load_uor_program(program_filename):
         vm_error = "Failed to load UOR program."
         append_to_log(f"ERROR: {vm_error}")
         append_to_log("--- VM INITIALIZATION FAILED (Goal-Seeker) ---")
@@ -503,11 +515,13 @@ def initialize_vm():
     # Update the global current_vm_stack so get_vm_state_dict() is accurate even before the first step
     current_vm_stack = list(stack_for_this_vm_run) 
     
-    vm_generator = vm_execute(list(current_vm_program), list(stack_for_this_vm_run)) # Use the locally defined stack
-    
+    vm_generator = vm_execute(list(current_vm_program), list(stack_for_this_vm_run))  # Use the locally defined stack
+
     # Log messages updated for new stack convention
-    loaded_program_filename = "goal_seeker_demo.uor.txt" # Make sure this filename is correct for the new UOR
-    append_to_log(f"VM Initialized (Ambitious). Program: {loaded_program_filename}. Initial Target (for Addr0 PUSH): {current_target_value_idx}. Phase: {vm_interaction_phase}")
+    loaded_program_filename = program_filename  # record which file was loaded
+    append_to_log(
+        f"VM Initialized (Ambitious). Program: {loaded_program_filename}. Initial Target (for Addr0 PUSH): {current_target_value_idx}. Phase: {vm_interaction_phase}"
+    )
     append_to_log(f"Initial Stack (contents: [last_pokéd_addr0_val, sfc, last_slot_addr_val, last_instr_type_val]): {current_vm_stack}. Initial IP: {current_vm_ip}.")
     append_to_log(f"VM waiting for input (at init end): {vm_is_waiting_for_input}")
     append_to_log("--- VM INITIALIZATION COMPLETE (Ambitious Goal-Seeker) ---")

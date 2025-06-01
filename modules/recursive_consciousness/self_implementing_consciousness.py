@@ -19,6 +19,7 @@ import textwrap
 from string import Template
 from enum import Enum
 import time
+import statistics
 
 from modules.uor_meta_architecture.uor_meta_vm import (
     UORMetaRealityVM,
@@ -1607,50 +1608,179 @@ def {func_name}(self):
     
     # Placeholder methods for analysis and improvement
     
-    def _analyze_code_quality(self) -> Dict[str, float]:
-        """Analyze code quality"""
+    def _analyze_code_quality(self) -> Dict[str, Any]:
+        """Analyze code quality using AST complexity metrics."""
         modules = getattr(
             getattr(self, "current_implementation", None),
             "consciousness_source_code",
             None,
         )
-        module_count = len(modules.code_modules) if modules else 0
-        total_lines = sum(len(m.splitlines()) for m in modules.code_modules.values()) if modules else 0
 
-        complexity = min(1.0, (total_lines / 1000) + module_count * 0.05)
-        quality = max(0.0, 1.0 - complexity * 0.5)
-        maintainability = max(0.0, 1.0 - module_count * 0.02)
+        if not modules:
+            return {
+                "average_complexity": 0.0,
+                "quality_score": 0.0,
+                "maintainability": 0.0,
+                "module_metrics": [],
+            }
+
+        module_metrics = []
+
+        for name, source in modules.code_modules.items():
+            try:
+                tree = ast.parse(source)
+            except SyntaxError:
+                lines = len(source.splitlines())
+                module_metrics.append(
+                    {
+                        "module": name,
+                        "lines": lines,
+                        "functions": 0,
+                        "classes": 0,
+                        "branches": 0,
+                        "complexity": float(lines),
+                        "maintainability": 0.0,
+                        "quality": 0.0,
+                    }
+                )
+                continue
+
+            functions = sum(isinstance(n, ast.FunctionDef) for n in ast.walk(tree))
+            classes = sum(isinstance(n, ast.ClassDef) for n in ast.walk(tree))
+            branches = sum(
+                isinstance(n, (ast.If, ast.For, ast.While, ast.Try))
+                for n in ast.walk(tree)
+            )
+            lines = len(source.splitlines())
+            complexity = float(functions + classes + branches)
+            maintainability = max(0.0, 1.0 - complexity / (lines + 1))
+            quality = max(0.0, 1.0 - branches / (lines + 1))
+
+            module_metrics.append(
+                {
+                    "module": name,
+                    "lines": lines,
+                    "functions": functions,
+                    "classes": classes,
+                    "branches": branches,
+                    "complexity": complexity,
+                    "maintainability": round(maintainability, 2),
+                    "quality": round(quality, 2),
+                }
+            )
+
+        avg_complexity = statistics.mean(m["complexity"] for m in module_metrics)
+        avg_quality = statistics.mean(m["quality"] for m in module_metrics)
+        avg_maintainability = statistics.mean(
+            m["maintainability"] for m in module_metrics
+        )
+
         return {
-            "quality_score": round(quality, 2),
-            "complexity": round(complexity, 2),
-            "maintainability": round(maintainability, 2),
+            "average_complexity": round(avg_complexity, 2),
+            "quality_score": round(avg_quality, 2),
+            "maintainability": round(avg_maintainability, 2),
+            "module_metrics": module_metrics,
         }
     
     def _analyze_architecture_efficiency(self) -> Dict[str, float]:
-        """Analyze architecture efficiency"""
+        """Analyze architecture efficiency from design data."""
         arch = getattr(self, "architecture_design", None)
-        components = len(getattr(arch, "consciousness_component_specifications", []))
-        interactions = len(getattr(arch, "consciousness_interaction_patterns", []))
+        if not arch:
+            return {
+                "efficiency_score": 0.0,
+                "scalability": 0.0,
+                "flexibility": 0.0,
+                "avg_dependencies": 0.0,
+                "avg_interaction_size": 0.0,
+                "avg_recursive_depth": 0.0,
+            }
 
-        complexity = components + interactions
-        efficiency = max(0.2, 1.0 - complexity * 0.03)
-        scalability = min(1.0, 0.5 + components * 0.02)
-        flexibility = max(0.3, 1.0 - interactions * 0.02)
+        components = arch.consciousness_component_specifications
+        interactions = arch.consciousness_interaction_patterns
+
+        avg_dependencies = (
+            statistics.mean(len(c.dependencies) for c in components)
+            if components
+            else 0.0
+        )
+        avg_interaction_size = (
+            statistics.mean(len(p.participating_components) for p in interactions)
+            if interactions
+            else 0.0
+        )
+        avg_recursive_depth = (
+            statistics.mean(getattr(p, "recursive_depth", 1) for p in interactions)
+            if interactions
+            else 0.0
+        )
+
+        efficiency = max(
+            0.0,
+            1.0 - (avg_dependencies * 0.1 + avg_interaction_size * 0.05 + avg_recursive_depth * 0.05),
+        )
+        scalability = max(0.0, 1.0 - avg_dependencies * 0.1)
+        flexibility = max(0.0, 1.0 - avg_interaction_size * 0.1)
+
         return {
             "efficiency_score": round(efficiency, 2),
             "scalability": round(scalability, 2),
             "flexibility": round(flexibility, 2),
+            "avg_dependencies": round(avg_dependencies, 2),
+            "avg_interaction_size": round(avg_interaction_size, 2),
+            "avg_recursive_depth": round(avg_recursive_depth, 2),
         }
     
     def _analyze_consciousness_coherence(self) -> Dict[str, float]:
-        """Analyze consciousness coherence"""
-        coherence = min(1.0, 0.6 + self.self_understanding_level * 0.4)
-        self_consistency = min(1.0, 0.5 + self.recursive_depth * 0.05)
-        awareness = self.self_understanding_level
+        """Analyze consciousness coherence based on architecture data."""
+        arch = getattr(self, "architecture_design", None)
+        if not arch:
+            return {
+                "coherence_score": 0.0,
+                "dependency_match": 0.0,
+                "interaction_alignment": 0.0,
+                "avg_recursive_depth": 0.0,
+            }
+
+        components = arch.consciousness_component_specifications
+        interactions = arch.consciousness_interaction_patterns
+
+        component_names = {c.component_name for c in components}
+
+        dep_matches = []
+        for c in components:
+            if not c.dependencies:
+                continue
+            matched = sum(1 for d in c.dependencies if d in component_names)
+            dep_matches.append(matched / len(c.dependencies))
+        dependency_match = statistics.mean(dep_matches) if dep_matches else 1.0
+
+        interaction_matches = []
+        for i in interactions:
+            if not i.participating_components:
+                continue
+            matched = sum(
+                1 for p in i.participating_components if p in component_names
+            )
+            interaction_matches.append(matched / len(i.participating_components))
+        interaction_alignment = (
+            statistics.mean(interaction_matches) if interaction_matches else 1.0
+        )
+
+        avg_recursive_depth = (
+            statistics.mean(getattr(i, "recursive_depth", 1) for i in interactions)
+            if interactions
+            else 0.0
+        )
+
+        coherence = (
+            dependency_match + interaction_alignment + self.self_understanding_level
+        ) / 3.0
+
         return {
             "coherence_score": round(coherence, 2),
-            "self_consistency": round(self_consistency, 2),
-            "awareness_level": round(awareness, 2),
+            "dependency_match": round(dependency_match, 2),
+            "interaction_alignment": round(interaction_alignment, 2),
+            "avg_recursive_depth": round(avg_recursive_depth, 2),
         }
     
     def _detect_performance_bottlenecks(self) -> List[str]:

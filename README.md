@@ -185,6 +185,26 @@ Important keys include:
 
 These values can be overridden at runtime via ``get_config_value`` in
 ``config_loader`` if custom behaviour is required.
+
+### Benchmarking PrimeVM
+
+Use ``benchmark.py`` to measure virtual machine performance. The default
+iteration count comes from ``benchmark.iterations`` in ``config.yaml``.
+Run a quick benchmark:
+
+```bash
+python benchmark.py
+```
+
+To execute a different program or adjust the iterations:
+
+```bash
+python benchmark.py --program mul --iterations 10000
+python benchmark.py --program my_program.json
+```
+
+``--program`` accepts the built-in names ``add``, ``sub`` and ``mul`` or a path
+to a JSON file containing a list of UOR chunks.
 4.  **Access the Frontend:**
     Open your web browser and navigate to `http://127.0.0.1:5000/`.
 

@@ -59,7 +59,13 @@ from phase1_vm_enhancements import (
 )
 
 # --- Log File Setup ---
-LOG_FILE_PATH = os.path.join(PROJECT_ROOT, "log.txt")
+# Log file path can be configured via the ``LOG_FILE_PATH`` environment
+# variable or ``vm.log_file`` in ``config.yaml``. A relative path will be
+# resolved against ``PROJECT_ROOT``.
+_cfg_log_file = os.environ.get("LOG_FILE_PATH") or get_config_value("vm.log_file", "log.txt")
+LOG_FILE_PATH = _cfg_log_file
+if not os.path.isabs(LOG_FILE_PATH):
+    LOG_FILE_PATH = os.path.join(PROJECT_ROOT, LOG_FILE_PATH)
 
 def append_to_log(message: str):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]

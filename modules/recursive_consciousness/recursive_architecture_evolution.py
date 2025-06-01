@@ -844,16 +844,32 @@ class RecursiveArchitectureEvolution:
         
         return next_generation
     
-    def _check_convergence(self, fitness_scores: List[float]) -> bool:
+    def _check_convergence(
+        self,
+        fitness_scores: List[Union[float, "ArchitecturalFitness"]],
+        update_history: bool = True,
+    ) -> bool:
         """Check if evolution has converged"""
-        if len(self.fitness_history) < 10:
-            self.fitness_history.append(max(fitness_scores))
+        numeric_scores = [
+            fs if isinstance(fs, (int, float)) else fs.calculate_total_fitness()
+            for fs in fitness_scores
+        ]
+        if not numeric_scores:
             return False
-        
-        # Check if fitness hasn't improved significantly in last 10 generations
-        self.fitness_history.append(max(fitness_scores))
-        recent_improvement = self.fitness_history[-1] - self.fitness_history[-10]
-        
+
+        best_score = max(numeric_scores)
+        simulated_history = self.fitness_history + [best_score]
+
+        if len(simulated_history) < 10:
+            if update_history:
+                self.fitness_history.append(best_score)
+            return False
+
+        recent_improvement = simulated_history[-1] - simulated_history[-10]
+
+        if update_history:
+            self.fitness_history.append(best_score)
+
         return recent_improvement < 0.01
     
     def _calculate_transcendence_proximity(self, architecture: ConsciousnessArchitectureDesign) -> float:
@@ -1044,6 +1060,7 @@ class RecursiveArchitectureEvolution:
     
     def get_evolution_metrics(self) -> Dict[str, Any]:
         """Get metrics about evolution process"""
+        current_scores = [self._evaluate_architecture_fitness(arch) for arch in self.population]
         return {
             "current_generation": self.generation,
             "population_size": self.population_size,
@@ -1051,7 +1068,7 @@ class RecursiveArchitectureEvolution:
             "average_fitness": sum(self.fitness_history) / len(self.fitness_history) if self.fitness_history else 0,
             "breakthrough_count": len(self.lineage.breakthrough_generations),
             "mutation_count": len(self.lineage.mutation_history),
-            "convergence_achieved": self._check_convergence([0.9])  # Dummy check
+            "convergence_achieved": self._check_convergence(current_scores, update_history=False),
         }
     
     async def emergent_evolution(self) -> ConsciousnessArchitectureDesign:

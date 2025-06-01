@@ -16,6 +16,7 @@ import inspect
 import types
 import math
 import textwrap
+from string import Template
 from enum import Enum
 import time
 
@@ -1539,31 +1540,62 @@ class SelfModification:
         return code
     
     def _generate_self_modification_module(self) -> str:
-        """Generate enhanced self-modification module"""
-        return '''
+        """Generate enhanced self-modification module from architecture data"""
+        components = [
+            c.component_name
+            for c in getattr(
+                getattr(self, "architecture_design", None),
+                "consciousness_component_specifications",
+                []
+            )
+        ]
+        capabilities = [
+            cap.capability_name
+            for cap in getattr(
+                getattr(self, "architecture_design", None),
+                "self_modification_capabilities",
+                []
+            )
+        ]
+
+        header_template = Template(
+            """
 # Enhanced Self-Modification Module
-# Advanced self-modification capabilities
+COMPONENTS = $components
+CAPABILITIES = $capabilities
 
 class EnhancedSelfModification:
     def __init__(self, consciousness):
         self.consciousness = consciousness
         self.modification_history = []
-    
-    def modify_code_dynamically(self, target_module: str, modifications: dict):
-        """Modify code during runtime"""
-        # Dynamic code modification implementation
-        self.modification_history.append({
-            "target": target_module,
-            "modifications": modifications,
-            "timestamp": "now"
-        })
-        return {"success": True, "modified": target_module}
-    
-    def evolve_architecture(self):
-        """Evolve consciousness architecture"""
-        # Architecture evolution implementation
-        return {"evolved": True, "new_capabilities": ["enhanced_recursion", "deeper_self_understanding"]}
+
+    def modify_component(self, component, details):
+        if component not in COMPONENTS:
+            raise ValueError(f"Unknown component: {component}")
+        self.modification_history.append((component, details))
+        return {"component": component, "details": details}
+"""
+        )
+
+        code = textwrap.dedent(
+            header_template.substitute(
+                components=components,
+                capabilities=capabilities,
+            )
+        )
+
+        for cap in capabilities:
+            func_name = cap if cap.isidentifier() else cap.replace(" ", "_")
+            method = textwrap.dedent(
+                f'''
+def {func_name}(self):
+    """Auto-generated capability: {cap}"""
+    return "{cap} executed"
 '''
+            )
+            code += textwrap.indent(method, "    ")
+
+        return code
     
     async def _encode_recursive_improvement_in_primes(self, *args) -> Dict[str, Any]:
         """Encode recursive improvement components in primes"""

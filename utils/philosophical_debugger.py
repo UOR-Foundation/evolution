@@ -617,7 +617,8 @@ class PhilosophicalDebugger:
                     position = PhilosophicalPosition(step["position"])
                     evolution.append((i / len(chain.steps), position))
                 except ValueError:
-                    pass
+                    # Skip steps with invalid position values
+                    continue
         
         return evolution
     

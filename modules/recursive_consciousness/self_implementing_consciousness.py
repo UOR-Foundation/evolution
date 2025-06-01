@@ -1743,7 +1743,8 @@ class EnhancedSelfModification:
                         value = eval(compile(ast.Expression(node), "<ast>", "eval"))
                         return ast.copy_location(ast.Constant(value=value), node)
                     except Exception:
-                        pass
+                        # If evaluation fails, leave expression unchanged
+                        return node
                 return node
 
             def visit_If(self, node: ast.If) -> ast.AST:

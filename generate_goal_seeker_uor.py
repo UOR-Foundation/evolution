@@ -2,6 +2,9 @@ import sys
 import os
 from dataclasses import dataclass, field
 from typing import List
+import argparse
+
+from config_loader import get_config_value
 
 project_root = os.path.dirname(os.path.abspath(__file__))
 if project_root not in sys.path:
@@ -814,13 +817,39 @@ def generate_goal_seeker_program(return_debug: bool = False):
     return (program_uor, metadata) if return_debug else program_uor
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(
+        description="Generate the goal-seeker UOR program"
+    )
+    parser.add_argument(
+        "--output",
+        help=(
+            "Output file or directory. If a directory is supplied, the file "
+            "will be named 'goal_seeker_demo.uor.txt'. Defaults to "
+            "paths.results_dir/uor_programs."
+        ),
+    )
+    args = parser.parse_args()
+
     uor_chunks = generate_goal_seeker_program()
-    
-    output_dir = os.path.join(project_root, "backend", "uor_programs")
+
+    if args.output:
+        potential_dir = args.output
+        if os.path.isdir(potential_dir) or potential_dir.endswith(os.sep):
+            output_dir = potential_dir.rstrip(os.sep)
+            output_filename = os.path.join(output_dir, "goal_seeker_demo.uor.txt")
+        else:
+            output_dir = os.path.dirname(potential_dir)
+            output_filename = potential_dir
+    else:
+        base_dir = get_config_value("paths.results_dir", project_root)
+        output_dir = os.path.join(base_dir, "uor_programs")
+        output_filename = os.path.join(output_dir, "goal_seeker_demo.uor.txt")
+
     os.makedirs(output_dir, exist_ok=True)
-    output_filename = os.path.join(output_dir, "goal_seeker_demo.uor.txt")
 
     with open(output_filename, "w") as f:
         for chunk_val in uor_chunks:
             f.write(str(chunk_val) + "\n")
-    print(f"Generated UOR program ({len(uor_chunks)} instructions) at: {output_filename}")
+    print(
+        f"Generated UOR program ({len(uor_chunks)} instructions) at: {output_filename}"
+    )

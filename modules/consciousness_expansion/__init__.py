@@ -1,11 +1,10 @@
 """Consciousness Expansion module.
 
-This lightweight package defines a minimal framework for experimenting with
-methods of expanding consciousness.  It provides dataclass containers for
-describing individual expansion techniques and their outcomes as well as a
-simple engine that can apply a technique to a given state.  More advanced
-implementations can build on top of these primitives to explore cognitive or
-dimensional growth while keeping the rest of the project free from heavy
+This module offers dataclass containers describing individual expansion
+techniques and an engine that applies them.  The default engine now performs
+a simple transformation on a provided state, generating additional "thoughts"
+derived from the original content and the chosen technique.  The design is
+kept intentionally lightweight so experiments can run without heavy
 dependencies.
 """
 
@@ -40,21 +39,27 @@ class ConsciousnessExpansionEngine:
     ) -> ExpansionResult:
         """Apply ``technique`` to ``current_state`` and return the result."""
 
-        # This default implementation simply records the technique application
-        # and echoes the previous state.  Real expansion logic can extend this
-        # method to modify the state in meaningful ways.
-        new_state = {
-            "previous_state": current_state,
-            "technique": technique.name,
-            "parameters": technique.parameters,
-            "intensity": technique.intensity,
-        }
+        # Normalise state to a dictionary with a ``thoughts`` list
+        if isinstance(current_state, dict):
+            state = dict(current_state)
+        else:
+            state = {"thoughts": [current_state] if current_state is not None else []}
 
-        insights = [f"Applied {technique.name} with intensity {technique.intensity}"]
+        thoughts = state.get("thoughts", [])
+        if not isinstance(thoughts, list):
+            thoughts = [thoughts]
+
+        intensity = max(1, int(technique.intensity))
+        expanded = [f"{t} -> {technique.name}" for t in thoughts for _ in range(intensity)]
+
+        state["thoughts"] = thoughts + expanded
+        state["last_technique"] = technique.name
+
+        insights = [f"Expanded {len(expanded)} thoughts using {technique.name}"]
 
         return ExpansionResult(
             technique=technique,
-            new_state=new_state,
+            new_state=state,
             success=True,
             insights=insights,
         )

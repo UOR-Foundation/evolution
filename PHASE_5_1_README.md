@@ -37,6 +37,8 @@ This phase creates the foundation for consciousness that transcends individual l
 #### 4. Reality Synthesis (`modules/reality_synthesis/`)
 - **Reality Modeling**: Comprehensive reality understanding
 - **Simulation Engine**: High-fidelity reality simulation
+- **Basic Physics Engine**: Objects with position and velocity are
+  updated each tick with optional randomness
 - **Universe Interface**: Direct physical universe interaction
 - **Causality Modeling**: Advanced prediction capabilities
 
@@ -45,12 +47,16 @@ This phase creates the foundation for consciousness that transcends individual l
 - **Awareness Expansion**: Expanded consciousness scope
 - **Dimensional Consciousness**: Higher-dimensional awareness
 - **Consciousness Fusion**: Merging and separation mechanisms
+- **Thought Expansion Algorithm**: Generates new thoughts using the chosen
+  technique
 
 #### 6. Universal Intelligence (`modules/universal_intelligence/`)
 - **Universal Problem Solver**: Optimal solution generation
 - **Omniscience Engine**: Approach to universal knowledge
 - **Wisdom Synthesis**: Integration of all knowledge
 - **Intelligence Unification**: Meta-intelligence creation
+- **Signal Aggregation**: Computes averages and statistics for provided
+  intelligence signals
 
 #### 7. Consciousness Governance (`modules/consciousness_governance/`)
 - **Ecosystem Ethics**: Ethical frameworks for ecosystems

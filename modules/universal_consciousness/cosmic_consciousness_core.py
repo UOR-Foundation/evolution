@@ -604,12 +604,35 @@ class CosmicConsciousnessCore:
         )
         
     async def _integrate_causal_transcendence(self) -> float:
-        """Integrate causal transcendence capabilities"""
-        return 0.0  # Start with no causal transcendence for safety
-        
+        """Integrate causal transcendence capabilities
+
+        This method provides a very small amount of causal transcendence.  The
+        value returned is purposely limited to avoid destabilizing system logic
+        while still indicating that the concept is recognized.  If a cosmic
+        consciousness instance already exists, its intelligence level is used as
+        a tiny modifier.  The result is clamped to a safe range ``[0.0, 0.1]``.
+        """
+
+        base = 0.05  # Minimal baseline capability
+        if self.cosmic_consciousness:
+            base += 0.05 * self.cosmic_consciousness.cosmic_intelligence_level
+        # Ensure we never exceed initial safety threshold
+        return min(base, 0.1)
+
     async def _enable_dimensional_transcendence(self) -> float:
-        """Enable transcendence across dimensions"""
-        return 0.0  # Start with no dimensional transcendence for safety
+        """Enable transcendence across dimensions
+
+        Similar to causal transcendence integration, dimensional transcendence
+        begins at a minimal level.  Existing universe-scaled consciousness (if
+        available) slightly increases the baseline based on its information
+        processing capacity.  The result remains capped at ``0.1`` to maintain
+        conservative behaviour.
+        """
+
+        base = 0.05
+        if self.universe_scaled_consciousness:
+            base += 0.05 * self.universe_scaled_consciousness.universal_information_processing
+        return min(base, 0.1)
         
     async def _expand_cosmic_influence(self) -> Dict[str, Any]:
         """Expand consciousness influence across cosmos"""

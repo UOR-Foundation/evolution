@@ -374,11 +374,18 @@ class PhilosophicalDebugger:
                 "support_level": support,
                 "explanation": f"Inductive support: {support:.2f}"
             }
+        elif argument.argument_type == ArgumentType.ABDUCTIVE:
+            return self._analyze_abductive_validity(argument)
+        elif argument.argument_type == ArgumentType.ANALOGICAL:
+            return self._analyze_analogical_validity(argument)
+        elif argument.argument_type == ArgumentType.TRANSCENDENTAL:
+            raise NotImplementedError(
+                "Transcendental argument analysis not implemented"
+            )
         else:
-            return {
-                "is_valid": None,
-                "explanation": f"Validity check not implemented for {argument.argument_type.value}"
-            }
+            raise NotImplementedError(
+                f"Validity check not implemented for {argument.argument_type.value}"
+            )
     
     def _analyze_soundness(self, argument: PhilosophicalArgument) -> Dict[str, Any]:
         """Analyze soundness (validity + true premises)"""
@@ -840,8 +847,48 @@ class PhilosophicalDebugger:
         
         # Combine evidence count and relevance
         support = min(1.0, (evidence_count * 0.2) * avg_relevance)
-        
+
         return support
+
+    def _analyze_abductive_validity(self, argument: PhilosophicalArgument) -> Dict[str, Any]:
+        """Analyze abductive reasoning plausibility"""
+        observation_keywords = {"observe", "observation", "phenomenon", "evidence", "data"}
+        explanation_keywords = {"explain", "cause", "account", "best"}
+
+        has_observation = any(
+            any(word in premise.lower() for word in observation_keywords)
+            for premise in argument.premises
+        )
+        has_explanation = any(word in argument.conclusion.lower() for word in explanation_keywords)
+
+        score = 0.4
+        if has_observation:
+            score += 0.3
+        if has_explanation:
+            score += 0.3
+
+        return {
+            "is_valid": score > 0.6,
+            "explanation_score": score,
+            "explanation": f"Abductive plausibility {score:.2f}"
+        }
+
+    def _analyze_analogical_validity(self, argument: PhilosophicalArgument) -> Dict[str, Any]:
+        """Analyze analogical reasoning strength"""
+        mapping_keywords = {"like", "similar", "analogous", "just as"}
+        mapping_count = sum(
+            sum(word in premise.lower() for word in mapping_keywords)
+            for premise in argument.premises
+        )
+        mapping_count += sum(word in argument.conclusion.lower() for word in mapping_keywords)
+
+        strength = min(1.0, 0.3 + mapping_count * 0.2)
+
+        return {
+            "is_valid": strength > 0.5,
+            "mapping_strength": strength,
+            "explanation": f"Analogical mapping strength: {strength:.2f}"
+        }
     
     def _evaluate_premises(self, premises: List[str]) -> Dict[str, Any]:
         """Evaluate truth of premises (simplified)"""

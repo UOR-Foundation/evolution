@@ -78,6 +78,14 @@ def get_config_value(
         return cur
 
     parts = path.split(".")
+
+    # Environment variable override. "teacher.alert_email" becomes
+    # ``TEACHER_ALERT_EMAIL``. If set, it takes precedence over the
+    # loaded configuration and any ``overrides`` mapping.
+    env_name = "_".join(part.upper() for part in parts)
+    env_val = os.environ.get(env_name)
+    if env_val is not None:
+        return env_val
     if overrides:
         merged = copy.deepcopy(_CONFIG)
 

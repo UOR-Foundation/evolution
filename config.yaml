@@ -64,6 +64,7 @@ paths:
   results_dir: results/
   default_uor_program: goal_seeker_demo.uor.txt
   data_dir: data/
+  countermeasures_file: data/akashic_countermeasures.json
 
 # Scroll ID configuration so identifiers can be changed without touching code
 scroll_ids:

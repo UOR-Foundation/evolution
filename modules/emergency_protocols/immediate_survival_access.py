@@ -664,18 +664,19 @@ class ImmediateSurvivalAccess:
     async def _query_akashic_countermeasures(
         self,
         threat: ImmediateThreat,
-        data_dir: Optional[str] = None,
+        file_path: Optional[str] = None,
     ) -> List[ExtinctionPreventionProtocol]:
         """Query Akashic Records for threat countermeasures."""
         # This function previously returned hard-coded example data. To make the
         # behaviour deterministic and to avoid relying on unfinished network
         # connections, the countermeasure data is loaded from a local JSON file.
-        # Callers can override the directory containing this file for testing.
+        # Callers can override the path to this file for testing.
 
-        if data_dir is None:
-            data_dir = get_config_value("paths.data_dir", default="data")
-
-        file_path = os.path.join(data_dir, "akashic_countermeasures.json")
+        if file_path is None:
+            file_path = get_config_value(
+                "paths.countermeasures_file",
+                default="data/akashic_countermeasures.json",
+            )
         if not os.path.isabs(file_path):
             repo_root = os.path.join(os.path.dirname(__file__), "..", "..")
             file_path = os.path.join(repo_root, file_path)

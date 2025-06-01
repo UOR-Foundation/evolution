@@ -1106,10 +1106,10 @@ def _self_tests() -> Tuple[int,int]:
 
 if __name__=='__main__':
 
-    p,f=_self_tests()
-    print(f'\n[tests] {p} passed, {f} failed.') # Added a period for consistency.
+    p, f = _self_tests()
+    print(f'\n[tests] {p} passed, {f} failed.')  # Added a period for consistency.
     if f:
-        pass 
+        raise SystemExit(1)
 
     print("\n--- Demo ---")
     _extend_primes_to(ord('🎉') + 10) 

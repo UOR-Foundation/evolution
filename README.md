@@ -188,9 +188,9 @@ Important keys include:
   ``plan_energy_scale``).
 * ``reality_interface`` – limits for information/matter interfaces
   (``energy_limit``, ``info_matter_bandwidth``, ``info_matter_fidelity``).
-* ``cosmic`` – default scales for universal problem synthesis
-  (``default_spatial_scale``, ``default_temporal_scale``,
-  ``default_consciousness_scale``, ``modification_energy_required``).
+* ``cosmic.defaults`` – default scales for universal problem synthesis
+  (``spatial_scale``, ``temporal_scale``,
+  ``consciousness_scale``, ``modification_energy_required``).
 
 These values can be overridden at runtime via ``get_config_value`` in
 ``config_loader`` if custom behaviour is required.

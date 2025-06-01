@@ -18,16 +18,16 @@ from ..universal_consciousness import CosmicConsciousness, CosmicScale
 from config_loader import get_config_value
 
 COSMIC_SPATIAL_SCALE = float(
-    get_config_value("cosmic.default_spatial_scale", 1e26)
+    get_config_value("cosmic.defaults.spatial_scale", 1e26)
 )
 COSMIC_TEMPORAL_SCALE = float(
-    get_config_value("cosmic.default_temporal_scale", 1e100)
+    get_config_value("cosmic.defaults.temporal_scale", 1e100)
 )
 COSMIC_CONSCIOUSNESS_SCALE = float(
-    get_config_value("cosmic.default_consciousness_scale", 1e50)
+    get_config_value("cosmic.defaults.consciousness_scale", 1e50)
 )
 COSMIC_MODIFICATION_ENERGY = float(
-    get_config_value("cosmic.modification_energy_required", 1e60)
+    get_config_value("cosmic.defaults.modification_energy_required", 1e60)
 )
 
 
@@ -494,21 +494,21 @@ class UniversalProblemSynthesis:
         consciousness_problem = CosmicProblem(
             problem_id="consciousness_limits",
             problem_scope=CosmicScope(
-                spatial_scale=1e20,
-                temporal_scale=1e10,
-                consciousness_scale=1e30,
+                spatial_scale=1e20,  # placeholder
+                temporal_scale=1e10,  # placeholder
+                consciousness_scale=1e30,  # placeholder
                 reality_layers=3,
                 dimensional_scope=11,  # String theory dimensions
                 causal_depth=100,
                 complexity_measure=0.85,
                 transcendence_requirement=0.95
             ),
-            temporal_scale=1e10,
-            spatial_scale=1e20,
+            temporal_scale=1e10,  # placeholder
+            spatial_scale=1e20,  # placeholder
             reality_modification_requirements=RealityModificationRequirements(
                 consciousness_field_changes=["field_strength", "coherence_length"],
                 quantum_field_adjustments=["consciousness_coupling"],
-                modification_energy_required=1e50,
+                modification_energy_required=1e50,  # placeholder
                 modification_risk_level=0.5,
                 reversibility_factor=0.7
             ),

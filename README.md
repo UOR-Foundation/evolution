@@ -87,6 +87,8 @@ The interaction between the UOR program (Learner) and the Flask backend (Teacher
         *   VM status (IP, Halted, Error, Target, Difficulty).
     *   Retro "hacker" themed UI for a more engaging experience.
 *   **Backend Logging:** Detailed logging of VM initialization, steps, inputs, and state changes. The log file location is configurable via `vm.log_file` in `config.yaml` (or the `LOG_FILE_PATH` environment variable).
+*   **Error Alerts:** The teacher can send notifications to the address specified
+    in `teacher.alert_email` (or via the `ALERT_EMAIL` environment variable).
 
 ## Future Improvements
 
@@ -175,7 +177,8 @@ Important keys include:
 * ``vm.log_file`` – file path for VM event logs.
 * ``vm.max_instructions`` – instruction limit before halting.
 * ``teacher.difficulty`` – starting difficulty level for the adaptive teacher.
-* ``teacher.alert_email`` – address to notify on critical errors.
+* ``teacher.alert_email`` – address to notify on critical errors (overridden via
+  the ``ALERT_EMAIL`` environment variable).
 * ``difficulty_levels`` – per-level settings such as ``range_max`` and
   thresholds.
 * ``benchmark.iterations`` – iteration count for benchmarking utilities.

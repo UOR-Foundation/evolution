@@ -16,8 +16,8 @@ from config_loader import get_config_value
 import os
 
 # Directories for logs and results
-LOG_DIR = get_config_value("paths.log_dir", "/workspaces/uor-evolution")
-RESULTS_DIR = get_config_value("paths.results_dir", "/workspaces/uor-evolution")
+LOG_DIR = get_config_value("paths.log_dir")
+RESULTS_DIR = get_config_value("paths.results_dir")
 
 # Ensure directories exist
 os.makedirs(LOG_DIR, exist_ok=True)

@@ -842,7 +842,7 @@ if __name__ == '__main__':
             output_dir = os.path.dirname(potential_dir)
             output_filename = potential_dir
     else:
-        base_dir = get_config_value("paths.results_dir", project_root)
+        base_dir = get_config_value("paths.results_dir")
         output_dir = os.path.join(base_dir, "uor_programs")
         output_filename = os.path.join(output_dir, default_name)
 

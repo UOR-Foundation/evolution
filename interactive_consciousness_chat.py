@@ -30,13 +30,13 @@ from enum import Enum
 import logging
 import os
 
+# Directories for logs and results
 from simple_unified_api import create_simple_api, APIMode
 from backend.consciousness_integration import ConsciousnessIntegration
 from config_loader import get_config_value
 
-# Directories for logs and results
-LOG_DIR = get_config_value("paths.log_dir", "/workspaces/uor-evolution")
-RESULTS_DIR = get_config_value("paths.results_dir", "/workspaces/uor-evolution")
+LOG_DIR = get_config_value("paths.log_dir")
+RESULTS_DIR = get_config_value("paths.results_dir")
 
 # Ensure directories exist
 os.makedirs(LOG_DIR, exist_ok=True)

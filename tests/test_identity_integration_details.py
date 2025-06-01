@@ -1,13 +1,6 @@
 import asyncio
-import builtins
-from tests.helpers import stubs
-
-import core.instruction_set as _instruction_set
-if not hasattr(_instruction_set, "PrimeInstruction"):
-    _instruction_set.PrimeInstruction = stubs.PrimeInstruction
-
-if not hasattr(builtins, "StateTransitionManager"):
-    builtins.StateTransitionManager = stubs.StateTransitionManager
+from core.instruction_set import PrimeInstruction
+from consciousness.state_transition_manager import StateTransitionManager
 
 from modules.unified_consciousness.consciousness_orchestrator import ConsciousnessState
 from modules.unified_consciousness.identity_integration import (

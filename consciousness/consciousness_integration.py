@@ -18,6 +18,7 @@ from modules.strange_loops.loop_detector import StrangeLoopDetector, StrangeLoop
 from modules.strange_loops.loop_factory import StrangeLoopFactory
 from modules.strange_loops.emergence_monitor import EmergenceMonitor, EmergencePhase
 from .consciousness_core import ConsciousnessCore, ConsciousnessState, ConsciousnessMode
+from .state_transition_manager import StateTransitionManager
 
 logger = logging.getLogger(__name__)
 from .multi_level_awareness import MultiLevelAwareness

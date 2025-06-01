@@ -53,6 +53,21 @@ class ExtendedOpCode(IntEnum):
 
 
 @dataclass
+class PrimeInstruction:
+    """Lightweight instruction used by legacy modules."""
+
+    opcode: int
+    operand: int = 0
+    encoding: tuple[int, int] | None = None
+
+    def __post_init__(self) -> None:
+        self.encoding = (int(self.opcode), self.operand)
+
+    def decode(self) -> tuple[int, int]:
+        return self.encoding
+
+
+@dataclass
 class InstructionMetadata:
     """Metadata for instruction execution and analysis."""
     

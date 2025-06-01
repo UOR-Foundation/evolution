@@ -1,16 +1,8 @@
 import asyncio
 import numpy as np
 import networkx
-from tests.helpers import stubs
-
-# Provide missing PrimeInstruction for Gödel loop imports if absent
-import core.instruction_set as _instruction_set
-if not hasattr(_instruction_set, "PrimeInstruction"):
-    _instruction_set.PrimeInstruction = stubs.PrimeInstruction
-
-import builtins
-if not hasattr(builtins, "StateTransitionManager"):
-    builtins.StateTransitionManager = stubs.StateTransitionManager
+from core.instruction_set import PrimeInstruction
+from consciousness.state_transition_manager import StateTransitionManager
 
 
 from modules.consciousness_ecosystem.ecosystem_orchestrator import (

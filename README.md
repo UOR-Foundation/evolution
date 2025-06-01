@@ -86,7 +86,7 @@ The interaction between the UOR program (Learner) and the Flask backend (Teacher
         *   VM output log.
         *   VM status (IP, Halted, Error, Target, Difficulty).
     *   Retro "hacker" themed UI for a more engaging experience.
-*   **Backend Logging:** Detailed logging of VM initialization, steps, inputs, and state changes in `log.txt`.
+*   **Backend Logging:** Detailed logging of VM initialization, steps, inputs, and state changes. The log file location is configurable via `vm.log_file` in `config.yaml` (or the `LOG_FILE_PATH` environment variable).
 
 ## Future Improvements
 

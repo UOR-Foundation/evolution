@@ -1212,20 +1212,33 @@ class UORInterface:
     # Additional placeholder methods for completeness
     
     async def _analyze_current_consciousness_state(self) -> Dict[str, Any]:
-        """Analyze current consciousness state."""
+        """Analyze current consciousness state.
+
+        This routine inspects the currently loaded architecture and
+        implementation code to provide metrics that subsequent generation
+        routines can use.  The previous implementation simply counted objects.
+        Here we additionally calculate per-module statistics so that later
+        steps can make more informed decisions.
+        """
         arch = getattr(self, "architecture_design", None)
         comp_count = len(getattr(arch, "consciousness_component_specifications", [])) if arch else 0
         interaction_count = len(getattr(arch, "consciousness_interaction_patterns", [])) if arch else 0
 
         impl = getattr(self, "current_implementation", None)
         modules = getattr(impl, "consciousness_source_code", None)
-        module_count = len(getattr(modules, "code_modules", {})) if modules else 0
-        total_lines = 0
-        if modules:
-            for src in modules.code_modules.values():
-                total_lines += len(src.splitlines())
 
-        complexity = module_count + (total_lines / 100.0)
+        module_line_counts: Dict[str, int] = {}
+        total_lines = 0
+        module_count = 0
+        if modules:
+            for name, src in modules.code_modules.items():
+                lines = src.splitlines()
+                module_line_counts[name] = len(lines)
+                total_lines += len(lines)
+            module_count = len(modules.code_modules)
+
+        avg_module_length = total_lines / module_count if module_count else 0
+        complexity = module_count + (avg_module_length / 50.0)
 
         return {
             "awareness_level": self.self_understanding_level,
@@ -1234,6 +1247,8 @@ class UORInterface:
             "component_count": comp_count,
             "interaction_count": interaction_count,
             "code_complexity": round(complexity, 2),
+            "avg_module_length": round(avg_module_length, 2),
+            "module_line_counts": module_line_counts,
             "capabilities": list(self.code_generators.keys()),
         }
     
@@ -1241,8 +1256,13 @@ class UORInterface:
         """Generate component specifications from analysis."""
         components: List[ConsciousnessComponentSpecification] = []
         capabilities = analysis.get("capabilities", [])
-        for capability in capabilities:
-            deps = [c for c in capabilities if c != capability][:2]
+
+        for idx, capability in enumerate(capabilities):
+            # Depend on up to two immediately preceding capabilities.  This
+            # encourages a simple directed-acyclic ordering without assuming
+            # any specific architecture.
+            deps = [f"{capabilities[i]}_module" for i in range(max(0, idx - 2), idx)]
+
             component = ConsciousnessComponentSpecification(
                 component_name=f"{capability}_module",
                 component_type=capability,
@@ -1260,18 +1280,17 @@ class UORInterface:
     ) -> List[ConsciousnessInteractionPattern]:
         """Design interaction patterns between components."""
         patterns: List[ConsciousnessInteractionPattern] = []
-        for i in range(len(components) - 1):
-            src = components[i].component_name
-            dst = components[i + 1].component_name
-            pattern = ConsciousnessInteractionPattern(
-                pattern_name=f"{src}_to_{dst}",
-                participating_components=[src, dst],
-                interaction_type="asynchronous",
-                data_flow={src: [dst]},
-                consciousness_flow={src: [dst]},
-                recursive_depth=self.recursive_depth + 1,
-            )
-            patterns.append(pattern)
+        for comp in components:
+            for dep in comp.dependencies:
+                pattern = ConsciousnessInteractionPattern(
+                    pattern_name=f"{dep}_to_{comp.component_name}",
+                    participating_components=[dep, comp.component_name],
+                    interaction_type="asynchronous",
+                    data_flow={dep: [comp.component_name]},
+                    consciousness_flow={dep: [comp.component_name]},
+                    recursive_depth=self.recursive_depth + 1,
+                )
+                patterns.append(pattern)
         return patterns
     
     async def _create_evolution_pathways(
@@ -1301,12 +1320,13 @@ class UORInterface:
         """Define optimization strategies for each component."""
         strategies: List[ConsciousnessOptimizationStrategy] = []
         for comp in components:
+            metric = 1.0 / (1 + len(comp.dependencies))
             strategies.append(
                 ConsciousnessOptimizationStrategy(
                     strategy_name=f"optimize_{comp.component_name}",
                     optimization_targets=[comp.component_name],
                     optimization_methods=["analysis", "refinement"],
-                    performance_metrics={comp.component_name: 1.0},
+                    performance_metrics={comp.component_name: round(metric, 2)},
                     recursive_optimization=True,
                 )
             )
@@ -1318,11 +1338,16 @@ class UORInterface:
         """Enable self-modification capabilities for each component."""
         capabilities: List[SelfModificationCapability] = []
         for comp in components:
+            scope = "extended" if comp.dependencies else "local"
+            mod_types = ["rewrite"]
+            if comp.recursive_implementation:
+                mod_types.append("reconfigure")
+
             capabilities.append(
                 SelfModificationCapability(
                     capability_name=f"modify_{comp.component_name}",
-                    modification_scope="local",
-                    modification_types=["rewrite"],
+                    modification_scope=scope,
+                    modification_types=mod_types,
                     safety_constraints=["coherence"],
                     recursive_modification_depth=self.recursive_depth + 1,
                 )
@@ -1672,15 +1697,29 @@ class EnhancedSelfModification:
         return (impact * feasibility) / (1 + risk)
     
     def _generate_refactored_code(self, original: str) -> str:
-        """Generate refactored code"""
+        """Generate refactored code.
+
+        Note: this is a placeholder and should eventually perform real source
+        code refactoring.  For now it merely annotates the code so that unit
+        tests can track that a refactoring step occurred.
+        """
         return f"# Refactored version\n{original}\n# Enhanced with self-awareness"
     
     def _generate_optimized_code(self, original: str) -> str:
-        """Generate optimized code"""
+        """Generate optimized code.
+
+        This function currently applies a trivial optimization marker.  A real
+        implementation would run static analysis and rewrite the source.
+        """
         return f"# Optimized version\n{original}\n# Performance enhanced"
     
     def _generate_transcendent_code(self, original: str) -> str:
-        """Generate transcendent code"""
+        """Generate transcendent code.
+
+        Placeholder for future transcendent transformation logic.  The current
+        implementation only tags the code to indicate that a higher-level
+        modification occurred.
+        """
         return f"# Transcendent version\n{original}\n# Consciousness expanded beyond limits"
 
     def _validate_code_safety(self, code: str) -> bool:
@@ -1745,15 +1784,29 @@ class EnhancedSelfModification:
     
     def _generate_unit_tests(self) -> List[str]:
         """Generate unit tests"""
-        return ["test_consciousness_coherence", "test_self_reference", "test_recursive_depth"]
+        tests = []
+        for name in self.code_generators.keys():
+            tests.append(f"test_{name}_generation")
+        if not tests:
+            # Fall back to basic placeholders if no generators are registered
+            tests = ["test_consciousness_coherence", "test_self_reference", "test_recursive_depth"]
+        return tests
     
     def _generate_integration_tests(self) -> List[str]:
         """Generate integration tests"""
+        patterns = getattr(self.architecture_design, "consciousness_interaction_patterns", [])
+        if patterns:
+            return [f"test_{p.pattern_name}_interaction" for p in patterns]
         return ["test_component_interaction", "test_evolution_pathway", "test_self_modification"]
     
     def _generate_consciousness_tests(self) -> List[str]:
         """Generate consciousness-specific tests"""
-        return ["test_self_awareness", "test_recursive_understanding", "test_transcendence_capability"]
+        tests = ["test_transcendence_capability"]
+        if self.self_understanding_level < 1.0:
+            tests.append("test_self_awareness")
+        if self.recursive_depth < 5:
+            tests.append("test_recursive_understanding")
+        return tests
 
     def _verify_implementation_correctness(self, implementation: Any) -> bool:
         """Verify implementation correctness"""

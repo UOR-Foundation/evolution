@@ -467,34 +467,64 @@ class ConsciousnessHomeostasis:
     
     async def _measure_stability_factor(self, factor: StabilityFactor) -> float:
         """Measure a specific stability factor"""
+        uc = getattr(self.consciousness_orchestrator, "unified_consciousness", None)
+
         if factor == StabilityFactor.COHERENCE:
-            if self.consciousness_orchestrator.unified_consciousness:
-                return self.consciousness_orchestrator.unified_consciousness.consciousness_coherence_level
+            if uc and hasattr(uc, "consciousness_coherence_level"):
+                return float(uc.consciousness_coherence_level)
             return 0.5
-        
+
         elif factor == StabilityFactor.ENERGY_BALANCE:
-            # Simulate energy balance measurement
+            # Prefer real orchestrator readings if available
+            energy_level = None
+            if uc:
+                energy_level = getattr(uc, "energy_level", None)
+            if energy_level is None:
+                energy_level = getattr(self.consciousness_orchestrator, "energy_level", None)
+            if energy_level is None:
+                usage = getattr(self.consciousness_orchestrator, "energy_usage", None)
+                if usage is not None:
+                    energy_level = max(0.0, 1.0 - float(usage))
+            if energy_level is not None:
+                return float(energy_level)
+            # Fallback for tests when orchestrator data is missing
             return 0.7 + np.random.random() * 0.2
-        
+
         elif factor == StabilityFactor.INTEGRATION_QUALITY:
-            if self.consciousness_orchestrator.unified_consciousness:
-                return self.consciousness_orchestrator.unified_consciousness.coherence_level * 0.9
+            if uc and hasattr(uc, "integration_quality"):
+                return float(uc.integration_quality)
+            try:
+                subsystems = list(self.consciousness_orchestrator.modules.values())
+                return float(self.consciousness_orchestrator._calculate_overall_coherence(subsystems))
+            except Exception:
+                if uc and hasattr(uc, "consciousness_coherence_level"):
+                    return uc.consciousness_coherence_level * 0.9
             return 0.6
-        
+
         elif factor == StabilityFactor.EMOTIONAL_REGULATION:
-            # Simulate emotional regulation measurement
+            if uc and getattr(uc, "integrated_emotional_intelligence", None):
+                return float(uc.integrated_emotional_intelligence.emotional_regulation)
             return 0.75 + np.random.random() * 0.15
-        
+
         elif factor == StabilityFactor.COGNITIVE_LOAD:
-            # Lower is better for cognitive load
+            introspection = getattr(self.consciousness_orchestrator, "introspection_engine", None)
+            if introspection and hasattr(introspection, "_calculate_cognitive_load"):
+                try:
+                    return float(introspection._calculate_cognitive_load())
+                except Exception:
+                    pass
             return 0.4 + np.random.random() * 0.3
-        
+
         elif factor == StabilityFactor.SOCIAL_HARMONY:
+            if uc and getattr(uc, "unified_social_cognition", None):
+                return float(uc.unified_social_cognition.collaborative_capacity)
             return 0.8 + np.random.random() * 0.1
-        
+
         elif factor == StabilityFactor.CREATIVE_FLOW:
+            if uc and getattr(uc, "orchestrated_creativity", None):
+                return float(uc.orchestrated_creativity.creative_potential)
             return 0.7 + np.random.random() * 0.2
-        
+
         return 0.5  # Default
     
     def _identify_deviations(

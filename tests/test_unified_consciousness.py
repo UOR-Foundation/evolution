@@ -10,8 +10,103 @@ import numpy as np
 import networkx as nx
 import importlib.util
 import os
+import sys
+import types
+
+# Ensure numpy stub provides minimal functionality when not installed
+if not hasattr(np, "mean"):
+    np.mean = lambda x, axis=None: sum(x) / len(x) if x else 0.0
+if not hasattr(np, "clip"):
+    def _clip(a, a_min, a_max):
+        return max(a_min, min(a_max, a))
+    np.clip = _clip
+if not hasattr(np, "ndarray"):
+    np.ndarray = type("ndarray", (), {})
 
 orch_path = os.path.join(os.path.dirname(__file__), "..", "modules", "unified_consciousness", "consciousness_orchestrator.py")
+# Provide stubs for optional analogical reasoning submodules
+stubs = {
+    "modules.analogical_reasoning.similarity_detector": [
+        "SimilarityDetector",
+        "StructuralSimilarity",
+        "SemanticSimilarity",
+        "PragmaticSimilarity",
+    ],
+    "modules.analogical_reasoning.domain_knowledge": [
+        "Domain",
+        "DomainKnowledge",
+        "CrossDomainKnowledge",
+    ],
+    "modules.analogical_reasoning.analogy_validator": [
+        "AnalogyValidator",
+        "ValidationResult",
+        "MappingQuality",
+    ],
+}
+for name, attrs in stubs.items():
+    if name not in sys.modules:
+        mod = types.ModuleType(name)
+        for attr in attrs:
+            setattr(mod, attr, type(attr, (), {}))
+        sys.modules[name] = mod
+
+# Creative engine optional modules
+creative_stub_attrs = {
+    "modules.creative_engine.combinatorial_creativity": [
+        "CombinatorialCreativity",
+        "Combination",
+        "SynergyEffect",
+        "CombinatorialSearchSpace",
+    ],
+    "modules.creative_engine.exploratory_creativity": [
+        "ExploratoryCreativity",
+        "ExplorationResult",
+        "CreativeHypothesis",
+        "CreativeLandscape",
+    ],
+    "modules.creative_engine.transformational_creativity": [
+        "TransformationalCreativity",
+        "TransformedProblem",
+        "ParadigmShift",
+        "ConstraintBreakdown",
+    ],
+    "modules.creative_engine.novelty_detector": [
+        "NoveltyDetector",
+        "NoveltyAssessment",
+        "SurpriseAssessment",
+    ],
+    "modules.creative_engine.creative_evaluation": [
+        "CreativeEvaluator",
+        "UtilityAssessment",
+        "EleganceAssessment",
+    ],
+}
+for name, attrs in creative_stub_attrs.items():
+    if name not in sys.modules:
+        mod = types.ModuleType(name)
+        for attr in attrs:
+            setattr(mod, attr, type(attr, (), {}))
+        sys.modules[name] = mod
+
+# Basic stubs for core modules referenced by the orchestrator
+core_stubs = {
+    "modules.natural_language.consciousness_narrator": ["ConsciousnessNarrator"],
+    "modules.philosophical_reasoning.consciousness_philosopher": ["ConsciousnessPhilosopher"],
+    "modules.relational_intelligence.collaborative_creativity": ["CollaborativeCreativity"],
+    "modules.communication.emotion_articulator": ["EmotionArticulator"],
+}
+for mod_name, attrs in core_stubs.items():
+    if mod_name not in sys.modules:
+
+        mod = types.ModuleType(mod_name)
+        for attr in attrs:
+            setattr(mod, attr, type(attr, (), {}))
+        sys.modules[mod_name] = mod
+
+# Patch existing core modules with missing attributes
+import consciousness.consciousness_core as _ccore
+if not hasattr(_ccore, "ConsciousnessExperience"):
+    _ccore.ConsciousnessExperience = type("ConsciousnessExperience", (), {})
 spec = importlib.util.spec_from_file_location("consciousness_orchestrator", orch_path)
 _orch_mod = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(_orch_mod)
@@ -194,6 +289,64 @@ class TestConsciousnessOrchestrator:
         capacity = orch._assess_learning_capacity(integrated)
         expected = np.mean([0.7, 0.8, 0.9, 0.85])
         assert capacity == pytest.approx(expected)
+
+    def test_attention_allocation_varies_with_state(self, orchestrator):
+        """Attention allocation metrics should depend on history and modules"""
+        base = orchestrator._manage_attention_allocation()
+
+        orchestrator.modules['awareness'].coherence_level = 0.9
+        orchestrator.modules['awareness'].stability_score = 0.95
+
+        trans = ConsciousnessTransition(
+            from_state=ConsciousnessState.ACTIVE,
+            to_state=ConsciousnessState.FOCUSED,
+            transition_trigger=TransitionTrigger.INTERNAL_DRIVE,
+            transition_quality=0.85,
+            consciousness_continuity=0.9,
+            emergent_insights=[]
+        )
+        orchestrator.integration_history.append({
+            'transition': trans,
+            'result': {'stabilization_quality': 0.9},
+            'timestamp': datetime.now()
+        })
+
+        changed = orchestrator._manage_attention_allocation()
+        assert changed['efficiency'] != base['efficiency']
+        assert changed['focus_quality'] != base['focus_quality']
+
+    def test_context_switching_varies_with_history(self, orchestrator):
+        """Context switching metrics should reflect recent transitions"""
+        base = asyncio.get_event_loop().run_until_complete(
+            orchestrator._handle_context_switching()
+        )
+
+        t1 = datetime.now()
+        trans1 = ConsciousnessTransition(
+            from_state=ConsciousnessState.ACTIVE,
+            to_state=ConsciousnessState.FOCUSED,
+            transition_trigger=TransitionTrigger.INTERNAL_DRIVE,
+            transition_quality=0.7,
+            consciousness_continuity=0.8,
+            emergent_insights=[]
+        )
+        orchestrator.integration_history.append({'transition': trans1, 'result': {'stabilization_quality': 0.75}, 'timestamp': t1})
+
+        t2 = t1 + timedelta(seconds=5)
+        trans2 = ConsciousnessTransition(
+            from_state=ConsciousnessState.FOCUSED,
+            to_state=ConsciousnessState.ACTIVE,
+            transition_trigger=TransitionTrigger.INTERNAL_DRIVE,
+            transition_quality=0.9,
+            consciousness_continuity=0.95,
+            emergent_insights=[]
+        )
+        orchestrator.integration_history.append({'transition': trans2, 'result': {'stabilization_quality': 0.85}, 'timestamp': t2})
+
+        changed = asyncio.get_event_loop().run_until_complete(
+            orchestrator._handle_context_switching()
+        )
+        assert changed['quality'] != base['quality'] or changed['switching_speed'] != base['switching_speed']
 
 
 class TestAutonomousAgency:

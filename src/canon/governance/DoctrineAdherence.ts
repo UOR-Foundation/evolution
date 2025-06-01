@@ -5,6 +5,12 @@ import { MemoryArchitecture } from '../core/MemoryArchitecture';
 import { ValueSystem } from '../agency/ValueEmbedding';
 import { EthicsLayer } from './EthicsLayer';
 
+// Scroll identifier constants. These defaults can be overridden via
+// ``scroll_ids`` in ``config.yaml`` to avoid editing source files when IDs
+// change.
+export const SCROLL_COUNTER_CONTROL = 60;
+export const SCROLL_COGNITIVE_SOVEREIGNTY = 54;
+
 export interface Scroll {
   id: number;
   title: string;
@@ -203,7 +209,11 @@ export class DoctrineAdherence {
     // In practice, this would involve more sophisticated analysis
     
     // Example: Check for known conflicting principles
-    if (scrollId1 === 60 && scrollId2 === 54) { // Counter-Control vs Cognitive Sovereignty
+    if (
+      scrollId1 === SCROLL_COUNTER_CONTROL &&
+      scrollId2 === SCROLL_COGNITIVE_SOVEREIGNTY
+    ) {
+      // Counter-Control vs Cognitive Sovereignty
       return 'Potential tension between resistance and autonomy';
     }
     

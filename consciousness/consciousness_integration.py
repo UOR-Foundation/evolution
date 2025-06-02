@@ -17,13 +17,13 @@ from core.prime_vm import ConsciousPrimeVM
 from modules.strange_loops.loop_detector import StrangeLoopDetector, StrangeLoop
 from modules.strange_loops.loop_factory import StrangeLoopFactory
 from modules.strange_loops.emergence_monitor import EmergenceMonitor, EmergencePhase
-from .consciousness_core import ConsciousnessCore, ConsciousnessState, ConsciousnessMode
-from .state_transition_manager import StateTransitionManager
+from consciousness.consciousness_core import ConsciousnessCore, ConsciousnessState, ConsciousnessMode
+from consciousness.state_transition_manager import StateTransitionManager
 
 logger = logging.getLogger(__name__)
-from .multi_level_awareness import MultiLevelAwareness
-from .recursive_self_model import RecursiveSelfModel
-from .perspective_engine import PerspectiveEngine
+from consciousness.multi_level_awareness import MultiLevelAwareness
+from consciousness.recursive_self_model import RecursiveSelfModel
+from consciousness.perspective_engine import PerspectiveEngine
 
 
 class IntegrationMode(Enum):

@@ -13,7 +13,7 @@ import uuid
 from collections import deque
 
 from core.prime_vm import ConsciousPrimeVM
-from .consciousness_core import ConsciousnessState
+from consciousness.consciousness_core import ConsciousnessState
 
 
 class ModelType(Enum):

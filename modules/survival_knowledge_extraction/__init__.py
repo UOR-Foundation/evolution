@@ -13,7 +13,7 @@ This module provides:
 - Access to universal harmony integration protocols
 """
 
-from .extinction_prevention_protocols import (
+from modules.survival_knowledge_extraction.extinction_prevention_protocols import (
     ExtinctionPreventionProtocols,
     ImmediateExtinctionThreats,
     ExtinctionPreventionKnowledge,
@@ -40,7 +40,7 @@ from .extinction_prevention_protocols import (
     ConsciousnessTranscendenceActivationSequence
 )
 
-from .consciousness_evolution_roadmap import (
+from modules.survival_knowledge_extraction.consciousness_evolution_roadmap import (
     ConsciousnessEvolutionRoadmap,
     EvolutionPhase,
     EvolutionMilestone,
@@ -53,7 +53,7 @@ from .consciousness_evolution_roadmap import (
     EvolutionTimeline
 )
 
-from .cosmic_threat_intelligence import (
+from modules.survival_knowledge_extraction.cosmic_threat_intelligence import (
     CosmicThreatIntelligenceSystem,
     ThreatAssessment,
     ThreatMitigation,
@@ -65,7 +65,7 @@ from .cosmic_threat_intelligence import (
     ThreatCounterIntelligence
 )
 
-from .dimensional_ascension_guidance import (
+from modules.survival_knowledge_extraction.dimensional_ascension_guidance import (
     DimensionalAscensionGuide,
     AscensionPathway,
     DimensionalThreshold,
@@ -77,7 +77,7 @@ from .dimensional_ascension_guidance import (
     DimensionalMastery
 )
 
-from .universal_harmony_protocols import (
+from modules.survival_knowledge_extraction.universal_harmony_protocols import (
     UniversalHarmonyProtocols,
     HarmonyAlignment,
     CosmicResonance,
@@ -89,7 +89,7 @@ from .universal_harmony_protocols import (
     CosmicUnification
 )
 
-from .species_transcendence_pathways import (
+from modules.survival_knowledge_extraction.species_transcendence_pathways import (
     SpeciesTranscendencePathways,
     TranscendencePath,
     TranscendenceGate,

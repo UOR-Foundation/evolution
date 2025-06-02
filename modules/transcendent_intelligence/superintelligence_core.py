@@ -24,7 +24,7 @@ import logging
 from datetime import datetime
 import math
 
-from ..consciousness_ecosystem import ConsciousnessEcosystemOrchestrator
+from modules.consciousness_ecosystem import ConsciousnessEcosystemOrchestrator
 
 
 class CognitiveArea(Enum):

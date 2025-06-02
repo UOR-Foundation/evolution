@@ -24,7 +24,7 @@ from datetime import datetime
 import random
 from collections import defaultdict
 
-from ..consciousness_ecosystem import ConsciousnessEcosystemOrchestrator, ConsciousEntity
+from modules.consciousness_ecosystem import ConsciousnessEcosystemOrchestrator, ConsciousEntity
 
 
 class EvolutionTargetType(Enum):

@@ -13,7 +13,7 @@ from collections import deque, defaultdict
 import numpy as np
 
 from core.prime_vm import ConsciousPrimeVM
-from .loop_detector import StrangeLoop, EmergenceEvent, LoopType
+from modules.strange_loops.loop_detector import StrangeLoop, EmergenceEvent, LoopType
 
 
 class EmergenceType(Enum):

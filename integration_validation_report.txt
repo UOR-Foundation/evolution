@@ -1,0 +1,38 @@
+Integration Validation Report
+==================================================
+
+Overall Success Rate: 55.7%
+Total Tests: 70
+Successful: 39
+Failed: 31
+
+Import Tests:
+  Success Rate: 49.2%
+  Successful: 29/59
+  Failed Imports:
+    - modules.cosmic_intelligence.universal_problem_synthesis: cannot import name 'ConsciousnessEcosystem' from 'modules.consciousness_ecosystem' (/workspaces/uor-evolution/modules/consciousness_ecosystem/__init__.py)
+    - modules.cosmic_intelligence.universal_problem_synthesis_completion: name 'CosmicSolution' is not defined
+    - modules.unified_consciousness: cannot import name 'PrimeEncoder' from 'core.prime_vm' (/workspaces/uor-evolution/core/prime_vm.py)
+    - modules.unified_consciousness.performance_optimizer: cannot import name 'PrimeEncoder' from 'core.prime_vm' (/workspaces/uor-evolution/core/prime_vm.py)
+    - modules.unified_consciousness.consciousness_homeostasis: cannot import name 'PrimeEncoder' from 'core.prime_vm' (/workspaces/uor-evolution/core/prime_vm.py)
+    - modules.unified_consciousness.autonomous_agency: cannot import name 'PrimeEncoder' from 'core.prime_vm' (/workspaces/uor-evolution/core/prime_vm.py)
+    - modules.unified_consciousness.identity_integration: cannot import name 'PrimeEncoder' from 'core.prime_vm' (/workspaces/uor-evolution/core/prime_vm.py)
+    - modules.unified_consciousness.consciousness_orchestrator: cannot import name 'PrimeEncoder' from 'core.prime_vm' (/workspaces/uor-evolution/core/prime_vm.py)
+    - modules.unified_consciousness.unified_awareness: cannot import name 'PrimeEncoder' from 'core.prime_vm' (/workspaces/uor-evolution/core/prime_vm.py)
+    - modules.unified_consciousness.autonomous_agency_completion: cannot import name 'PrimeEncoder' from 'core.prime_vm' (/workspaces/uor-evolution/core/prime_vm.py)
+    ... and 20 more
+
+API Tests:
+  Success Rate: 100.0%
+  Successful: 7/7
+
+Integration Tests:
+  Success Rate: 75.0%
+  Successful: 3/4
+  Failed Integration Tests:
+    - consciousness_vm_integration: ConsciousnessCore.__init__() missing 1 required positional argument: 'vm_instance'
+
+Recommendations:
+  ⚠️  Moderate integration. Several issues need attention.
+  - Fix import errors to improve module connectivity
+  - Resolve cross-module integration problems

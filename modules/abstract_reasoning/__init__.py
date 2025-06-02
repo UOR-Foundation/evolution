@@ -5,11 +5,11 @@ This module provides abstract reasoning capabilities including logical reasoning
 temporal reasoning, modal reasoning, and paradox resolution.
 """
 
-from .logical_reasoning import LogicalReasoner
-from .temporal_reasoning import TemporalReasoner
-from .modal_reasoning import ModalReasoner
-from .paradox_resolver import ParadoxResolver
-from .concept_abstraction import ConceptAbstractor
+from modules.abstract_reasoning.logical_reasoning import LogicalReasoner
+from modules.abstract_reasoning.temporal_reasoning import TemporalReasoner
+from modules.abstract_reasoning.modal_reasoning import ModalReasoner
+from modules.abstract_reasoning.paradox_resolver import ParadoxResolver
+from modules.abstract_reasoning.concept_abstraction import ConceptAbstractor
 
 __all__ = [
     'LogicalReasoner',

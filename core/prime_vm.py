@@ -14,9 +14,9 @@ import json
 import traceback
 from collections import deque
 
-from .instruction_set import ExtendedOpCode, InstructionSet
-from .memory_system import WorkingMemory, LongTermMemory, EpisodicMemory, PatternCache
-from .consciousness_layer import (
+from core.instruction_set import ExtendedOpCode, InstructionSet
+from core.memory_system import WorkingMemory, LongTermMemory, EpisodicMemory, PatternCache
+from core.consciousness_layer import (
     ConsciousnessLayer, ConsciousnessLevel, MetaCognitiveState
 )
 

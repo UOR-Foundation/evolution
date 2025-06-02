@@ -8,10 +8,10 @@ This package contains the core components of the UOR Evolution system:
 - Memory Systems
 """
 
-from .prime_vm import ConsciousPrimeVM
-from .consciousness_layer import ConsciousnessLayer
-from .instruction_set import InstructionSet, ExtendedOpCode
-from .memory_system import WorkingMemory, LongTermMemory, EpisodicMemory
+from core.prime_vm import ConsciousPrimeVM
+from core.consciousness_layer import ConsciousnessLayer
+from core.instruction_set import InstructionSet, ExtendedOpCode
+from core.memory_system import WorkingMemory, LongTermMemory, EpisodicMemory
 
 __all__ = [
     'ConsciousPrimeVM',

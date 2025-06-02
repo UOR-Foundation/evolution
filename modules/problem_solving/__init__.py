@@ -6,7 +6,7 @@ to handle complex problems through insight generation, constraint handling, and
 metacognitive strategies.
 """
 
-from .problem_solver import (
+from modules.problem_solving.problem_solver import (
     IntegratedProblemSolver,
     ComprehensiveSolution,
     StrategyOrchestration,
@@ -14,26 +14,26 @@ from .problem_solver import (
     SolutionComponent,
     ContextualStrategy
 )
-from .insight_generator import (
+from modules.problem_solving.insight_generator import (
     InsightGenerator,
     InsightGeneration,
     InsightOpportunity,
     InsightEnvironment,
     InsightValidation
 )
-from .constraint_handler import (
+from modules.problem_solving.constraint_handler import (
     ConstraintHandler,
     ConstraintType,
     ConstraintRelaxation,
     ConstraintSatisfaction
 )
-from .solution_synthesis import (
+from modules.problem_solving.solution_synthesis import (
     SolutionSynthesizer,
     SynthesisApproach,
     IntegratedSolution,
     SolutionRefinement
 )
-from .metacognitive_solver import (
+from modules.problem_solving.metacognitive_solver import (
     MetacognitiveSolver,
     MetaStrategy,
     StrategyEvaluation,

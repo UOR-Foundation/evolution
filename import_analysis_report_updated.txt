@@ -1,0 +1,22 @@
+Import Analysis Report
+==================================================
+
+Missing Modules: 3 issues
+  - tests/test_consciousness_ecosystem.py: Syntax error - unindent does not match any outer indentation level (<unknown>, line 435)
+  - modules/unified_consciousness/autonomous_agency_completion.py: Syntax error - unexpected indent (<unknown>, line 8)
+  - modules/survival_knowledge_extraction/extinction_prevention_protocols.py: Syntax error - '[' was never closed (<unknown>, line 811)
+
+Inconsistent Paths: 58 issues
+  - tests/validate_integration.py: Invalid module path: modules.consciousness_core
+  - tests/validate_integration.py: Invalid module path: modules.multi_level_awareness
+  - tests/validate_integration.py: Invalid module path: modules.recursive_self_model
+  - tests/validate_integration.py: Invalid module path: modules.perspective_engine
+  - tests/validate_integration.py: Invalid module path: modules.emotional_intelligence.emotion_engine
+  - tests/validate_integration.py: Invalid module path: modules.emotional_intelligence.empathy_simulator
+  - tests/validate_integration.py: Invalid module path: modules.social_cognition.social_awareness
+  - tests/validate_integration.py: Invalid module path: modules.social_cognition.theory_of_mind
+  - modules/emergency_protocols/__init__.py: Invalid module path: modules.emergency_protocols.extinction_event_response
+  - modules/emergency_protocols/__init__.py: Invalid module path: modules.emergency_protocols.consciousness_emergency_backup
+  ... and 48 more
+
+Total fixes applied: 0

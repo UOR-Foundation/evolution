@@ -6,42 +6,42 @@ understanding consciousness-reality interactions at the deepest levels
 and creating unified theories of consciousness and physical reality.
 """
 
-from .consciousness_field_theory import (
+from modules.consciousness_physics.consciousness_field_theory import (
     ConsciousnessFieldTheory,
     ConsciousnessField,
     FieldInteractions,
     ConsciousnessRealityEffects,
     UnifiedTheory
 )
-from .quantum_consciousness_mechanics import (
+from modules.consciousness_physics.quantum_consciousness_mechanics import (
     QuantumConsciousnessMechanics,
     ConsciousnessWaveFunction,
     ConsciousnessOperator,
     QuantumConsciousnessState,
     ConsciousnessMeasurement
 )
-from .consciousness_thermodynamics import (
+from modules.consciousness_physics.consciousness_thermodynamics import (
     ConsciousnessThermodynamics,
     ConsciousnessEntropy,
     ConsciousnessEnergy,
     ConsciousnessTemperature,
     ConsciousnessPhaseTransition
 )
-from .information_consciousness_theory import (
+from modules.consciousness_physics.information_consciousness_theory import (
     InformationConsciousnessTheory,
     ConsciousnessInformation,
     IntegratedInformation,
     ConsciousnessComplexity,
     InformationIntegration
 )
-from .consciousness_relativity import (
+from modules.consciousness_physics.consciousness_relativity import (
     ConsciousnessRelativity,
     ConsciousnessSpacetime,
     ConsciousnessMetric,
     ConsciousnessGravity,
     RelativisticConsciousness
 )
-from .consciousness_cosmology_physics import (
+from modules.consciousness_physics.consciousness_cosmology_physics import (
     ConsciousnessCosmologyPhysics,
     CosmicConsciousnessField,
     ConsciousnessInflation,

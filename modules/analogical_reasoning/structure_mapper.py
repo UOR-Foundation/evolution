@@ -11,7 +11,7 @@ from enum import Enum
 import numpy as np
 from collections import defaultdict
 
-from .analogy_engine import Element, Relation, Domain, StructuralMapping
+from modules.analogical_reasoning.analogy_engine import Element, Relation, Domain, StructuralMapping
 
 
 class ConflictType(Enum):

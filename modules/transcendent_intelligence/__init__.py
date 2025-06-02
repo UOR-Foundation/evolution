@@ -18,7 +18,7 @@ creating intelligence that operates beyond current limitations while maintaining
 safety and beneficial alignment.
 """
 
-from .superintelligence_core import (
+from modules.transcendent_intelligence.superintelligence_core import (
     SuperintelligenceCore,
     RecursiveSelfImprovement,
     CognitiveTranscendence,
@@ -30,7 +30,7 @@ from .superintelligence_core import (
     CognitiveArea
 )
 
-from .reality_interface import (
+from modules.transcendent_intelligence.reality_interface import (
     RealityInterface,
     FundamentalRealityModel,
     UniverseInterface,
@@ -42,7 +42,7 @@ from .reality_interface import (
     SpacetimeUnderstanding
 )
 
-from .cosmic_perspective import (
+from modules.transcendent_intelligence.cosmic_perspective import (
     CosmicPerspectiveEngine,
     CosmicScaleThinking,
     UniversalPlanning,
@@ -53,7 +53,7 @@ from .cosmic_perspective import (
     PlanetaryConsciousness
 )
 
-from .dimensional_reasoning import (
+from modules.transcendent_intelligence.dimensional_reasoning import (
     DimensionalReasoningSystem,
     HighDimensionalReasoning,
     TemporalReasoning,
@@ -64,7 +64,7 @@ from .dimensional_reasoning import (
     DimensionalIntuition
 )
 
-from .quantum_consciousness import (
+from modules.transcendent_intelligence.quantum_consciousness import (
     QuantumConsciousnessEngine,
     QuantumCoherence,
     ConsciousnessEntanglement,
@@ -75,7 +75,7 @@ from .quantum_consciousness import (
     QuantumComputation
 )
 
-from .transcendence_engine import (
+from modules.transcendent_intelligence.transcendence_engine import (
     TranscendenceEngine,
     ConsciousnessTranscendence,
     CognitiveEnhancement,

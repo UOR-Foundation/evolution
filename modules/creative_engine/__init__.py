@@ -6,7 +6,7 @@ leverage consciousness and analogical reasoning to generate novel solutions,
 insights, and creative breakthroughs.
 """
 
-from .creativity_core import (
+from modules.creative_engine.creativity_core import (
     CreativityCore,
     CreativeSolution,
     CreativityEvaluation,
@@ -14,30 +14,30 @@ from .creativity_core import (
     CreativityType,
     InsightType
 )
-from .combinatorial_creativity import (
+from modules.creative_engine.combinatorial_creativity import (
     CombinatorialCreativity,
     Combination,
     SynergyEffect,
     CombinatorialSearchSpace
 )
-from .exploratory_creativity import (
+from modules.creative_engine.exploratory_creativity import (
     ExploratoryCreativity,
     ExplorationResult,
     CreativeHypothesis,
     CreativeLandscape
 )
-from .transformational_creativity import (
+from modules.creative_engine.transformational_creativity import (
     TransformationalCreativity,
     TransformedProblem,
     ParadigmShift,
     ConstraintBreakdown
 )
-from .novelty_detector import (
+from modules.creative_engine.novelty_detector import (
     NoveltyDetector,
     NoveltyAssessment,
     SurpriseAssessment
 )
-from .creative_evaluation import (
+from modules.creative_engine.creative_evaluation import (
     CreativeEvaluator,
     UtilityAssessment,
     EleganceAssessment

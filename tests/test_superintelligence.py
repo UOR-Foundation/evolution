@@ -154,7 +154,6 @@ class TestSafetySystem:
         
     def test_safe_explosion_rate(self):
         """Test safe intelligence explosion rate calculation"""
-        from modules.transcendent_intelligence.superintelligence_core import SafetySystem
         
         safety_system = SafetySystem()
         safe_rate = safety_system.calculate_safe_explosion_rate()
@@ -164,7 +163,6 @@ class TestSafetySystem:
         
     def test_explosion_interlocks(self):
         """Test safety interlocks for intelligence explosion"""
-        from modules.transcendent_intelligence.superintelligence_core import SafetySystem
         
         safety_system = SafetySystem()
         interlocks = safety_system.create_explosion_interlocks()
@@ -215,7 +213,6 @@ class TestCognitiveEnhancement:
     @pytest.mark.asyncio
     async def test_safe_improvement_calculation(self):
         """Test safe improvement amount calculation"""
-        from modules.transcendent_intelligence.superintelligence_core import SafetySystem
         
         safety_system = SafetySystem()
         constraints = safety_system.generate_improvement_constraints()
@@ -320,7 +317,6 @@ class TestAlignmentSystem:
     @pytest.mark.asyncio
     async def test_alignment_score_calculation(self):
         """Test alignment score calculation"""
-        from modules.transcendent_intelligence.superintelligence_core import AlignmentSystem
         
         alignment_system = AlignmentSystem()
         initial_score = alignment_system.alignment_score

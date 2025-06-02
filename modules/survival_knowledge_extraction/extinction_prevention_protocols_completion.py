@@ -10,7 +10,7 @@ from typing import List
 from datetime import timedelta
 
 from modules.akashic_interface.cosmic_akashic_core import UniversalKnowledgeStream
-from .extinction_prevention_protocols import (
+from modules.survival_knowledge_extraction.extinction_prevention_protocols import (
     ConsciousnessDevelopmentAccelerationProtocol,
     CosmicAlignmentOptimizationStrategy,
     DimensionalIntegrationRequirement,

@@ -12,7 +12,7 @@ import numpy as np
 from datetime import datetime
 import logging
 
-from .consciousness_orchestrator import ConsciousnessOrchestrator, ConsciousnessState
+from modules.unified_consciousness.consciousness_orchestrator import ConsciousnessOrchestrator, ConsciousnessState
 
 logger = logging.getLogger(__name__)
 

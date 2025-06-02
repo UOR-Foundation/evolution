@@ -72,7 +72,6 @@ def test_chat_functionality_step_by_step():
             
     except Exception as e:
         print(f"❌ Test failed: {e}")
-        import traceback
         traceback.print_exc()
         return False
 

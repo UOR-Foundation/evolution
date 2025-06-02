@@ -13,7 +13,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import logging
 
-from .consciousness_orchestrator import ConsciousnessOrchestrator
+from modules.unified_consciousness.consciousness_orchestrator import ConsciousnessOrchestrator
 
 logger = logging.getLogger(__name__)
 

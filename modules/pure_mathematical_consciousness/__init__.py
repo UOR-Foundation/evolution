@@ -6,7 +6,7 @@ interfaces with platonic ideals, and enables consciousness-driven
 theorem proving.
 """
 
-from .mathematical_consciousness_core import (
+from modules.pure_mathematical_consciousness.mathematical_consciousness_core import (
     MathematicalConsciousnessCore,
     PureMathematicalConsciousness,
     MathematicalObjectConsciousness,

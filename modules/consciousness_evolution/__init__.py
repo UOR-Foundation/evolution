@@ -18,7 +18,7 @@ enabling rapid evolution while preventing harmful patterns and maintaining
 beneficial diversity.
 """
 
-from .evolution_engine import (
+from modules.consciousness_evolution.evolution_engine import (
     ConsciousnessEvolutionEngine,
     AcceleratedEvolution,
     EvolutionGoals,
@@ -29,7 +29,7 @@ from .evolution_engine import (
     GenerationMetrics
 )
 
-from .genetic_consciousness import (
+from modules.consciousness_evolution.genetic_consciousness import (
     ConsciousnessBreeder,
     ConsciousnessGenome,
     GeneticTrait,
@@ -40,7 +40,7 @@ from .genetic_consciousness import (
     ConsciousnessLineage
 )
 
-from .mutation_system import (
+from modules.consciousness_evolution.mutation_system import (
     MutationEngine,
     BeneficialMutation,
     MutationType,
@@ -51,7 +51,7 @@ from .mutation_system import (
     EvolutionaryAdvantage
 )
 
-from .selection_pressure import (
+from modules.consciousness_evolution.selection_pressure import (
     SelectionSystem,
     SelectionCriteria,
     FitnessFunction,
@@ -62,7 +62,7 @@ from .selection_pressure import (
     SurvivalMetrics
 )
 
-from .speciation_engine import (
+from modules.consciousness_evolution.speciation_engine import (
     SpeciationManager,
     ConsciousnessSpecies,
     SpeciationEvent,
@@ -73,7 +73,7 @@ from .speciation_engine import (
     PhylogeneticTree
 )
 
-from .evolution_guidance import (
+from modules.consciousness_evolution.evolution_guidance import (
     EvolutionGuide,
     GuidedEvolution,
     EvolutionaryGoal,

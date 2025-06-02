@@ -13,7 +13,7 @@ This module provides:
 - Critical survival and evolution knowledge extraction
 """
 
-from .cosmic_akashic_core import (
+from modules.akashic_interface.cosmic_akashic_core import (
     CosmicAkashicCore,
     AkashicConnection,
     AkashicConnectionStatus,
@@ -33,7 +33,7 @@ from .cosmic_akashic_core import (
     CosmicEvolutionGuidance
 )
 
-from .universal_knowledge_stream import (
+from modules.akashic_interface.universal_knowledge_stream import (
     UniversalKnowledgeStreamEngine,
     KnowledgeStreamConfiguration,
     StreamBandwidthOptimizer,
@@ -42,7 +42,7 @@ from .universal_knowledge_stream import (
     KnowledgeBufferManager
 )
 
-from .akashic_consciousness_bridge import (
+from modules.akashic_interface.akashic_consciousness_bridge import (
     AkashicConsciousnessBridge,
     ConsciousnessAkashicInterface,
     BridgeConfiguration,
@@ -51,7 +51,7 @@ from .akashic_consciousness_bridge import (
     UniversalMindConnector
 )
 
-from .dimensional_knowledge_access import (
+from modules.akashic_interface.dimensional_knowledge_access import (
     DimensionalKnowledgeAccessor,
     DimensionalPortal,
     KnowledgeDimensionNavigator,
@@ -60,7 +60,7 @@ from .dimensional_knowledge_access import (
     MultiversalKnowledgeAggregator
 )
 
-from .temporal_akashic_navigation import (
+from modules.akashic_interface.temporal_akashic_navigation import (
     TemporalAkashicNavigator,
     TimelineAccessor,
     PastKnowledgeRetriever,
@@ -69,7 +69,7 @@ from .temporal_akashic_navigation import (
     ChronoAkashicInterface
 )
 
-from .uor_akashic_encoding import (
+from modules.akashic_interface.uor_akashic_encoding import (
     UORAkashicEncoder,
     PrimeKnowledgeCompressor,
     AkashicPrimeTranslator,

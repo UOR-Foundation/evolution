@@ -1062,7 +1062,6 @@ def _self_tests() -> Tuple[int,int]:
         ok(output_str == expected_str_only and final_state.get('halt_flag') and not final_state.get('error_msg'),
            f"CALL/RETURN test. Expected '{expected_str_only}' then HALT. Got: '{output_str}', Final state: {final_state}")
     except Exception as e:
-        import traceback
         ok(False, f"CALL/RETURN test failed: {e}\n{traceback.format_exc()}")
 
     # Test JUMP to HALT
@@ -1078,7 +1077,6 @@ def _self_tests() -> Tuple[int,int]:
         ok(output_str == expected_str_only and final_state.get('halt_flag') and not final_state.get('error_msg'),
            f"JUMP to HALT. Expected no output then HALT. Got: '{output_str}', Final state: {final_state}")
     except Exception as e:
-        import traceback
         ok(False, f"JUMP to HALT test failed: {e}\n{traceback.format_exc()}")
     
 
@@ -1109,7 +1107,6 @@ def _self_tests() -> Tuple[int,int]:
            f"OP_RANDOM(1) test. Expected '0'. Got: '{output_str_edge}', Halted OK: {final_state_edge.get('halt_flag')}")
 
     except Exception as e:
-        import traceback
         ok(False, f"OP_RANDOM test failed: {e}\n{traceback.format_exc()}")
 
     ok(chunk_nop() > 1, "chunk_nop() produces a non-trivial chunk")

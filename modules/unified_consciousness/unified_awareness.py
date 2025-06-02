@@ -14,7 +14,7 @@ from datetime import datetime
 import logging
 
 from consciousness.multi_level_awareness import MultiLevelAwareness
-from .consciousness_orchestrator import ConsciousnessOrchestrator, AwarenessLevel
+from modules.unified_consciousness.consciousness_orchestrator import ConsciousnessOrchestrator, AwarenessLevel
 
 logger = logging.getLogger(__name__)
 

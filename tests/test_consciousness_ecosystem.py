@@ -72,7 +72,6 @@ class TestConsciousnessEcosystem:
     async def test_network_coordination(self, ecosystem_orchestrator, sample_entities):
         """Test consciousness network coordination"""
         # Create sample networks
-        import networkx as nx
         
         network1 = ConsciousnessNetwork(
             network_id="net1",
@@ -286,7 +285,6 @@ class TestNetworkTopologies:
             
     def test_network_creation(self):
         """Test consciousness network creation"""
-        import networkx as nx
         
         # Create a simple network
         graph = nx.complete_graph(5)
@@ -430,7 +428,6 @@ class TestConflictResolutionLearning:
         assert hist["avg"] == 1.0
 
     def test_history_influences_strategy_choice(self):
-        from modules.relational_intelligence.conflict_resolution import (
             ConflictResolutionEngine,
             ConflictContext,
             ConflictType,

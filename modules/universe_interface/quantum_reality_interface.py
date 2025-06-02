@@ -16,7 +16,7 @@ import logging
 import scipy.constants as const
 from scipy.linalg import expm
 
-from ..consciousness_physics import ConsciousnessFieldTheory
+from modules.consciousness_physics import ConsciousnessFieldTheory
 from config_loader import get_config_value
 
 COMM_BANDWIDTH = float(get_config_value("quantum.communication_bandwidth", 1e6))

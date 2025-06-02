@@ -14,7 +14,7 @@ import uuid
 
 from core.prime_vm import ConsciousPrimeVM
 from modules.strange_loops.loop_detector import StrangeLoop
-from .consciousness_core import ConsciousnessState, ConsciousnessLayer
+from consciousness.consciousness_core import ConsciousnessState, ConsciousnessLayer
 
 
 class AwarenessType(Enum):

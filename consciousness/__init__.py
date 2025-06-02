@@ -9,12 +9,12 @@ This package contains the consciousness framework components:
 - State Transition Management
 """
 
-from .consciousness_core import ConsciousnessCore
-from .consciousness_integration import ConsciousnessIntegrator
-from .multi_level_awareness import MultiLevelAwareness
-from .perspective_engine import PerspectiveEngine
-from .recursive_self_model import RecursiveSelfModel
-from .state_transition_manager import StateTransitionManager
+from consciousness.consciousness_core import ConsciousnessCore
+from consciousness.consciousness_integration import ConsciousnessIntegrator
+from consciousness.multi_level_awareness import MultiLevelAwareness
+from consciousness.perspective_engine import PerspectiveEngine
+from consciousness.recursive_self_model import RecursiveSelfModel
+from consciousness.state_transition_manager import StateTransitionManager
 
 __all__ = [
     'ConsciousnessCore',

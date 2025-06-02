@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 import numpy as np
 
-from .analogy_engine import Domain, Element, Relation, AnalogicalReasoningEngine
+from modules.analogical_reasoning.analogy_engine import Domain, Element, Relation, AnalogicalReasoningEngine
 
 
 class BlendType(Enum):

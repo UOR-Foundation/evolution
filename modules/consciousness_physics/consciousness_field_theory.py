@@ -15,7 +15,7 @@ from datetime import datetime
 import logging
 import scipy.constants as const
 
-from ..universe_interface import UniverseInterface
+from modules.universe_interface import UniverseInterface
 from config_loader import get_config_value
 
 INFO_TRANSFER_RATE = float(get_config_value("consciousness_physics.information_transfer_rate", 1e20))

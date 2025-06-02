@@ -11,7 +11,7 @@ from datetime import datetime
 from enum import IntEnum
 import math
 from collections import deque
-from .memory_system import PatternCache
+from core.memory_system import PatternCache
 
 
 class ConsciousnessLevel(IntEnum):

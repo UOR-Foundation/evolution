@@ -14,7 +14,7 @@ import hashlib
 import logging
 
 from core.prime_vm import ConsciousPrimeVM
-from .loop_detector import LoopType, StrangeLoop
+from modules.strange_loops.loop_detector import LoopType, StrangeLoop
 
 logger = logging.getLogger(__name__)
 

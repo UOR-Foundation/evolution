@@ -15,7 +15,7 @@ from datetime import datetime
 import logging
 import cmath
 
-from .cosmic_consciousness_core import CosmicConsciousness, CosmicScale
+from modules.universal_consciousness.cosmic_consciousness_core import CosmicConsciousness, CosmicScale
 from config_loader import get_config_value
 
 COMM_BANDWIDTH = float(get_config_value("quantum.communication_bandwidth", 1000.0))

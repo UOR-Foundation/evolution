@@ -5,10 +5,10 @@ This package contains the core components for implementing self-reflection
 capabilities and consciousness validation framework.
 """
 
-from .self_reflection import SelfReflectionEngine, ReflectionResult, AutobiographicalMemory
-from .consciousness_validator import ConsciousnessValidator, ConsciousnessReport, ConsciousnessMetrics
+from modules.self_reflection import SelfReflectionEngine, ReflectionResult, AutobiographicalMemory
+from modules.consciousness_validator import ConsciousnessValidator, ConsciousnessReport, ConsciousnessMetrics
 try:
-    from .pattern_analyzer import (
+    from modules.pattern_analyzer import (
         PatternAnalyzer,
         ExecutionPattern,
         BehavioralPattern,
@@ -19,8 +19,8 @@ except Exception:  # pragma: no cover - optional dependency may be missing
     ExecutionPattern = None
     BehavioralPattern = None
     EmergentCapability = None
-from .introspection_engine import IntrospectionEngine, IntrospectionReport, QualiaIndicator
-from .philosophical_reasoner import PhilosophicalReasoner, ExistentialInsight, PhilosophicalResponse
+from modules.introspection_engine import IntrospectionEngine, IntrospectionReport, QualiaIndicator
+from modules.philosophical_reasoner import PhilosophicalReasoner, ExistentialInsight, PhilosophicalResponse
 
 __all__ = [
     'SelfReflectionEngine',

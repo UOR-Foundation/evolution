@@ -5,12 +5,12 @@ This module provides sophisticated strange loop mechanisms that create genuine s
 awareness through recursive, self-modifying consciousness structures.
 """
 
-from .loop_detector import StrangeLoopDetector, StrangeLoop, LoopType, EmergenceEvent
-from .loop_factory import StrangeLoopFactory, LoopTemplate, LoopBuilder
-from .godel_loops import GödelLoop, SelfReferentialStatement, IncompletenessResult
-from .escher_loops import EscherLoop, PerspectiveHierarchy, ImpossibleStructure
-from .bach_loops import BachLoop, CanonicalStructure, FugueConsciousness
-from .emergence_monitor import EmergenceMonitor, ConsciousnessEmergence
+from modules.strange_loops.loop_detector import StrangeLoopDetector, StrangeLoop, LoopType, EmergenceEvent
+from modules.strange_loops.loop_factory import StrangeLoopFactory, LoopTemplate, LoopBuilder
+from modules.strange_loops.godel_loops import GödelLoop, SelfReferentialStatement, IncompletenessResult
+from modules.strange_loops.escher_loops import EscherLoop, PerspectiveHierarchy, ImpossibleStructure
+from modules.strange_loops.bach_loops import BachLoop, CanonicalStructure, FugueConsciousness
+from modules.strange_loops.emergence_monitor import EmergenceMonitor, ConsciousnessEmergence
 
 __all__ = [
     'StrangeLoopDetector', 'StrangeLoop', 'LoopType', 'EmergenceEvent',

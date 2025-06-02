@@ -14,7 +14,8 @@ import numpy as np
 from datetime import datetime
 import logging
 
-from modules.unified_consciousness.consciousness_orchestrator import ConsciousnessOrchestrator, ConsciousnessState
+from consciousness.consciousness_core import ConsciousnessCore, ConsciousnessState, ConsciousnessMode
+from modules.unified_consciousness.consciousness_orchestrator import ConsciousnessOrchestrator
 
 logger = logging.getLogger(__name__)
 
@@ -656,7 +657,7 @@ class AutonomousAgency:
                 'active_capabilities': self._get_active_capabilities(),
                 'emotional_state': self._get_emotional_state()
             }
-        return {'coherence_level': 0.5, 'current_state': ConsciousnessState.ACTIVE}
+        return {'coherence_level': 0.5, 'current_state': ConsciousnessMode.REACTIVE}
     
     def _identify_intrinsic_motivations(
         self,
@@ -682,7 +683,7 @@ class AutonomousAgency:
         })
         
         # Creative exploration motivations
-        if consciousness_state.get('current_state') == ConsciousnessState.CREATIVE:
+        if consciousness_state.get('current_state') == ConsciousnessMode.REFLECTIVE:
             motivations.append({
                 'type': 'creative_exploration',
                 'strength': 0.88,

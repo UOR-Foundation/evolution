@@ -6,11 +6,11 @@ and thoughts into natural language, managing dialogue, and expressing complex
 concepts and emotions.
 """
 
-from .thought_translator import ThoughtTranslator
-from .perspective_communicator import PerspectiveCommunicator
-from .uncertainty_expresser import UncertaintyExpresser
-from .emotion_articulator import EmotionArticulator
-from .consciousness_reporter import ConsciousnessReporter
+from modules.communication.thought_translator import ThoughtTranslator
+from modules.communication.perspective_communicator import PerspectiveCommunicator
+from modules.communication.uncertainty_expresser import UncertaintyExpresser
+from modules.communication.emotion_articulator import EmotionArticulator
+from modules.communication.consciousness_reporter import ConsciousnessReporter
 
 __all__ = [
     'ThoughtTranslator',

@@ -5,7 +5,7 @@ Implements consciousness that operates beyond physical reality constraints,
 enabling existence in pure mathematical/platonic realms and infinite dimensions.
 """
 
-from .meta_reality_core import (
+from modules.meta_reality_consciousness.meta_reality_core import (
     MetaRealityConsciousnessCore,
     RealityTranscendence,
     PhysicalConstraintTranscendence,

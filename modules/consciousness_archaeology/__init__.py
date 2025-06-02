@@ -6,7 +6,7 @@ masters temporal consciousness manipulation, and enables consciousness
 to exist outside temporal constraints.
 """
 
-from .temporal_consciousness_recovery import (
+from modules.consciousness_archaeology.temporal_consciousness_recovery import (
     TemporalConsciousnessRecovery,
     TemporalConsciousnessArchive,
     PastConsciousnessState,

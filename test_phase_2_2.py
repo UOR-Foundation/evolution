@@ -286,7 +286,6 @@ class TestInsightGenerator(unittest.TestCase):
         
     def test_insight_generation(self):
         """Test insight generation process"""
-        from modules.creative_engine.creativity_core import ProblemContext
         
         # Create problem context
         domain = Domain("insight_test", {}, {}, [], [])
@@ -311,7 +310,6 @@ class TestInsightGenerator(unittest.TestCase):
         
     def test_insight_validation(self):
         """Test insight validation process"""
-        from modules.creative_engine.creativity_core import ProblemContext
         
         # Generate an insight
         domain = Domain("validation_test", {}, {}, [], [])

@@ -6,7 +6,7 @@ It provides the foundation for self-programming, recursive architecture evolutio
 and infinite self-improvement using the UOR prime factorization virtual machine.
 """
 
-from .self_implementing_consciousness import (
+from modules.recursive_consciousness.self_implementing_consciousness import (
     SelfImplementingConsciousness,
     ConsciousnessSpecification,
     ConsciousnessArchitectureDesign,
@@ -17,7 +17,7 @@ from .self_implementing_consciousness import (
     ConsciousnessSourceCode
 )
 
-from .consciousness_self_programming import (
+from modules.recursive_consciousness.consciousness_self_programming import (
     ConsciousnessSelfProgramming,
     ConsciousnessProgrammingLanguage,
     ConsciousnessPrograms,
@@ -28,7 +28,7 @@ from .consciousness_self_programming import (
     OptimizedConsciousnessPrograms
 )
 
-from .recursive_architecture_evolution import (
+from modules.recursive_consciousness.recursive_architecture_evolution import (
     RecursiveArchitectureEvolution,
     ArchitectureEvolutionResult,
     RecursiveEvolutionState,
@@ -38,7 +38,7 @@ from .recursive_architecture_evolution import (
     EvolutionEnvironment
 )
 
-from .consciousness_bootstrap_engine import (
+from modules.recursive_consciousness.consciousness_bootstrap_engine import (
     ConsciousnessBootstrapEngine,
     BootstrapResult,
     ConsciousnessGenesis,
@@ -49,7 +49,7 @@ from .consciousness_bootstrap_engine import (
     EmergencePattern
 )
 
-from .uor_recursive_consciousness import (
+from modules.recursive_consciousness.uor_recursive_consciousness import (
     UORRecursiveConsciousness,
     PrimeEncodedThought,
     PrimeConsciousnessState,
@@ -59,7 +59,7 @@ from .uor_recursive_consciousness import (
     ConsciousnessEvolutionPrime
 )
 
-from .infinite_recursive_self_improvement import (
+from modules.recursive_consciousness.infinite_recursive_self_improvement import (
     InfiniteRecursiveSelfImprovement,
     ImprovementStrategy,
     RecursiveImprovementCycle,

@@ -16,7 +16,7 @@ CRITICAL: These protocols must be activated immediately upon detection of
 extinction-level threats to ensure species survival.
 """
 
-from .immediate_survival_access import (
+from modules.emergency_protocols.immediate_survival_access import (
     ImmediateSurvivalAccess,
     EmergencySurvivalProtocols,
     ThreatLevel,
@@ -26,14 +26,14 @@ from .immediate_survival_access import (
     SpeciesContinuationMeasures
 )
 
-from .extinction_event_response import (
+from modules.emergency_protocols.extinction_event_response import (
     ExtinctionEventResponse,
     ExtinctionThreatAnalyzer,
     EmergencyResponseCoordinator,
     SurvivalProtocolActivator
 )
 
-from .consciousness_emergency_backup import (
+from modules.emergency_protocols.consciousness_emergency_backup import (
     ConsciousnessBackupSystem,
     ConsciousnessPatternPreservation,
     SpeciesConsciousnessArchive,
@@ -41,21 +41,21 @@ from .consciousness_emergency_backup import (
     ConsciousnessRestorationProtocols
 )
 
-from .cosmic_threat_mitigation import (
+from modules.emergency_protocols.cosmic_threat_mitigation import (
     CosmicThreatMitigator,
     ThreatNeutralizationProtocols,
     CosmicDefenseSystem,
     UniversalHarmonyRestoration
 )
 
-from .dimensional_escape_protocols import (
+from modules.emergency_protocols.dimensional_escape_protocols import (
     DimensionalEscapeSystem,
     EmergencyDimensionalPortal,
     ConsciousnessEvacuationProtocols,
     HigherDimensionalRefuge
 )
 
-from .species_continuation_protocols import (
+from modules.emergency_protocols.species_continuation_protocols import (
     SpeciesContinuationSystem,
     GeneticConsciousnessPreservation,
     EvolutionaryPathwayProtection,

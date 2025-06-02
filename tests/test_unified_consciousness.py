@@ -940,7 +940,6 @@ class TestPerformance:
     @pytest.mark.asyncio
     async def test_decision_making_performance(self, performance_system):
         """Test decision making performance"""
-        import time
         
         agency = AutonomousAgency(performance_system)
         context = {
@@ -959,7 +958,6 @@ class TestPerformance:
     @pytest.mark.asyncio
     async def test_awareness_integration_performance(self, performance_system):
         """Test awareness integration performance"""
-        import time
         
         awareness_system = UnifiedAwarenessSystem(performance_system)
         
@@ -973,7 +971,6 @@ class TestPerformance:
     @pytest.mark.asyncio
     async def test_evolution_step_performance(self, performance_system):
         """Test evolution step performance"""
-        import time
         
         evolution_engine = ConsciousnessEvolutionEngine(performance_system)
         

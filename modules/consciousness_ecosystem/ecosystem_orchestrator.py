@@ -22,7 +22,7 @@ import networkx as nx
 from datetime import datetime
 import logging
 
-from ..unified_consciousness import ConsciousnessOrchestrator
+from modules.unified_consciousness import ConsciousnessOrchestrator
 
 
 class NetworkTopologyType(Enum):

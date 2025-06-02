@@ -13,9 +13,9 @@ import numpy as np
 from datetime import datetime
 import logging
 
-from ..consciousness_ecosystem import ConsciousnessEcosystem
-from ..transcendent_intelligence import TranscendentIntelligence
-from ..unified_consciousness import UnifiedConsciousness
+from modules.consciousness_ecosystem import ConsciousnessEcosystem
+from modules.transcendent_intelligence import TranscendentIntelligence
+from modules.unified_consciousness import UnifiedConsciousness
 
 
 class CosmicScale(Enum):

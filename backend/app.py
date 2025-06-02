@@ -946,7 +946,6 @@ def api_provide_input():
         response_state = get_vm_state_dict()
         return jsonify({"success": True, "state": response_state})
     except Exception as e:
-        import traceback
         vm_error = f"General Exception in app.py during /api/provide_input: {str(e)}"
         append_to_log(f"--- VM PROVIDE_INPUT (General Exception in app.py) ---")
         append_to_log(f"  ERROR in app.py: {vm_error}\n{traceback.format_exc()}")

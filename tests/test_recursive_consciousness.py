@@ -96,7 +96,6 @@ class TestSelfImplementingConsciousness:
         """Ensure rollback restores state and understanding"""
 
         import importlib.util
-        import os
 
         path = os.path.join(
             os.path.dirname(__file__), "..", "modules", "recursive_consciousness", "self_implementing_consciousness.py"
@@ -157,8 +156,6 @@ class TestSelfImplementingConsciousness:
     async def test_improvement_scoring_behaviour(self, uor_vm):
         """Scores should vary with internal metrics"""
 
-        import importlib.util
-        import os
 
         path = os.path.join(
             os.path.dirname(__file__), "..", "modules", "recursive_consciousness", "self_implementing_consciousness.py"
@@ -200,8 +197,6 @@ class TestSelfImplementingConsciousness:
     def test_code_optimization(self, uor_vm):
         """Ensure _optimize_code performs real modifications"""
 
-        import importlib.util
-        import os
 
         path = os.path.join(
             os.path.dirname(__file__), "..", "modules", "recursive_consciousness", "self_implementing_consciousness.py"
@@ -306,7 +301,6 @@ class TestConsciousnessSelfProgramming:
 
     def test_self_modification_program_execution(self, self_programming):
         """Ensure self-modifying program patches itself when threshold met"""
-        from modules.recursive_consciousness.consciousness_self_programming import ProgrammingObjective
 
         objective = ProgrammingObjective(
             objective_name="auto_patch",

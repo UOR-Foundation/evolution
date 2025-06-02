@@ -1,7 +1,17 @@
-# This file contains the missing helper methods for collaborative_creativity.py
-# These should be added to the CollaborativeCreativityEngine class
+"""
+This file contains the missing helper methods for collaborative_creativity.py
+These should be added to the CollaborativeCreativityEngine class
+"""
 
-    def _calculate_collective_focus(self, session: CreativeSession) -> float:
+import numpy as np
+from datetime import datetime
+from typing import List, Dict, Any
+
+
+class CollaborativeCreativityCompletionMethods:
+    """Helper methods for CollaborativeCreativityEngine"""
+    
+    def _calculate_collective_focus(self, session) -> float:
         """Calculate collective focus level"""
         if not session.ideas_generated:
             return 0.5
@@ -16,7 +26,7 @@
         
         return np.mean(focus_scores) if focus_scores else 0.5
     
-    def _calculate_idea_velocity(self, session: CreativeSession) -> float:
+    def _calculate_idea_velocity(self, session) -> float:
         """Calculate ideas per minute"""
         if not session.ideas_generated:
             return 0.0
@@ -27,7 +37,7 @@
         
         return len(session.ideas_generated) / duration
     
-    def _assess_quality_consistency(self, session: CreativeSession) -> float:
+    def _assess_quality_consistency(self, session) -> float:
         """Assess consistency of idea quality"""
         if len(session.ideas_generated) < 3:
             return 0.5
@@ -42,7 +52,7 @@
         
         return consistency
     
-    def _enhance_session_for_flow(self, session: CreativeSession) -> None:
+    def _enhance_session_for_flow(self, session) -> None:
         """Enhance session parameters for flow state"""
         session.session_dynamics['energy_level'] = min(
             session.session_dynamics['energy_level'] * 1.2, 1.0
@@ -51,8 +61,7 @@
             session.session_dynamics['harmony'] * 1.1, 1.0
         )
     
-    def _generate_improvisation(self, participant: str, prompt: str, 
-                               session: CreativeSession) -> str:
+    def _generate_improvisation(self, participant: str, prompt: str, session) -> str:
         """Generate improvisation based on prompt"""
         # Simple implementation - could use more sophisticated generation
         return f"{participant} improvises on '{prompt}' with creative twist"
@@ -78,8 +87,7 @@
         
         return milestones
     
-    def _create_development_stages(self, idea: CreativeIdea, 
-                                 development_plan: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def _create_development_stages(self, idea, development_plan: Dict[str, Any]) -> List[Dict[str, Any]]:
         """Create development stages for an idea"""
         stages = []
         
@@ -151,7 +159,7 @@
         for i in range(len(team)):
             for j in range(i+1, len(team)):
                 pair = tuple(sorted([team[i], team[j]]))
-                if pair in self.synergy_matrix:
+                if hasattr(self, 'synergy_matrix') and pair in self.synergy_matrix:
                     synergy_sum += self.synergy_matrix[pair].synergy_score
                     pair_count += 1
         
@@ -161,7 +169,7 @@
         
         return min(score, 1.0)
     
-    def _analyze_idea_quality(self, session: CreativeSession) -> Dict[str, Any]:
+    def _analyze_idea_quality(self, session) -> Dict[str, Any]:
         """Analyze distribution of idea quality"""
         if not session.ideas_generated:
             return {'mean': 0, 'std': 0, 'high_quality_ratio': 0}
@@ -179,7 +187,7 @@
             }
         }
     
-    def _identify_collaboration_patterns(self, session: CreativeSession) -> List[Dict[str, Any]]:
+    def _identify_collaboration_patterns(self, session) -> List[Dict[str, Any]]:
         """Identify patterns in collaboration"""
         patterns = []
         
@@ -210,18 +218,19 @@
         
         return patterns
     
-    def _analyze_energy_flow(self, session: CreativeSession) -> Dict[str, Any]:
+    def _analyze_energy_flow(self, session) -> Dict[str, Any]:
         """Analyze energy flow throughout session"""
-        if not session.energy_flow:
+        if not hasattr(session, 'energy_flow') or not session.energy_flow:
             return {'dominant_energy': None, 'transitions': 0}
         
         # Count energy types
         energy_counts = {}
         for _, energy in session.energy_flow:
-            energy_counts[energy.value] = energy_counts.get(energy.value, 0) + 1
+            energy_value = energy.value if hasattr(energy, 'value') else str(energy)
+            energy_counts[energy_value] = energy_counts.get(energy_value, 0) + 1
         
         # Find dominant energy
-        dominant_energy = max(energy_counts.items(), key=lambda x: x[1])[0]
+        dominant_energy = max(energy_counts.items(), key=lambda x: x[1])[0] if energy_counts else None
         
         # Count transitions
         transitions = len(session.energy_flow) - 1
@@ -233,12 +242,13 @@
             'energy_stability': 1.0 / (1.0 + transitions / 10)  # More transitions = less stable
         }
     
-    def _identify_key_innovations(self, session: CreativeSession) -> List[CreativeIdea]:
+    def _identify_key_innovations(self, session) -> List:
         """Identify key innovative ideas from session"""
         # Filter for high novelty and impact
         innovations = [
             idea for idea in session.ideas_generated
-            if idea.novelty_score > 0.7 and idea.impact_potential > 0.7
+            if hasattr(idea, 'novelty_score') and hasattr(idea, 'impact_potential') and
+            idea.novelty_score > 0.7 and idea.impact_potential > 0.7
         ]
         
         # Sort by overall score
@@ -246,16 +256,16 @@
         
         return innovations[:5]  # Top 5 innovations
     
-    def _generate_improvement_suggestions(self, session: CreativeSession) -> List[str]:
+    def _generate_improvement_suggestions(self, session) -> List[str]:
         """Generate suggestions for improving creative sessions"""
         suggestions = []
         
         # Check productivity
-        if session.get_productivity_score() < 0.5:
+        if hasattr(session, 'get_productivity_score') and session.get_productivity_score() < 0.5:
             suggestions.append("Consider more structured brainstorming techniques")
         
         # Check energy flow
-        if len(session.energy_flow) > 10:
+        if hasattr(session, 'energy_flow') and len(session.energy_flow) > 10:
             suggestions.append("Try to maintain more consistent creative energy")
         
         # Check collaboration
@@ -264,12 +274,12 @@
             suggestions.append("Encourage more collaborative building on ideas")
         
         # Check breakthrough rate
-        if len(session.breakthrough_moments) == 0:
+        if hasattr(session, 'breakthrough_moments') and len(session.breakthrough_moments) == 0:
             suggestions.append("Push for more ambitious and transformative ideas")
         
         return suggestions
     
-    def _assess_collaboration_quality(self, session: CreativeSession) -> float:
+    def _assess_collaboration_quality(self, session) -> float:
         """Assess overall collaboration quality"""
         factors = []
         
@@ -290,12 +300,12 @@
         factors.append(collab_ratio)
         
         # Factor 3: Synergy utilization
-        if len(session.participants) > 1:
+        if hasattr(session, 'participants') and len(session.participants) > 1:
             synergy_scores = []
             for i in range(len(session.participants)):
                 for j in range(i+1, len(session.participants)):
                     pair = tuple(sorted([session.participants[i], session.participants[j]]))
-                    if pair in self.synergy_matrix:
+                    if hasattr(self, 'synergy_matrix') and pair in self.synergy_matrix:
                         synergy_scores.append(self.synergy_matrix[pair].synergy_score)
             
             if synergy_scores:
@@ -303,7 +313,7 @@
         
         return np.mean(factors) if factors else 0.5
     
-    def _recommend_next_steps(self, session: CreativeSession) -> List[str]:
+    def _recommend_next_steps(self, session) -> List[str]:
         """Recommend next steps after session"""
         recommendations = []
         
@@ -321,16 +331,21 @@
             recommendations.append("Consider synthesis session to combine related ideas")
         
         # Suggest follow-up based on energy
-        last_energy = session.energy_flow[-1][1] if session.energy_flow else None
-        if last_energy == CreativeEnergy.DIVERGENT:
-            recommendations.append("Schedule convergent session to refine ideas")
-        elif last_energy == CreativeEnergy.CONVERGENT:
-            recommendations.append("Move to implementation planning")
+        if hasattr(session, 'energy_flow') and session.energy_flow:
+            last_energy = session.energy_flow[-1][1]
+            if hasattr(last_energy, 'value'):
+                if last_energy.value == 'DIVERGENT':
+                    recommendations.append("Schedule convergent session to refine ideas")
+                elif last_energy.value == 'CONVERGENT':
+                    recommendations.append("Move to implementation planning")
         
         return recommendations
     
-    def _update_participant_profiles(self, session: CreativeSession) -> None:
+    def _update_participant_profiles(self, session) -> None:
         """Update participant profiles based on session performance"""
+        if not hasattr(self, 'participant_profiles'):
+            self.participant_profiles = {}
+            
         for participant in session.participants:
             if participant not in self.participant_profiles:
                 self.participant_profiles[participant] = {}

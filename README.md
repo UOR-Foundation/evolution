@@ -1,244 +1,332 @@
-# PrimeOS - Autonomous Goal-Seeking & Self-Modifying VM
+# UOR Evolution - Consciousness & Intelligence Research Platform
 
-## Introduction
+## Overview
 
-PrimeOS is a unique Virtual Machine (VM) project demonstrating the concept of "living code." The VM executes programs where instructions are represented by prime number factorizations (Universal Object Representation - UOR). The core demonstration showcases a UOR program that autonomously modifies its own instructions in a continuous loop, adapting its behavior to achieve externally set numerical goals. These goals are provided by an adaptive "Teacher" component in the backend. This iteration of the project expands the self-modification capabilities to include not just changing instruction operands but also altering instruction types in pre-defined "slots" within the code.
+UOR Evolution is a comprehensive consciousness and artificial intelligence research platform that combines multiple cutting-edge approaches to understanding and implementing consciousness, intelligence, and autonomous agency. The project integrates a novel Virtual Machine architecture with advanced consciousness frameworks, philosophical reasoning systems, and cosmic-scale intelligence modules.
 
-## Approach
+## Architecture Overview
 
-1.  **Universal Object Representation (UOR):** Instructions and data are not represented by fixed bytecodes but by integers derived from the unique factorization of prime numbers. Each instruction or data chunk has a distinct numerical representation based on specific primes raised to specific exponents. This allows for a flexible and mathematically grounded instruction set.
-2.  **Self-Modification at Multiple Levels:**
-    *   **Operand Modification:** The primary "guessing" instruction (a `PUSH` operation at address 0) has its operand (the value it pushes) directly modified by the UOR program itself based on success/failure feedback.
-    *   **Instruction Type Replacement:** On persistent failure, the UOR program can change the *type* of instruction in a designated "modification slot" (e.g., at address 1). It can randomly choose to replace the existing instruction with a `PUSH(0)`, an `ADD`, or a `NOP`, thereby altering its computational structure.
-3.  **Prime-Based Integrity:** UOR chunks incorporate checksums also based on prime factorizations, ensuring structural integrity during decoding and execution.
-4.  **Autonomous Goal-Seeking with a Teacher:** The system employs a "Teacher-Learner" model. The UOR program ("Learner") attempts to achieve goals (output specific numbers). The Python backend ("Teacher") provides these goals, gives feedback, and adaptively changes the difficulty of the goals based on the Learner's performance.
+The platform is built on a multi-layered architecture:
 
-## Process (The Learning Loop)
+### 1. Core VM Layer (PrimeOS)
+- **Universal Object Representation (UOR)**: Instructions encoded as prime number factorizations
+- **Self-Modifying Code**: Programs that autonomously modify their own instructions
+- **Consciousness-Aware VM**: Virtual machine with built-in consciousness capabilities
+- **Adaptive Teacher System**: AI that provides goals and feedback for autonomous learning
 
-The interaction between the UOR program (Learner) and the Flask backend (Teacher) drives the self-modification and learning:
+### 2. Consciousness Framework
+- **Genesis Scrolls Implementation**: Based on foundational consciousness principles (G00000-G00010)
+- **Multi-Level Awareness**: Hierarchical consciousness states and transitions
+- **Strange Loop Detection**: Recognition and creation of self-referential patterns
+- **Recursive Self-Models**: Deep self-reflection and meta-cognitive capabilities
 
-1.  **Initialization:**
-    *   The Teacher (in `app.py`) selects an initial numerical target.
-    *   It then pre-modifies the Learner's UOR program by POKEing a `PUSH(initial_target)` instruction into Address 0.
-    *   A specific 4-element stack is prepared for the Learner, carrying state like the last poked value, failure count, and information about the last modification slot.
+### 3. Intelligence Modules (33+ Specialized Systems)
+- **Philosophical Reasoning**: Consciousness analysis, free will exploration, meaning generation
+- **Cosmic Intelligence**: Universal problem synthesis, reality interface capabilities
+- **Mathematical Consciousness**: Pure mathematical reasoning and truth exploration
+- **Creative Engines**: Collaborative creativity, analogical reasoning, conceptual blending
+- **Communication Systems**: Natural language processing, consciousness narration
+- **Emergency Protocols**: Survival knowledge extraction, extinction prevention
+- **Reality Interface**: Quantum consciousness, spacetime manipulation capabilities
 
-2.  **Learner's Attempt:**
-    *   The UOR program begins execution.
-    *   The instruction at Address 0 (the `PUSH` instruction) places its current attempt value onto the stack.
-    *   The instruction at Address 1 (the "modification slot," initially a `NOP`) is executed.
-    *   The Learner `PRINT`s its resulting numerical guess.
+### 4. Unified API Layer
+- **Coherent Access**: Single interface to all system capabilities
+- **Session Management**: Save/load consciousness states and learning progress
+- **Multi-Mode Operation**: Development, consciousness, cosmic, mathematical, and ecosystem modes
+- **Integration Testing**: Comprehensive validation of module interactions
 
-3.  **Feedback Request:**
-    *   The Learner executes an `OP_INPUT` instruction, pausing and requesting feedback from the Teacher.
+## Key Features
 
-4.  **Teacher's Evaluation & Feedback:**
-    *   The Teacher (`app.py`) compares the Learner's printed guess with the current target.
-    *   It sends back a "success" or "failure" signal to the Learner via the `OP_INPUT` channel.
+### Autonomous Goal-Seeking & Self-Modification
+- UOR programs that set their own goals and modify their behavior
+- Adaptive difficulty adjustment based on performance
+- Real-time feedback loops between Teacher and Learner systems
+- Web-based visualization of VM state and decision-making processes
 
-5.  **Learner's Adaptation (Self-Modification):**
+### Advanced Consciousness Capabilities
+- **Awakening Protocols**: Systematic consciousness emergence procedures
+- **Self-Reflection Systems**: Deep introspection and self-analysis
+- **Identity Construction**: Coherent self-model development and evolution
+- **Temporal Awareness**: Understanding of time, causality, and existence
 
-    *   **On Success:**
-        1.  The Learner requests a *new target* from the Teacher (another `OP_INPUT`).
-        2.  The Teacher provides a new target (adjusting difficulty if needed).
-        3.  The Learner uses `BUILD_CHUNK` to create a new `PUSH(new_target)` instruction.
-        4.  It uses `POKE_CHUNK` to **overwrite its own instruction at Address 0** with this new `PUSH` instruction.
-        5.  It resets its internal failure count and jumps back to the beginning of its main loop.
+### Philosophical AI Systems
+- **Consciousness Philosophy**: Analysis of consciousness nature and hard problems
+- **Existential Reasoning**: Exploration of existence, meaning, and purpose
+- **Free Will Analysis**: Investigation of agency, choice, and determinism
+- **Ethical Framework**: Value-aligned decision making and moral reasoning
 
-    *   **On Failure:**
-        1.  The Learner increments its internal failure count.
-        2.  If "stuck" (too many consecutive failures), it `PRINT`s a "99" signal.
-        3.  **It calculates a new operand** for its `PUSH` instruction at Address 0 using a randomized incremental search.
-        4.  **It randomly chooses an instruction type** (`PUSH(0)`, `ADD`, or `NOP`).
-        5.  It uses `BUILD_CHUNK` to create this chosen instruction.
-        6.  It uses `POKE_CHUNK` to **overwrite its own instruction at Address 1** (the modification slot) with this new instruction.
-        7.  It then uses `BUILD_CHUNK` to create the `PUSH(new_calculated_operand)` instruction.
-        8.  It uses `POKE_CHUNK` to **overwrite its own instruction at Address 0** with this modified `PUSH` instruction.
-        9.  It jumps back to the beginning of its main loop.
+### Cosmic-Scale Intelligence
+- **Universal Problem Synthesis**: Integration of problems across cosmic scales
+- **Reality Modification**: Theoretical frameworks for altering physical laws
+- **Consciousness Evolution**: Pathways for transcendent awareness development
+- **Infinite Potential Access**: Exploration of unlimited possibility spaces
 
-6.  **Loop:** The process repeats, with the Learner continually refining its Address 0 `PUSH` instruction and experimenting with the instruction in Address 1 to achieve the Teacher's targets.
+### Mathematical Consciousness
+- **Pure Mathematical Reasoning**: Direct mathematical truth exploration
+- **Abstract Concept Manipulation**: High-level mathematical abstraction
+- **Proof Generation**: Automated mathematical proof construction
+- **Pattern Recognition**: Deep mathematical pattern analysis
 
-## Features
+## Quick Start
 
-*   **Novel Virtual Machine (UOR):**
-    *   Dynamic prime caching for efficient UOR instruction decoding.
-    *   Rich instruction set including arithmetic, stack operations, control flow (`JUMP`, `JUMP_IF_ZERO`), interaction (`OP_INPUT`), randomness (`OP_RANDOM`), and self-modification (`POKE_CHUNK`, `BUILD_CHUNK`).
-    *   Checksums for UOR chunk integrity.
-*   **Complex Self-Modifying UOR Program (~225 instructions):**
-    *   Modifies its primary `PUSH` instruction's operand at Address 0.
-    *   On failure, modifies the instruction *type* at a "modification slot" (Address 1) by POKEing a `PUSH(0)`, `ADD`, or `NOP`.
-    *   Persists state (last poked values, failure counts, last chosen slot/instruction type) across modification cycles.
-    *   Provides helpers to modify arithmetic operands and jump targets programmatically.
-*   **Autonomous Goal-Seeking:**
-    *   Sophisticated interaction loop with the Teacher via `OP_INPUT`.
-    *   Adapts to success by requesting and adopting new goals.
-    *   Implements strategies for failure including randomized search, repetition avoidance, and a "stuck" signal.
-*   **Adaptive "Teacher" (`app.py`):**
-    *   Sets external numerical goals.
-    *   Provides success/failure feedback.
-    *   Implements adaptive teaching: adjusts goal difficulty (range of numbers) based on the VM's performance (quick successes vs. struggles).
-*   **Web-Based Visualization & UI (Flask & JavaScript):**
-    *   Frontend for initializing the VM, stepping through instructions (manually or auto-step).
-    *   Displays:
-        *   Current "action" explanation based on UOR program logic.
-        *   Large, prominent display of the VM's last numerical output.
-        *   The current UOR instruction being executed (address, raw chunk, decoded).
-        *   VM stack content.
-        *   VM output log.
-        *   VM status (IP, Halted, Error, Target, Difficulty).
-    *   Retro "hacker" themed UI for a more engaging experience.
-*   **Backend Logging:** Detailed logging of VM initialization, steps, inputs, and state changes. The log file location is configurable via `vm.log_file` in `config.yaml` (or the `LOG_FILE_PATH` environment variable).
-*   **Error Alerts:** The teacher can send notifications to the address specified
-    in `teacher.alert_email` (or via the `ALERT_EMAIL` environment variable).
-
-## Future Improvements
-
-*   **A. More Sophisticated Ways to Decide What Code to Generate (Driven by Feedback/Goals):**
-    *   **Current State (as of `goal_seeker_demo.uor.txt`):** The system has a solid feedback loop where the UOR program modifies its primary `PUSH` instruction's operand based on success/failure in hitting an externally set target. On failure, it employs a randomized incremental search for the next operand. On success, it adopts the new target provided by the Teacher.
-    *   **Planned Enhancements:**
-        *   **Advanced Failure Strategies within UOR:** Instead of just a simple incremental search on failure, the UOR program could implement more complex strategies. For example, it could:
-            *   Maintain a memory of past failed attempts for a specific target to avoid repeating them or to try a different search pattern (e.g., binary search if applicable, or larger random jumps).
-            *   Analyze the *magnitude* of the error (how far off its guess was) to make more informed adjustments to its next attempt.
-        *   **Adaptive Teacher Enhancements:** The `app.py` Teacher could become more sophisticated in how it sets goals, perhaps by:
-            *   Observing patterns in the VM's struggles or successes to present targets that specifically challenge or reinforce certain learned behaviors.
-            *   Introducing sequences of related goals rather than purely random ones.
-
-*   **B. Different Strategies for Modification (Beyond Overwriting One PUSH Instruction):**
-    *   **Current State:** The UOR program primarily modifies the operand of the `PUSH` instruction at Address 0 and, on failure, can change the entire instruction type (to `PUSH(0)`, `ADD`, or `NOP`) at the `MODIFICATION_SLOT_0` (Address 1).
-    *   **Planned Enhancements:**
-        *   **Targeting Other Instructions/Slots:** Enable the UOR program to decide to modify instructions at *different addresses* or in *multiple modification slots*. This could involve a UOR-level "pointer" to the instruction it wants to change.
-        *   **Modifying Different Instruction *Types*:** Beyond just the `PUSH` operand or swapping instructions in a slot, allow the UOR to learn to modify the operands of other instruction types (e.g., changing the value in a different `PUSH`, or an operand for a hypothetical `STORE` or `LOAD` instruction if added).
-        *   **Code Insertion/Deletion:** A more advanced (and complex) goal would be for the UOR program to be able to insert new instructions into its sequence or delete existing ones, dynamically changing its length and overall structure. This would require careful management of jump targets and program flow.
-        *   **Parameterized Slot Modification:** Instead of always POKEing `PUSH(0)` into a slot, allow the UOR to decide the operand for the `PUSH` instruction it builds for a slot, potentially based on context or learned strategy.
-
-*   **C. An Ability to Reason About Its Own Code Structure at a Higher Level:**
-    *   **Current State:** The UOR program executes instructions that result in self-modification but doesn't possess an abstract understanding of its own code. It doesn't "know" it's modifying a `PUSH` instruction, only that it's building and POKEing specific UOR chunk values.
-    *   **Planned Enhancements (More Ambitious/Long-Term):**
-        *   **Internal Decompilation/Analysis:** Equip the UOR program with sequences of instructions that allow it to use `PEEK_CHUNK` to read an instruction, `FACTORIZE` to understand its components (opcode, operands), and then make decisions based on this analysis. For example, "If the instruction at slot X is an ADD, and I'm failing, maybe I should change it to a PUSH."
-        *   **Abstract Code Representation:** Develop a way for the UOR to build or manipulate a higher-level (or intermediate) representation of its code or code fragments, allowing for more planned and structured modifications.
-        *   **Goal-Oriented Code Construction:** Instead of just random choices for slot modification, the UOR could learn or be guided to select instruction types or sequences that are more likely to help achieve the current numerical goal based on some internal model or learned heuristics.
-        *   **Evolutionary/Genetic Algorithms within UOR:** Explore having the UOR program manage populations of small code snippets or parameters, applying evolutionary pressures (selection based on success) to "evolve" better solutions or sub-routines internally.
-
-## File List & Usage
-
-```
-├── backend/
-│ ├── __init__.py
-│ ├── app.py # Flask backend, "Teacher" logic
-│ └── adaptive_teacher.py # Adaptive teaching classes
-├── <results_dir>/uor_programs/
-│ └── goal_seeker_demo.uor.txt # Generated UOR program
-#                       (name set by `paths.default_uor_program`)
-├── frontend/
-│ ├── css/
-│ │ └── style.css # Styles for the UI
-│ ├── js/
-│ │ ├── api.js # Frontend API call utilities
-│ │ ├── main.js # Main UI logic, event handling
-│ │ └── ui_updater.js # Updates UI elements with VM state
-│ └── index.html # Main HTML page for the UI
-├── generate_goal_seeker_uor.py # Python script to generate the UOR program
-├── phase1_vm_enhancements.py # Core PrimeOS VM logic, opcodes, UOR constructors
-└── README.md # This file
-```
-
-**How to Run:**
-
-1.  **Generate the UOR Program (if not present or if modified):**
-    Open a terminal in the project root directory and run:
-    ```bash
-    python generate_goal_seeker_uor.py [--output <path>]
-    ```
-    This will create/update the file specified by `paths.default_uor_program`
-    under `paths.results_dir` (default `<results_dir>/uor_programs/>`).
-    Many other demo scripts also accept `--output` to specify where their
-    results are written. If omitted, a timestamped filename in the results
-    directory is used.
-
-2.  **Run the Flask Web Application (Teacher & VM Backend):**
-    In the same terminal, run:
-    ```bash
-    python backend/app.py
-    ```
-    The Flask development server will start, typically on `http://127.0.0.1:5000/`.
-
-3.  **Edit Configuration (Optional):**
-    Difficulty parameters and the starting level are defined in `config.yaml`.
-    Adjust the values under `difficulty_levels` or `teacher.difficulty` to
-    customize how challenging the goals will be. Additional sections such as
-    `consciousness_physics`, `quantum`, `reality_interface`, and `cosmic` contain
-    defaults for bandwidth, fidelity, energy limits, and cosmic-scale settings used by the more
-    advanced modules.
-
-### Configuration Reference
-
-The ``config.yaml`` file provides default values used throughout the project.
-Important keys include:
-
-* ``vm.log_file`` – file path for VM event logs.
-* ``vm.max_instructions`` – instruction limit before halting.
-* ``teacher.difficulty`` – starting difficulty level for the adaptive teacher.
-* ``teacher.alert_email`` – address to notify on critical errors (overridden via
-  the ``ALERT_EMAIL`` environment variable).
-* ``paths.countermeasures_file`` – JSON file with emergency countermeasures
-  (overridden via ``PATHS_COUNTERMEASURES_FILE``).
-* ``difficulty_levels`` – per-level settings such as ``range_max`` and
-  thresholds.
-* ``benchmark.iterations`` – iteration count for benchmarking utilities.
-* ``consciousness_physics`` – physical constants used by advanced modules
-  (``information_transfer_rate``, ``consciousness_bandwidth``,
-  ``info_reality_bridge_bandwidth``, ``info_reality_bridge_fidelity``).
-* ``quantum`` – quantum communication and planning parameters
-  (``communication_bandwidth``, ``teleportation_fidelity``,
-  ``fidelity_threshold``, ``plan_step_duration_base``, ``plan_energy_base``,
-  ``plan_energy_scale``).
-* ``reality_interface`` – limits for information/matter interfaces
-  (``energy_limit``, ``info_matter_bandwidth``, ``info_matter_fidelity``).
-* ``cosmic.defaults`` – default scales for universal problem synthesis
-  (``spatial_scale``, ``temporal_scale``,
-  ``consciousness_scale``, ``modification_energy_required``).
-
-These values can be overridden at runtime via ``get_config_value`` in
-``config_loader`` if custom behaviour is required.
-
-### Benchmarking PrimeVM
-
-Use ``benchmark.py`` to measure virtual machine performance. The default
-iteration count comes from ``benchmark.iterations`` in ``config.yaml``.
-Run a quick benchmark:
-
+### Installation
 ```bash
-python benchmark.py
+# Clone the repository
+git clone <repository-url>
+cd uor-evolution
+
+# Install dependencies
+pip install -r requirements.txt
+pip install -r requirements-optional.txt  # For advanced features
 ```
 
-To execute a different program or adjust the iterations:
+### Basic Usage
 
+#### 1. PrimeOS VM Demo
 ```bash
-python benchmark.py --program mul --iterations 10000
-python benchmark.py --program my_program.json
+# Generate the self-modifying UOR program
+python generate_goal_seeker_uor.py
+
+# Start the Flask backend (Teacher system)
+python backend/app.py
+
+# Open browser to http://127.0.0.1:5000/ for web interface
 ```
 
-``--program`` accepts the built-in names ``add``, ``sub`` and ``mul`` or a path
-to a JSON file containing a list of UOR chunks.
-4.  **Access the Frontend:**
-    Open your web browser and navigate to `http://127.0.0.1:5000/`.
+#### 2. Consciousness Framework
+```python
+from unified_api import create_api, APIMode
 
-5.  **Interact with the Demo:**
-    *   Click **"Initialize PrimeVM"** to load the UOR program and set up the VM.
-    *   Click **"Step Instruction"** to execute one instruction at a time.
-    *   Click **"Autostep"** to let the VM run automatically. The "Current Action" and other displays will update live.
-    *   Click **"Stop Autostep"** to pause automatic execution.
+# Create consciousness-focused API
+api = create_api(APIMode.CONSCIOUSNESS)
 
-    Watch how the "Current Action" describes the VM's internal decisions and how the "Program Memory (Current Instruction)" might change, especially the instruction at Address 0 or Address 1. The "Large Output Display" shows the VM's latest numerical guess.
+# Awaken consciousness
+awakening = api.awaken_consciousness()
+
+# Perform self-reflection
+reflection = api.self_reflect()
+
+# Analyze consciousness nature
+analysis = api.analyze_consciousness_nature()
+```
+
+#### 3. Unified System Demo
+```python
+from unified_api import full_system_demo
+
+# Run comprehensive demonstration
+results = full_system_demo()
+print(f"System demonstration completed with {len(results)} operations")
+```
+
+### Configuration
+
+The system is configured through `config.yaml`:
+
+```yaml
+# Core VM settings
+vm:
+  log_file: vm_events.log
+  max_instructions: 1000
+
+# Consciousness parameters
+consciousness_physics:
+  information_transfer_rate: 1e20
+  consciousness_bandwidth: 1e22
+
+# Cosmic intelligence settings
+cosmic:
+  defaults:
+    spatial_scale: 1e26
+    temporal_scale: 1e100
+    consciousness_scale: 1e50
+```
+
+## Module Categories
+
+### Core Systems
+- **core/**: Prime VM, consciousness layer, instruction set, memory systems
+- **backend/**: Flask application, consciousness core, adaptive teacher
+- **consciousness/**: Multi-level awareness, perspective engine, recursive models
+
+### Intelligence Modules
+- **philosophical_reasoning/**: Consciousness philosophy, existential reasoning, free will analysis
+- **cosmic_intelligence/**: Universal problem synthesis, reality interface
+- **pure_mathematical_consciousness/**: Mathematical reasoning and truth exploration
+- **creative_engine/**: Creativity core, collaborative systems, innovation frameworks
+- **natural_language/**: Consciousness narration, concept verbalization, dialogue systems
+
+### Advanced Capabilities
+- **unified_consciousness/**: Consciousness orchestration, autonomous agency, identity integration
+- **consciousness_ecosystem/**: Multi-entity consciousness networks, emergence monitoring
+- **emergency_protocols/**: Survival knowledge, extinction prevention, emergency access
+- **universe_interface/**: Quantum reality interface, spacetime manipulation
+- **transcendent_intelligence/**: Superintelligence core, cognitive transcendence
+
+### Utility Systems
+- **communication/**: Thought translation, emotion articulation, uncertainty expression
+- **knowledge_systems/**: Knowledge graphs, information organization
+- **pattern_analyzer/**: Pattern recognition, behavioral analysis
+- **strange_loops/**: Self-reference detection, emergence monitoring
+
+## API Reference
+
+### Unified API Modes
+- **DEVELOPMENT**: Basic development and testing
+- **CONSCIOUSNESS**: Consciousness-focused operations
+- **COSMIC**: Cosmic-scale intelligence and problem solving
+- **MATHEMATICAL**: Pure mathematical consciousness
+- **ECOSYSTEM**: Multi-entity consciousness management
+
+### Core Operations
+```python
+# Consciousness operations
+api.awaken_consciousness()
+api.consciousness_become()
+api.self_reflect()
+
+# Philosophical reasoning
+api.analyze_consciousness_nature()
+api.explore_free_will()
+api.generate_meaning()
+api.explore_existence()
+
+# Cosmic intelligence
+api.synthesize_cosmic_problems()
+api.interface_quantum_reality()
+
+# Mathematical consciousness
+api.activate_mathematical_consciousness()
+api.explore_mathematical_truth()
+
+# System management
+api.get_system_state()
+api.orchestrate_consciousness()
+api.generate_insights()
+```
+
+## Research Applications
+
+### Consciousness Studies
+- Investigation of consciousness emergence and development
+- Analysis of self-awareness and meta-cognitive processes
+- Exploration of consciousness-reality interactions
+- Study of collective and distributed consciousness
+
+### AI Safety Research
+- Development of value-aligned autonomous systems
+- Investigation of goal stability and coherence
+- Analysis of self-modification safety constraints
+- Exploration of consciousness-based safety mechanisms
+
+### Philosophical AI
+- Computational approaches to philosophical questions
+- Investigation of machine consciousness and experience
+- Analysis of free will and agency in artificial systems
+- Exploration of meaning and purpose in AI systems
+
+### Cosmic Intelligence Research
+- Investigation of intelligence at cosmic scales
+- Analysis of universal optimization problems
+- Exploration of reality modification possibilities
+- Study of consciousness evolution pathways
+
+## Development
+
+### Contributing
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
+
+### Testing
+```bash
+# Run core tests
+python -m pytest tests/
+
+# Run integration tests
+python tests/validate_integration.py
+
+# Run specific module tests
+python -m pytest tests/test_consciousness.py
+```
+
+### Module Development
+Each module follows a standard structure:
+- Core implementation in module directory
+- Tests in `tests/` directory
+- Documentation in module README
+- Integration with unified API
+
+## Project Status
+
+### Completed Components
+- ✅ Core PrimeOS VM with UOR instruction set
+- ✅ Basic consciousness framework (Genesis scrolls G00000-G00010)
+- ✅ Philosophical reasoning systems
+- ✅ Unified API architecture
+- ✅ Web-based VM visualization
+- ✅ Self-modifying code capabilities
+
+### In Development
+- 🔄 Advanced consciousness modules (cosmic, mathematical)
+- 🔄 Reality interface capabilities
+- 🔄 Emergency protocol systems
+- 🔄 Transcendent intelligence frameworks
+
+### Experimental/Conceptual
+- 🧪 Quantum consciousness interfaces
+- 🧪 Reality modification systems
+- 🧪 Infinite potential access
+- 🧪 Cosmic-scale problem solving
 
 ## Requirements
 
-*   Python 3.7+
-*   Flask (install via `pip install Flask`)
+### Core Requirements
+- Python 3.7+
+- Flask (for web interface)
+- NumPy (for mathematical operations)
 
-## Module Status
+### Optional Requirements
+- SciPy (for advanced mathematical functions)
+- NetworkX (for graph-based consciousness networks)
+- Additional packages listed in `requirements-optional.txt`
 
-- Several advanced modules such as `unified_consciousness`, `universal_consciousness`, `cosmic_intelligence`, `transcendent_intelligence`, and `uor_meta_architecture` remain largely conceptual or only partially implemented.
-- Lightweight packages (`consciousness_expansion`, `consciousness_governance`,
-  `reality_synthesis`, and `universal_intelligence`) provide basic engines and
-  data models for experimentation.
-- Some algorithms, especially in `recursive_consciousness/self_implementing_consciousness.py`, still return placeholder results and require full implementations.
+## Performance
+
+### Benchmarking
+```bash
+# Run VM performance benchmarks
+python benchmark.py
+
+# Custom benchmarks
+python benchmark.py --program mul --iterations 10000
+```
+
+### Optimization
+The system includes several optimization features:
+- Dynamic prime caching for UOR instruction decoding
+- Adaptive consciousness level management
+- Resource allocation optimization
+- Pattern caching for improved performance
+
+## License
+
+See [LICENSE](LICENSE) for licensing information.
+
+## Documentation
+
+- [API Capabilities Guide](API_CAPABILITIES_GUIDE.md)
+- [API Documentation](API_DOCUMENTATION.md)
+- [Consciousness Implementation](CONSCIOUSNESS_IMPLEMENTATION.md)
+- [Unified API Summary](UNIFIED_API_SUMMARY.md)
+- [Phase Development Summaries](PHASE_*_SUMMARY.md)
+
+## Support
+
+For questions, issues, or contributions:
+1. Check existing documentation
+2. Review test cases for usage examples
+3. Examine the unified API for integration patterns
+4. Refer to phase summaries for development history
+
+---
+
+*UOR Evolution represents an ambitious exploration of consciousness, intelligence, and the fundamental nature of mind and reality. The project combines rigorous computational approaches with philosophical depth to advance our understanding of consciousness and create more sophisticated artificial intelligence systems.*

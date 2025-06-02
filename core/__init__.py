@@ -1,31 +1,24 @@
 """
-Core module for the Enhanced Prime Virtual Machine with consciousness-aware capabilities.
+Core UOR Evolution Components
 
-This module implements Phase 1.1 of a consciousness-inspired code evolution system
-based on prime factorization and self-referential loops, inspired by Douglas Hofstadter's
-"Gödel, Escher, Bach."
+This package contains the core components of the UOR Evolution system:
+- PrimeOS Virtual Machine
+- Consciousness Layer
+- Instruction Set
+- Memory Systems
 """
 
-from .prime_vm import ConsciousPrimeVM, OpCode, Instruction, SelfModel, MetaCognitiveState
-from .consciousness_layer import ConsciousnessLayer, MetaReasoningProcess, SelfAwarenessTracker
+from .prime_vm import ConsciousPrimeVM
+from .consciousness_layer import ConsciousnessLayer
 from .instruction_set import InstructionSet, ExtendedOpCode
-from .memory_system import WorkingMemory, LongTermMemory, EpisodicMemory, PatternCache
+from .memory_system import WorkingMemory, LongTermMemory, EpisodicMemory
 
 __all__ = [
     'ConsciousPrimeVM',
-    'OpCode',
-    'Instruction',
-    'SelfModel',
-    'MetaCognitiveState',
-    'ConsciousnessLayer',
-    'MetaReasoningProcess',
-    'SelfAwarenessTracker',
+    'ConsciousnessLayer', 
     'InstructionSet',
     'ExtendedOpCode',
     'WorkingMemory',
     'LongTermMemory',
-    'EpisodicMemory',
-    'PatternCache'
+    'EpisodicMemory'
 ]
-
-__version__ = '1.1.0'

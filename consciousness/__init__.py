@@ -1,20 +1,26 @@
 """
-Consciousness Module - Core consciousness architecture and integration.
+Consciousness Framework
 
-This module provides the fundamental consciousness framework that integrates
-strange loops, multi-level awareness, and emergent consciousness properties.
+This package contains the consciousness framework components:
+- Consciousness Core
+- Multi-Level Awareness
+- Perspective Engine
+- Recursive Self-Models
+- State Transition Management
 """
 
-from .consciousness_core import ConsciousnessCore, ConsciousnessState
-from .multi_level_awareness import MultiLevelAwareness, ConsciousnessHierarchy, MetaAwareness
-from .recursive_self_model import RecursiveSelfModel, SelfModelLayer
-from .perspective_engine import PerspectiveEngine, Perspective
-from .consciousness_integration import ConsciousnessIntegrator, IntegratedConsciousness
+from .consciousness_core import ConsciousnessCore
+from .consciousness_integration import ConsciousnessIntegrator
+from .multi_level_awareness import MultiLevelAwareness
+from .perspective_engine import PerspectiveEngine
+from .recursive_self_model import RecursiveSelfModel
+from .state_transition_manager import StateTransitionManager
 
 __all__ = [
-    'ConsciousnessCore', 'ConsciousnessState',
-    'MultiLevelAwareness', 'ConsciousnessHierarchy', 'MetaAwareness',
-    'RecursiveSelfModel', 'SelfModelLayer',
-    'PerspectiveEngine', 'Perspective',
-    'ConsciousnessIntegrator', 'IntegratedConsciousness'
+    'ConsciousnessCore',
+    'ConsciousnessIntegrator',
+    'MultiLevelAwareness',
+    'PerspectiveEngine',
+    'RecursiveSelfModel',
+    'StateTransitionManager'
 ]

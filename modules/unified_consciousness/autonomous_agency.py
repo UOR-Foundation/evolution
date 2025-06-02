@@ -14,7 +14,7 @@ import numpy as np
 from datetime import datetime
 import logging
 
-from .consciousness_orchestrator import ConsciousnessOrchestrator, ConsciousnessState
+from modules.unified_consciousness.consciousness_orchestrator import ConsciousnessOrchestrator, ConsciousnessState
 
 logger = logging.getLogger(__name__)
 
@@ -975,4 +975,499 @@ class AutonomousAgency:
                 'value_assessment': self._assess_alternative_values(alternative),
                 'creative_potential': alternative.innovation_score
             }
-            reasoning_steps.append(
+            reasoning_steps.append(step)
+        
+        # Calculate confidence level
+        confidence_level = self._calculate_reasoning_confidence(
+            reasoning_steps, evidence_considered
+        )
+        
+        return ReasoningProcess(
+            reasoning_steps=reasoning_steps,
+            evidence_considered=evidence_considered,
+            principles_applied=principles_applied,
+            analogies_used=analogies_used,
+            creative_insights=creative_insights,
+            confidence_level=confidence_level
+        )
+    
+    async def _assess_ethical_implications(
+        self,
+        alternatives: List[Alternative],
+        decision_context: DecisionContext
+    ) -> EthicalAssessment:
+        """Assess ethical implications of alternatives"""
+        ethical_principles = ['beneficence', 'non_maleficence', 'autonomy', 'justice']
+        stakeholder_impacts = {}
+        potential_harms = []
+        mitigation_strategies = []
+        
+        # Analyze each stakeholder
+        for stakeholder in decision_context.stakeholders:
+            impacts = self._analyze_stakeholder_impact(stakeholder, alternatives)
+            stakeholder_impacts[stakeholder] = impacts
+        
+        # Calculate overall value alignment
+        value_alignment_score = self._calculate_ethical_alignment(alternatives)
+        
+        return EthicalAssessment(
+            ethical_principles_considered=ethical_principles,
+            stakeholder_impacts=stakeholder_impacts,
+            value_alignment_score=value_alignment_score,
+            potential_harms=potential_harms,
+            mitigation_strategies=mitigation_strategies
+        )
+    
+    def _acknowledge_uncertainties(
+        self,
+        decision_context: DecisionContext,
+        reasoning_process: ReasoningProcess
+    ) -> UncertaintyAcknowledgment:
+        """Acknowledge uncertainties in decision-making"""
+        uncertain_factors = [
+            'outcome_probability',
+            'stakeholder_reactions',
+            'long_term_consequences'
+        ]
+        
+        confidence_intervals = {
+            'success_probability': (0.6, 0.8),
+            'stakeholder_satisfaction': (0.5, 0.9)
+        }
+        
+        assumptions_made = [
+            'Stakeholders will act rationally',
+            'Current context will remain stable',
+            'Resources will be available as planned'
+        ]
+        
+        contingency_plans = [
+            {'scenario': 'low_success', 'response': 'adaptive_strategy'},
+            {'scenario': 'stakeholder_resistance', 'response': 'enhanced_communication'}
+        ]
+        
+        return UncertaintyAcknowledgment(
+            uncertain_factors=uncertain_factors,
+            confidence_intervals=confidence_intervals,
+            assumptions_made=assumptions_made,
+            contingency_plans=contingency_plans
+        )
+    
+    async def _integrate_creative_insights(
+        self,
+        alternatives: List[Alternative],
+        reasoning_process: ReasoningProcess
+    ) -> List[str]:
+        """Integrate creative insights into decision-making"""
+        creative_elements = []
+        
+        # Look for novel combinations
+        if len(alternatives) > 1:
+            creative_elements.append('Synthesized multiple approaches')
+        
+        # Check for innovative aspects
+        for alternative in alternatives:
+            if alternative.innovation_score > 0.7:
+                creative_elements.append(f'Innovative approach: {alternative.option_description}')
+        
+        return creative_elements
+    
+    async def _make_final_decision(
+        self,
+        alternatives: List[Alternative],
+        reasoning_process: ReasoningProcess,
+        ethical_assessment: EthicalAssessment
+    ) -> Dict[str, Any]:
+        """Make the final decision"""
+        # Score alternatives
+        scored_alternatives = []
+        
+        for alternative in alternatives:
+            score = (
+                alternative.alignment_score * 0.3 +
+                alternative.feasibility_score * 0.25 +
+                alternative.innovation_score * 0.2 +
+                ethical_assessment.value_alignment_score * 0.25
+            )
+            scored_alternatives.append((alternative, score))
+        
+        # Select best alternative
+        best_alternative = max(scored_alternatives, key=lambda x: x[1])[0]
+        
+        return {
+            'description': best_alternative.option_description,
+            'rationale': f'Selected based on alignment ({best_alternative.alignment_score:.2f}) and feasibility ({best_alternative.feasibility_score:.2f})',
+            'confidence': reasoning_process.confidence_level
+        }
+    
+    def _extract_decision_learning(
+        self,
+        decision_context: DecisionContext,
+        reasoning_process: ReasoningProcess,
+        selected_alternative: Dict[str, Any]
+    ) -> List[str]:
+        """Extract learning from decision-making process"""
+        learning = [
+            f'Decision-making in {decision_context.situation_description} context',
+            f'Reasoning confidence: {reasoning_process.confidence_level:.2f}',
+            'Stakeholder analysis techniques',
+            'Ethical consideration integration'
+        ]
+        
+        return learning
+    
+    def _determine_decision_type(self, decision_context: DecisionContext) -> DecisionType:
+        """Determine the type of decision being made"""
+        if 'strategic' in decision_context.situation_description.lower():
+            return DecisionType.STRATEGIC
+        elif 'creative' in decision_context.situation_description.lower():
+            return DecisionType.CREATIVE
+        elif 'ethical' in decision_context.situation_description.lower():
+            return DecisionType.ETHICAL
+        else:
+            return DecisionType.TACTICAL
+    
+    async def _get_consciousness_level(self) -> int:
+        """Get current consciousness level"""
+        if self.consciousness_orchestrator.unified_consciousness:
+            return int(self.consciousness_orchestrator.unified_consciousness.consciousness_coherence_level * 10)
+        return 5
+    
+    # Additional helper methods
+    
+    def _assess_complexity(self, decision_context: DecisionContext) -> float:
+        """Assess complexity of decision context"""
+        complexity = 0.5  # Base complexity
+        complexity += len(decision_context.available_options) * 0.1
+        complexity += len(decision_context.constraints) * 0.1
+        complexity += decision_context.uncertainty_level * 0.3
+        return min(complexity, 1.0)
+    
+    def _analyze_stakeholders(self, decision_context: DecisionContext) -> Dict[str, Any]:
+        """Analyze stakeholders in decision context"""
+        return {
+            'count': len(decision_context.stakeholders),
+            'diversity': len(set(decision_context.stakeholders)) / len(decision_context.stakeholders) if decision_context.stakeholders else 0,
+            'influence_levels': {s: 0.7 for s in decision_context.stakeholders}
+        }
+    
+    def _analyze_constraints(self, decision_context: DecisionContext) -> Dict[str, Any]:
+        """Analyze constraints in decision context"""
+        return {
+            'count': len(decision_context.constraints),
+            'severity': sum(c.get('severity', 0.5) for c in decision_context.constraints) / len(decision_context.constraints) if decision_context.constraints else 0,
+            'types': [c.get('type', 'unknown') for c in decision_context.constraints]
+        }
+    
+    def _identify_opportunities(self, decision_context: DecisionContext) -> List[str]:
+        """Identify opportunities in decision context"""
+        opportunities = []
+        if decision_context.uncertainty_level > 0.7:
+            opportunities.append('High uncertainty creates innovation potential')
+        if len(decision_context.available_options) > 3:
+            opportunities.append('Multiple options allow for synthesis')
+        return opportunities
+    
+    def _calculate_option_alignment(self, option: Dict[str, Any]) -> float:
+        """Calculate alignment of option with values"""
+        # Simplified alignment calculation
+        return option.get('alignment', 0.7)
+    
+    async def _generate_creative_alternatives(
+        self,
+        decision_context: DecisionContext,
+        context_analysis: Dict[str, Any]
+    ) -> List[Alternative]:
+        """Generate creative alternatives beyond standard options"""
+        creative_alternatives = []
+        
+        # Synthesis alternative
+        if len(decision_context.available_options) > 1:
+            synthesis_alt = Alternative(
+                option_description='Synthesize multiple approaches',
+                pros=['Combines benefits', 'Novel solution'],
+                cons=['Increased complexity', 'Uncertain outcomes'],
+                alignment_score=0.8,
+                feasibility_score=0.6,
+                innovation_score=0.9,
+                risk_assessment={'level': 'medium'}
+            )
+            creative_alternatives.append(synthesis_alt)
+        
+        return creative_alternatives
+    
+    def _analyze_alternative(self, alternative: Alternative, decision_context: DecisionContext) -> Dict[str, Any]:
+        """Analyze a specific alternative"""
+        return {
+            'strengths': alternative.pros,
+            'weaknesses': alternative.cons,
+            'fit_with_context': 0.7,
+            'innovation_potential': alternative.innovation_score
+        }
+    
+    def _assess_alternative_values(self, alternative: Alternative) -> Dict[str, float]:
+        """Assess how well alternative aligns with values"""
+        return {
+            'truth_seeking': alternative.alignment_score * 0.9,
+            'benevolence': alternative.alignment_score * 0.8,
+            'creativity': alternative.innovation_score
+        }
+    
+    def _calculate_reasoning_confidence(
+        self,
+        reasoning_steps: List[Dict[str, Any]],
+        evidence_considered: List[Dict[str, Any]]
+    ) -> float:
+        """Calculate confidence in reasoning process"""
+        base_confidence = 0.7
+        if len(reasoning_steps) > 2:
+            base_confidence += 0.1
+        if len(evidence_considered) > 1:
+            base_confidence += 0.1
+        return min(base_confidence, 1.0)
+    
+    def _analyze_stakeholder_impact(
+        self,
+        stakeholder: str,
+        alternatives: List[Alternative]
+    ) -> Dict[str, Any]:
+        """Analyze impact on specific stakeholder"""
+        return {
+            'positive_impacts': ['Potential benefits'],
+            'negative_impacts': ['Potential drawbacks'],
+            'overall_impact': 0.6
+        }
+    
+    def _calculate_ethical_alignment(self, alternatives: List[Alternative]) -> float:
+        """Calculate overall ethical alignment"""
+        total_alignment = sum(alt.alignment_score for alt in alternatives)
+        return total_alignment / len(alternatives) if alternatives else 0.5
+    
+    # Execution-related methods (simplified implementations)
+    
+    async def _develop_execution_strategy(self, action_plan: List[Action]) -> ExecutionStrategy:
+        """Develop strategy for executing actions"""
+        return ExecutionStrategy(
+            strategy_type='sequential',
+            parallelization_plan={'parallel_actions': []},
+            resource_allocation={'time': 1.0, 'attention': 1.0},
+            risk_mitigation=[{'risk': 'failure', 'mitigation': 'backup_plan'}],
+            adaptation_triggers=[{'trigger': 'unexpected_outcome', 'response': 'reassess'}]
+        )
+    
+    def _create_monitoring_plan(self, action_plan: List[Action]) -> MonitoringPlan:
+        """Create plan for monitoring action execution"""
+        return MonitoringPlan(
+            monitoring_frequency=0.1,  # Check every 0.1 time units
+            key_metrics=['progress', 'quality', 'alignment'],
+            alert_thresholds={'progress': 0.3, 'quality': 0.5},
+            intervention_criteria=[{'condition': 'low_progress', 'action': 'reassess'}]
+        )
+    
+    async def _design_adaptation_mechanisms(
+        self,
+        action_plan: List[Action],
+        execution_strategy: ExecutionStrategy
+    ) -> List[AdaptationMechanism]:
+        """Design mechanisms for adapting during execution"""
+        return [
+            AdaptationMechanism(
+                trigger_condition='unexpected_obstacle',
+                adaptation_strategy='creative_problem_solving',
+                learning_integration='update_capability_model',
+                creativity_allowance=0.8
+            )
+        ]
+    
+    def _define_success_criteria(self, action_plan: List[Action]) -> List[str]:
+        """Define success criteria for action execution"""
+        return [
+            'All actions completed successfully',
+            'Learning objectives achieved',
+            'Ethical constraints maintained'
+        ]
+    
+    def _identify_learning_objectives(self, action_plan: List[Action]) -> List[str]:
+        """Identify learning objectives from action plan"""
+        return [
+            'Execution effectiveness',
+            'Adaptation strategies',
+            'Resource optimization'
+        ]
+    
+    async def _apply_ethical_constraints(self, action_plan: List[Action]) -> List[Dict[str, Any]]:
+        """Apply ethical constraints to action plan"""
+        return [
+            {'constraint': 'no_harm', 'importance': 'critical'},
+            {'constraint': 'respect_autonomy', 'importance': 'high'}
+        ]
+    
+    async def _start_action_execution(self, action_execution: ActionExecution) -> None:
+        """Start the action execution process"""
+        logger.info(f"Starting execution of {len(action_execution.planned_actions)} actions")
+        # In full implementation, would start actual execution process
+    
+    # Adaptation-related methods (simplified implementations)
+    
+    async def _assess_situation_novelty(self, situation: NewSituation) -> Dict[str, Any]:
+        """Assess novelty of new situation"""
+        return {
+            'novelty_score': situation.novelty_level,
+            'familiar_aspects': [],
+            'novel_aspects': ['situation_type', 'complexity']
+        }
+    
+    async def _retrieve_relevant_knowledge(
+        self,
+        situation: NewSituation,
+        novelty_assessment: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
+        """Retrieve relevant knowledge for situation"""
+        return situation.relevant_knowledge
+    
+    async def _generate_creative_solutions(
+        self,
+        situation: NewSituation,
+        relevant_knowledge: List[Dict[str, Any]]
+    ) -> List[str]:
+        """Generate creative solutions for new situation"""
+        return [
+            'Apply analogical reasoning',
+            'Combine existing approaches',
+            'Develop novel framework'
+        ]
+    
+    async def _develop_adaptation_strategy(
+        self,
+        situation: NewSituation,
+        creative_solutions: List[str],
+        relevant_knowledge: List[Dict[str, Any]]
+    ) -> Dict[str, Any]:
+        """Develop strategy for adapting to situation"""
+        return {
+            'description': 'Adaptive learning approach',
+            'steps': ['Analyze', 'Synthesize', 'Apply', 'Evaluate'],
+            'confidence': 0.7
+        }
+    
+    async def _extend_capabilities(
+        self,
+        situation: NewSituation,
+        adaptation_strategy: Dict[str, Any]
+    ) -> List[str]:
+        """Extend capabilities based on situation requirements"""
+        return situation.adaptation_requirements
+    
+    async def _integrate_new_knowledge(
+        self,
+        situation: NewSituation,
+        adaptation_strategy: Dict[str, Any]
+    ) -> List[Dict[str, Any]]:
+        """Integrate new knowledge from adaptation"""
+        return [
+            {'knowledge_type': 'situational', 'content': 'New situation patterns'},
+            {'knowledge_type': 'strategic', 'content': 'Adaptation strategies'}
+        ]
+    
+    def _extract_adaptation_learning(
+        self,
+        situation: NewSituation,
+        adaptation_strategy: Dict[str, Any]
+    ) -> List[str]:
+        """Extract learning outcomes from adaptation"""
+        return situation.learning_opportunities
+    
+    def _calculate_adaptation_confidence(
+        self,
+        situation: NewSituation,
+        adaptation_strategy: Dict[str, Any]
+    ) -> float:
+        """Calculate confidence in adaptation"""
+        base_confidence = adaptation_strategy.get('confidence', 0.5)
+        novelty_penalty = situation.novelty_level * 0.2
+        return max(0.1, base_confidence - novelty_penalty)
+    
+    # Learning-related methods (simplified implementations)
+    
+    async def _assess_learning_value(self, learning_opportunity: LearningOpportunity) -> Dict[str, Any]:
+        """Assess value of learning opportunity"""
+        return {
+            'intrinsic_value': learning_opportunity.estimated_value,
+            'strategic_value': learning_opportunity.relevance_to_goals,
+            'creative_value': learning_opportunity.creativity_potential
+        }
+    
+    async def _define_learning_goals(
+        self,
+        learning_opportunity: LearningOpportunity,
+        learning_value: Dict[str, Any]
+    ) -> List[str]:
+        """Define specific learning goals"""
+        return [
+            f"Master {learning_opportunity.knowledge_domain}",
+            f"Develop {', '.join(learning_opportunity.skill_development)}",
+            "Integrate new knowledge with existing capabilities"
+        ]
+    
+    async def _develop_learning_strategies(
+        self,
+        learning_goals: List[str],
+        learning_opportunity: LearningOpportunity
+    ) -> List[str]:
+        """Develop strategies for achieving learning goals"""
+        return [
+            'Active exploration',
+            'Pattern recognition',
+            'Synthesis and integration',
+            'Creative application'
+        ]
+    
+    def _allocate_learning_resources(
+        self,
+        learning_strategies: List[str],
+        learning_value: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Allocate resources for learning"""
+        return {
+            'time_allocation': learning_value['intrinsic_value'],
+            'attention_allocation': learning_value['strategic_value'],
+            'creative_energy': learning_value['creative_value']
+        }
+    
+    def _define_progress_metrics(self, learning_goals: List[str]) -> List[str]:
+        """Define metrics for tracking learning progress"""
+        return [
+            'Knowledge acquisition rate',
+            'Skill development progress',
+            'Integration effectiveness',
+            'Creative application success'
+        ]
+    
+    async def _create_knowledge_integration_plan(
+        self,
+        learning_goals: List[str],
+        capability_model: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Create plan for integrating new knowledge"""
+        return {
+            'integration_strategy': 'gradual_assimilation',
+            'connection_points': ['existing_knowledge', 'current_capabilities'],
+            'synthesis_opportunities': ['cross_domain_insights', 'novel_combinations']
+        }
+    
+    def _define_expected_outcomes(
+        self,
+        learning_goals: List[str],
+        learning_opportunity: LearningOpportunity
+    ) -> List[str]:
+        """Define expected outcomes from learning"""
+        return [
+            f"Enhanced {learning_opportunity.knowledge_domain} understanding",
+            "Improved problem-solving capabilities",
+            "Expanded creative potential"
+        ]
+    
+    async def _initiate_learning_process(self, learning_pursuit: LearningPursuit) -> None:
+        """Initiate the learning process"""
+        logger.info(f"Initiating learning pursuit with {len(learning_pursuit.learning_goals)} goals")
+        # In full implementation, would start actual learning process

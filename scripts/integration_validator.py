@@ -5,11 +5,16 @@ Validates that all modules are properly connected and can be imported/used toget
 """
 
 import sys
+import os
 import importlib
 import traceback
 from pathlib import Path
 from typing import Dict, List, Any, Tuple
 import logging
+
+# Add the repository root to Python path
+repo_root = Path(__file__).parent.parent
+sys.path.insert(0, str(repo_root))
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)

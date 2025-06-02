@@ -80,6 +80,21 @@ class ConsciousnessTransition:
 
 
 @dataclass
+class ConsciousnessExperience:
+    """A single consciousness experience."""
+    id: str
+    timestamp: float
+    state: ConsciousnessState
+    content: Dict[str, Any]
+    insights: List[str] = field(default_factory=list)
+    significance: float = 0.0
+    
+    def __post_init__(self):
+        if not self.id:
+            self.id = str(uuid.uuid4())
+
+
+@dataclass
 class ConsciousnessMemory:
     """Memory of consciousness experiences."""
     experiences: deque = field(default_factory=lambda: deque(maxlen=1000))
@@ -703,7 +718,6 @@ class ConsciousnessCore:
             "boundaries dissolving"
         ]
         
-        import random
         elements.extend(random.sample(surreal, 2))
         
         return elements

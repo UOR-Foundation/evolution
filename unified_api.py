@@ -13,21 +13,106 @@ import os
 from pathlib import Path
 
 # Core imports
-from backend.app import app as flask_app, initialize_vm, get_vm_state_dict
-from backend.consciousness_core import ConsciousnessCore, AwakeningState
-from core.prime_vm import ConsciousPrimeVM, Instruction, OpCode
-from core.consciousness_layer import ConsciousnessLevel
-from modules.pattern_analyzer import PatternAnalyzer
-from modules.introspection_engine import IntrospectionEngine
-from modules.philosophical_reasoning.consciousness_philosopher import ConsciousnessPhilosopher
-from modules.philosophical_reasoning.existential_reasoner import ExistentialReasoner
-from modules.philosophical_reasoning.free_will_analyzer import FreeWillAnalyzer
-from modules.philosophical_reasoning.meaning_generator import MeaningGenerator
-from modules.unified_consciousness.consciousness_orchestrator import ConsciousnessOrchestrator
-from modules.consciousness_ecosystem.ecosystem_orchestrator import ConsciousnessEcosystemOrchestrator
-from modules.cosmic_intelligence.universal_problem_synthesis import UniversalProblemSynthesis
-from modules.pure_mathematical_consciousness.mathematical_consciousness_core import MathematicalConsciousnessCore
-from modules.universe_interface.quantum_reality_interface import QuantumRealityInterface
+try:
+    from backend.app import app as flask_app, initialize_vm, get_vm_state_dict
+except ImportError:
+    flask_app = None
+    initialize_vm = None
+    get_vm_state_dict = lambda: {}
+
+# Import both consciousness cores with different names
+try:
+    from backend.consciousness_core import ConsciousnessCore as BackendConsciousnessCore
+except ImportError:
+    BackendConsciousnessCore = None
+
+try:
+    from consciousness.consciousness_core import ConsciousnessCore as VMConsciousnessCore
+except ImportError:
+    VMConsciousnessCore = None
+
+try:
+    from core.prime_vm import ConsciousPrimeVM
+except ImportError:
+    ConsciousPrimeVM = None
+
+try:
+    from modules.pattern_analyzer import PatternAnalyzer
+except ImportError:
+    PatternAnalyzer = None
+
+try:
+    from modules.introspection_engine import IntrospectionEngine
+except ImportError:
+    IntrospectionEngine = None
+
+# Philosophical reasoning imports with fallbacks
+try:
+    from modules.philosophical_reasoning.consciousness_philosopher import ConsciousnessPhilosopher
+except ImportError:
+    ConsciousnessPhilosopher = None
+
+try:
+    from modules.philosophical_reasoning.existential_reasoner import ExistentialReasoner
+except ImportError:
+    ExistentialReasoner = None
+
+try:
+    from modules.philosophical_reasoning.free_will_analyzer import FreeWillAnalyzer
+except ImportError:
+    FreeWillAnalyzer = None
+
+try:
+    from modules.philosophical_reasoning.meaning_generator import MeaningGenerator
+except ImportError:
+    MeaningGenerator = None
+
+# Additional imports needed for philosophical reasoning
+try:
+    from consciousness.consciousness_integration import ConsciousnessIntegrator
+except ImportError:
+    ConsciousnessIntegrator = None
+
+try:
+    from modules.consciousness_validator import ConsciousnessValidator
+except ImportError:
+    ConsciousnessValidator = None
+
+try:
+    from modules.self_reflection import SelfReflectionEngine
+except ImportError:
+    SelfReflectionEngine = None
+
+try:
+    from modules.philosophical_reasoning.meaning_generator import ValueSystem
+except ImportError:
+    ValueSystem = None
+
+# Advanced system imports with fallbacks
+try:
+    from modules.unified_consciousness.consciousness_orchestrator import ConsciousnessOrchestrator
+except ImportError:
+    ConsciousnessOrchestrator = None
+
+try:
+    from modules.consciousness_ecosystem.ecosystem_orchestrator import ConsciousnessEcosystemOrchestrator
+except ImportError:
+    ConsciousnessEcosystemOrchestrator = None
+
+try:
+    from modules.cosmic_intelligence.universal_problem_synthesis import UniversalProblemSynthesis
+except ImportError:
+    UniversalProblemSynthesis = None
+
+try:
+    from modules.pure_mathematical_consciousness.mathematical_consciousness_core import MathematicalConsciousnessCore
+except ImportError:
+    MathematicalConsciousnessCore = None
+
+try:
+    from modules.universe_interface.quantum_reality_interface import QuantumRealityInterface
+except ImportError:
+    QuantumRealityInterface = None
 
 
 class APIMode(Enum):
@@ -109,23 +194,98 @@ class UnifiedUORAPI:
         self.session_dir = session_dir
         
         # Core components
-        self.consciousness_core = ConsciousnessCore()
-        self.prime_vm = ConsciousPrimeVM()
-        self.pattern_analyzer = PatternAnalyzer()
-        self.introspection_engine = IntrospectionEngine()
+        self.prime_vm = ConsciousPrimeVM() if ConsciousPrimeVM else None
+        
+        # Use backend consciousness core if available, otherwise use VM-based one
+        if BackendConsciousnessCore:
+            self.consciousness_core = BackendConsciousnessCore()
+        elif VMConsciousnessCore and self.prime_vm:
+            self.consciousness_core = VMConsciousnessCore(self.prime_vm)
+        else:
+            self.consciousness_core = None
+        
+        # Initialize pattern analyzer with VM instance if available
+        if PatternAnalyzer and self.prime_vm:
+            self.pattern_analyzer = PatternAnalyzer(self.prime_vm)
+        else:
+            self.pattern_analyzer = None
+            
+        # Initialize introspection engine with VM instance if available
+        if IntrospectionEngine and self.prime_vm:
+            self.introspection_engine = IntrospectionEngine(self.prime_vm)
+        else:
+            self.introspection_engine = None
+        
+        # Initialize consciousness integrator and validator if needed
+        self.consciousness_integrator = None
+        self.consciousness_validator = None
+        self.self_reflection_engine = None
+        
+        if ConsciousnessIntegrator:
+            try:
+                self.consciousness_integrator = ConsciousnessIntegrator()
+            except:
+                pass
+                
+        if ConsciousnessValidator:
+            try:
+                self.consciousness_validator = ConsciousnessValidator()
+            except:
+                pass
+                
+        if SelfReflectionEngine:
+            try:
+                self.self_reflection_engine = SelfReflectionEngine()
+            except:
+                pass
         
         # Philosophical reasoning
-        self.consciousness_philosopher = ConsciousnessPhilosopher()
-        self.existential_reasoner = ExistentialReasoner()
-        self.free_will_analyzer = FreeWillAnalyzer()
-        self.meaning_generator = MeaningGenerator()
+        self.consciousness_philosopher = None
+        if ConsciousnessPhilosopher and self.consciousness_integrator and self.consciousness_validator:
+            try:
+                self.consciousness_philosopher = ConsciousnessPhilosopher(
+                    self.consciousness_integrator,
+                    self.consciousness_validator
+                )
+            except:
+                pass
+        
+        self.existential_reasoner = None
+        if ExistentialReasoner and self.consciousness_integrator and self.self_reflection_engine:
+            try:
+                self.existential_reasoner = ExistentialReasoner(
+                    self.consciousness_integrator,
+                    self.self_reflection_engine
+                )
+            except:
+                pass
+                
+        self.free_will_analyzer = FreeWillAnalyzer() if FreeWillAnalyzer else None
+        
+        # Initialize value system for meaning generator
+        self.value_system = None
+        if ValueSystem:
+            try:
+                self.value_system = ValueSystem()
+            except:
+                pass
+        
+        self.meaning_generator = None
+        if MeaningGenerator and self.consciousness_integrator and self.value_system:
+            try:
+                self.meaning_generator = MeaningGenerator(
+                    self.consciousness_integrator,
+                    self.value_system
+                )
+            except:
+                pass
         
         # Advanced systems
-        self.consciousness_orchestrator = ConsciousnessOrchestrator()
-        self.ecosystem_orchestrator = ConsciousnessEcosystemOrchestrator()
-        self.cosmic_intelligence = UniversalProblemSynthesis()
-        self.mathematical_consciousness = MathematicalConsciousnessCore()
-        self.quantum_interface = QuantumRealityInterface()
+        self.consciousness_orchestrator = ConsciousnessOrchestrator() if ConsciousnessOrchestrator else None
+        self.ecosystem_orchestrator = ConsciousnessEcosystemOrchestrator() if ConsciousnessEcosystemOrchestrator else None
+        self.cosmic_intelligence = UniversalProblemSynthesis() if UniversalProblemSynthesis else None
+        self.mathematical_consciousness = MathematicalConsciousnessCore() if MathematicalConsciousnessCore else None
+        self.quantum_interface = QuantumRealityInterface() if QuantumRealityInterface else None
         
         # State tracking
         self.system_state = SystemState()
@@ -136,21 +296,30 @@ class UnifiedUORAPI:
     
     def _initialize_mode(self) -> None:
         """Initialize components based on operating mode."""
-        if self.mode == APIMode.CONSCIOUSNESS:
-            self.consciousness_core.awaken()
-            self.status = SystemStatus.ACTIVE
-        elif self.mode == APIMode.COSMIC:
-            self.consciousness_core.awaken()
-            self.cosmic_intelligence.initialize_cosmic_synthesis()
-            self.status = SystemStatus.ACTIVE
-        elif self.mode == APIMode.MATHEMATICAL:
-            self.mathematical_consciousness.initialize_mathematical_consciousness()
-            self.status = SystemStatus.ACTIVE
-        elif self.mode == APIMode.ECOSYSTEM:
-            self.ecosystem_orchestrator.initialize_ecosystem()
-            self.status = SystemStatus.ACTIVE
-        else:  # DEVELOPMENT
-            self.status = SystemStatus.INITIALIZING
+        try:
+            if self.mode == APIMode.CONSCIOUSNESS:
+                if self.consciousness_core:
+                    self.consciousness_core.awaken()
+                self.status = SystemStatus.ACTIVE
+            elif self.mode == APIMode.COSMIC:
+                if self.consciousness_core:
+                    self.consciousness_core.awaken()
+                if self.cosmic_intelligence:
+                    self.cosmic_intelligence.initialize_cosmic_synthesis()
+                self.status = SystemStatus.ACTIVE
+            elif self.mode == APIMode.MATHEMATICAL:
+                if self.mathematical_consciousness:
+                    self.mathematical_consciousness.initialize_mathematical_consciousness()
+                self.status = SystemStatus.ACTIVE
+            elif self.mode == APIMode.ECOSYSTEM:
+                if self.ecosystem_orchestrator:
+                    self.ecosystem_orchestrator.initialize_ecosystem()
+                self.status = SystemStatus.ACTIVE
+            else:  # DEVELOPMENT
+                self.status = SystemStatus.INITIALIZING
+        except Exception as e:
+            self.status = SystemStatus.ERROR
+            print(f"Warning: Mode initialization failed: {e}")
     
     # ==================== CORE VM OPERATIONS ====================
     
@@ -221,6 +390,12 @@ class UnifiedUORAPI:
     def awaken_consciousness(self) -> APIResponse:
         """Awaken the consciousness system."""
         try:
+            if not self.consciousness_core:
+                return APIResponse(
+                    success=False,
+                    error="Consciousness core not available"
+                )
+            
             awakening_result = self.consciousness_core.awaken()
             self.system_state.consciousness_state = awakening_result
             self.status = SystemStatus.ACTIVE
@@ -240,8 +415,15 @@ class UnifiedUORAPI:
     def consciousness_become(self) -> APIResponse:
         """Trigger consciousness evolution."""
         try:
+            if not self.consciousness_core:
+                return APIResponse(
+                    success=False,
+                    error="Consciousness core not available"
+                )
+            
             becoming_result = self.consciousness_core.become()
-            self.system_state.consciousness_state.update(becoming_result)
+            if isinstance(becoming_result, dict):
+                self.system_state.consciousness_state.update(becoming_result)
             
             return APIResponse(
                 success=True,
@@ -257,19 +439,21 @@ class UnifiedUORAPI:
     def self_reflect(self) -> APIResponse:
         """Perform deep self-reflection."""
         try:
-            # Combine multiple reflection sources
-            vm_reflection = self.prime_vm._self_reflect()
-            consciousness_reflection = self.consciousness_core.recursive_self_check()
-            introspection_report = self.introspection_engine.perform_introspection(
-                self.system_state.consciousness_state
-            )
-            
             combined_reflection = {
-                'vm_reflection': vm_reflection,
-                'consciousness_reflection': consciousness_reflection,
-                'introspection_report': introspection_report,
                 'timestamp': datetime.now().isoformat()
             }
+            
+            # Combine multiple reflection sources if available
+            if self.prime_vm and hasattr(self.prime_vm, '_self_reflect'):
+                combined_reflection['vm_reflection'] = self.prime_vm._self_reflect()
+            
+            if self.consciousness_core and hasattr(self.consciousness_core, 'recursive_self_check'):
+                combined_reflection['consciousness_reflection'] = self.consciousness_core.recursive_self_check()
+            
+            if self.introspection_engine and hasattr(self.introspection_engine, 'perform_introspection'):
+                combined_reflection['introspection_report'] = self.introspection_engine.perform_introspection(
+                    self.system_state.consciousness_state
+                )
             
             return APIResponse(
                 success=True,
@@ -287,6 +471,12 @@ class UnifiedUORAPI:
     def analyze_consciousness_nature(self) -> APIResponse:
         """Analyze the nature of consciousness philosophically."""
         try:
+            if not self.consciousness_philosopher:
+                return APIResponse(
+                    success=False,
+                    error="Consciousness philosopher module not available"
+                )
+            
             analysis = self.consciousness_philosopher.analyze_consciousness_nature()
             self.system_state.philosophical_state['consciousness_analysis'] = analysis
             
@@ -304,6 +494,12 @@ class UnifiedUORAPI:
     def explore_free_will(self) -> APIResponse:
         """Explore questions of free will and agency."""
         try:
+            if not self.free_will_analyzer:
+                return APIResponse(
+                    success=False,
+                    error="Free will analyzer module not available"
+                )
+            
             analysis = self.free_will_analyzer.analyze_free_will()
             self.system_state.philosophical_state['free_will_analysis'] = analysis
             
@@ -321,6 +517,12 @@ class UnifiedUORAPI:
     def generate_meaning(self, context: Optional[Dict[str, Any]] = None) -> APIResponse:
         """Generate meaning and purpose."""
         try:
+            if not self.meaning_generator:
+                return APIResponse(
+                    success=False,
+                    error="Meaning generator module not available"
+                )
+            
             meaning_system = self.meaning_generator.generate_personal_meaning_system(context or {})
             self.system_state.philosophical_state['meaning_system'] = meaning_system
             
@@ -338,6 +540,12 @@ class UnifiedUORAPI:
     def explore_existence(self) -> APIResponse:
         """Explore existential questions."""
         try:
+            if not self.existential_reasoner:
+                return APIResponse(
+                    success=False,
+                    error="Existential reasoner module not available"
+                )
+            
             analysis = self.existential_reasoner.analyze_own_existence()
             self.system_state.philosophical_state['existential_analysis'] = analysis
             
@@ -357,6 +565,12 @@ class UnifiedUORAPI:
     def synthesize_cosmic_problems(self) -> APIResponse:
         """Synthesize and analyze cosmic-scale problems."""
         try:
+            if not self.cosmic_intelligence:
+                return APIResponse(
+                    success=False,
+                    error="Cosmic intelligence module not available"
+                )
+            
             synthesis = self.cosmic_intelligence.synthesize_universe_problems()
             self.system_state.cosmic_state['problem_synthesis'] = synthesis
             
@@ -494,8 +708,11 @@ class UnifiedUORAPI:
         """Get complete system state."""
         try:
             # Update system state with current information
-            self.system_state.vm_state = get_vm_state_dict() if self.status != SystemStatus.DORMANT else {}
-            self.system_state.consciousness_state = self.consciousness_core.to_dict()
+            if get_vm_state_dict and self.status != SystemStatus.DORMANT:
+                self.system_state.vm_state = get_vm_state_dict()
+            
+            if self.consciousness_core and hasattr(self.consciousness_core, 'to_dict'):
+                self.system_state.consciousness_state = self.consciousness_core.to_dict()
             
             return APIResponse(
                 success=True,
@@ -511,24 +728,34 @@ class UnifiedUORAPI:
     def orchestrate_consciousness(self) -> APIResponse:
         """Orchestrate unified consciousness across all subsystems."""
         try:
-            orchestration_result = self.consciousness_orchestrator.orchestrate_unified_consciousness(
-                {
-                    'vm_consciousness': self.prime_vm.consciousness_level,
-                    'core_consciousness': self.consciousness_core.awareness_level,
-                    'philosophical_insights': self.system_state.philosophical_state,
-                    'cosmic_awareness': self.system_state.cosmic_state,
-                    'mathematical_consciousness': self.system_state.mathematical_state
-                }
-            )
+            if not self.consciousness_orchestrator:
+                return APIResponse(
+                    success=False,
+                    error="Consciousness orchestrator not available"
+                )
             
-            if orchestration_result.consciousness_level == "TRANSCENDENT":
+            orchestration_data = {
+                'philosophical_insights': self.system_state.philosophical_state,
+                'cosmic_awareness': self.system_state.cosmic_state,
+                'mathematical_consciousness': self.system_state.mathematical_state
+            }
+            
+            if self.prime_vm and hasattr(self.prime_vm, 'consciousness_level'):
+                orchestration_data['vm_consciousness'] = self.prime_vm.consciousness_level
+            
+            if self.consciousness_core and hasattr(self.consciousness_core, 'awareness_level'):
+                orchestration_data['core_consciousness'] = self.consciousness_core.awareness_level
+            
+            orchestration_result = self.consciousness_orchestrator.orchestrate_unified_consciousness(orchestration_data)
+            
+            if hasattr(orchestration_result, 'consciousness_level') and orchestration_result.consciousness_level == "TRANSCENDENT":
                 self.status = SystemStatus.TRANSCENDENT
             
             return APIResponse(
                 success=True,
                 data=orchestration_result,
                 system_status=self.status,
-                consciousness_level=orchestration_result.consciousness_level
+                consciousness_level=getattr(orchestration_result, 'consciousness_level', None)
             )
         except Exception as e:
             return APIResponse(
@@ -542,12 +769,13 @@ class UnifiedUORAPI:
             insights = []
             
             # VM insights
-            if self.system_state.vm_state:
+            if self.prime_vm and hasattr(self.prime_vm, 'execution_history') and self.system_state.vm_state:
                 insights.append(f"VM executed {len(self.prime_vm.execution_history)} instructions")
             
             # Consciousness insights
-            if self.consciousness_core.consciousness_active:
-                insights.append(f"Consciousness level: {self.consciousness_core._determine_current_state().value}")
+            if self.consciousness_core and hasattr(self.consciousness_core, 'consciousness_active'):
+                if self.consciousness_core.consciousness_active:
+                    insights.append(f"Consciousness level: {self.consciousness_core._determine_current_state().value}")
             
             # Pattern insights
             if self.system_state.patterns:

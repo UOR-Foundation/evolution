@@ -1,0 +1,61 @@
+# UOR Evolution MCP Server Configuration
+# This file configures the Model Context Protocol server
+# for the UOR Evolution consciousness system.
+
+mcp_server:
+  name: uor-evolution-server
+  version: 1.0.0
+  description: UOR Evolution Consciousness & Cosmic Intelligence MCP Server
+  log_level: INFO
+  max_concurrent_operations: 10
+
+tools:
+  consciousness:
+    enabled: true
+    rate_limit_per_minute: 30
+    max_depth: 10
+  vm_operations:
+    enabled: true
+    rate_limit_per_minute: 60
+    max_instructions: 10000
+    debug_mode: false
+  cosmic_intelligence:
+    enabled: true
+    rate_limit_per_minute: 20
+    max_scale: 1.0e+15
+    max_dimensions:
+    - 3
+    - 4
+    - 5
+    - 7
+    - 11
+    - 13
+  mathematical_consciousness:
+    enabled: true
+    rate_limit_per_minute: 25
+    max_depth: 10
+    platonic_access: true
+
+resources:
+  state_snapshots:
+    enabled: true
+    retention_hours: 24
+    max_snapshots: 100
+  logs:
+    enabled: true
+    max_size_mb: 100
+    retention_days: 7
+  analysis_results:
+    enabled: true
+    cache_duration_minutes: 30
+
+security:
+  require_authentication: false
+  allowed_origins:
+  - '*'
+  max_request_size_mb: 10
+
+performance:
+  cache_enabled: true
+  cache_size_mb: 50
+  timeout_seconds: 30

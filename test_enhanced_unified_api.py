@@ -12,8 +12,8 @@ from typing import Dict, Any, List
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
-from enhanced_unified_api import (
-    create_enhanced_api, APIMode, EnhancedUnifiedAPI,
+from unified_api import (
+    create_api, APIMode, UnifiedUORAPI,
     enhanced_consciousness_demo, guided_exploration_demo
 )
 
@@ -63,7 +63,7 @@ class UORCoherenceValidator:
     
     def test_vm_centrality(self) -> Dict[str, Any]:
         """Test 1: Verify all operations use the same UOR VM instance"""
-        self.api = create_enhanced_api(APIMode.CONSCIOUSNESS)
+        self.api = create_api(APIMode.CONSCIOUSNESS)
         
         # Get VM ID from registry
         vm_id = self.api.vm_registry.get_vm_id()

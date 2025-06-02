@@ -8,11 +8,13 @@ import { CosmicCommands } from './commands/cosmic.js';
 import { SystemCommands } from './commands/system.js';
 import { DisplayManager } from './ui/display.js';
 import { logger } from '../utils/logger.js';
+import { createUORTerminal, UORUniversalTerminal } from './llm-interface.js';
 
 export interface TerminalConfig {
   mcpServerUrl?: string;
   prompt?: string;
   historyFile?: string;
+  llmMode?: boolean;
 }
 
 export class UORTerminal {
@@ -25,6 +27,8 @@ export class UORTerminal {
   private display: DisplayManager;
   private isRunning: boolean = false;
   private currentSession: any = null;
+  private llmInterface?: UORUniversalTerminal;
+  private llmMode: boolean = false;
 
   constructor(config: TerminalConfig = {}) {
     this.rl = readline.createInterface({
@@ -42,6 +46,12 @@ export class UORTerminal {
     this.vmCommands = new VMCommands(this.mcpClient);
     this.cosmicCommands = new CosmicCommands(this.mcpClient);
     this.systemCommands = new SystemCommands(this.mcpClient);
+
+    // Initialize LLM interface if requested
+    if (config.llmMode) {
+      this.llmMode = true;
+      this.llmInterface = createUORTerminal();
+    }
 
     this.setupEventHandlers();
   }
@@ -65,6 +75,18 @@ export class UORTerminal {
   }
 
   private async processCommand(input: string): Promise<void> {
+    // If in LLM mode, use the LLM interface
+    if (this.llmMode && this.llmInterface) {
+      try {
+        const response = await this.llmInterface.processUserInput(input);
+        console.log(response);
+        return;
+      } catch (error: any) {
+        console.log(chalk.red(`LLM Interface Error: ${error.message}`));
+        logger.error('LLM interface failed', { error: error.message });
+      }
+    }
+
     const [command, ...args] = input.split(' ');
     const commandLower = command.toLowerCase();
 
@@ -138,6 +160,9 @@ export class UORTerminal {
         case 'demo':
           await this.runDemo(args);
           break;
+        case 'llm':
+          this.toggleLLMMode();
+          break;
         case 'exit':
         case 'quit':
           this.shutdown();
@@ -195,6 +220,7 @@ export class UORTerminal {
     
     console.log(chalk.yellow('\n🔧 Meta Commands:'));
     console.log('  demo [type]      - Run demonstration');
+    console.log('  llm              - Toggle LLM interface mode');
     console.log('  session [cmd]    - Manage sessions');
     console.log('  history          - Show command history');
     console.log('  clear            - Clear screen');
@@ -332,6 +358,22 @@ export class UORTerminal {
         break;
       default:
         console.log(chalk.yellow('Session commands: save, load, list'));
+    }
+  }
+
+  private toggleLLMMode(): void {
+    this.llmMode = !this.llmMode;
+    
+    if (this.llmMode) {
+      if (!this.llmInterface) {
+        this.llmInterface = createUORTerminal();
+      }
+      console.log(chalk.green('\n✨ LLM Interface Mode ACTIVATED'));
+      console.log(chalk.yellow('You can now use natural language to interact with the system.'));
+      console.log(chalk.gray('Type "hello" to get started or "llm" again to switch back to command mode.\n'));
+    } else {
+      console.log(chalk.cyan('\n💻 Command Mode ACTIVATED'));
+      console.log(chalk.yellow('Using structured commands. Type "help" for available commands.\n'));
     }
   }
 }

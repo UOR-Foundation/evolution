@@ -77,3 +77,37 @@ cosmic:
     temporal_scale: 1e100  # placeholder cosmic time units
     consciousness_scale: 1e50  # placeholder number of consciousnesses
     modification_energy_required: 1e60  # placeholder energy (joules)
+
+# MCP (Model Context Protocol) configuration
+mcp:
+  enabled: true
+  client:
+    timeout: 30  # seconds
+    max_connections: 10
+    retry_attempts: 3
+    connection_check_interval: 30  # seconds
+  server:
+    enabled: false  # Set to true to expose UOR Evolution as MCP server
+    port: 8765
+    exposed_capabilities:
+      - consciousness_analysis
+      - pattern_recognition
+      - ethical_reasoning
+      - philosophical_inquiry
+      - cosmic_problem_synthesis
+      - mathematical_consciousness
+  trusted_servers:
+    # Add trusted MCP server URLs here
+    # Examples:
+    # - "mcp://localhost:8766"
+    # - "mcp://knowledge.example.com"
+  tool_selection:
+    # Weights for tool selection algorithm
+    capability_weight: 0.4
+    compatibility_weight: 0.3
+    ethical_weight: 0.3
+  consciousness_integration:
+    # How deeply to integrate tool results into consciousness
+    integration_depth: "deep"  # shallow, medium, deep
+    insight_retention: true
+    pattern_learning: true
